@@ -1,0 +1,82 @@
+
+.searchTitle{
+    font-size: 50px;
+}
+
+.cardDiv{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly; */
+    overflow: scroll;
+    max-width: 100%;
+    /* width: 150px; */
+}
+
+.card {
+    margin-right: 10px;
+}
+
+.cardViewImage {
+    max-width: 100px
+}
+
+.cardViewImage:hover {
+    max-width: 150px;
+}
+
+.cardViewName {
+    font-weight: bold;
+    text-align: center;
+}
+
+.cardModal {
+
+}
+
+
+.cardModalName {
+    text-align: center;
+    font-size: 80px;
+    color: rgb(219, 219, 219);
+    font-weight: bold;
+}
+
+.cardModalContentField {
+    display:flex;
+    /* flex-direction: row; */
+    justify-content: space-evenly;
+    /* max-width: 300px; */
+}
+.cardModalImage {
+    max-width: 300px;
+    max-height: 400px;
+    margin-right: 20px;
+}
+
+
+.cardModalAttacksField {
+    display:flex;
+    flex-direction: column
+}
+
+.cardModalAttacksTitle {
+    font-size: 20px;
+    color: rgb(219, 219, 219);
+
+}
+
+.cardModalAttacks {
+    font-size: 20px;
+    color: rgb(219, 219, 219);
+
+}
+
+.cardModalAttacksEnergyCost {
+    color: rgb(219, 219, 219);
+
+}
+
+.cardModalAttacksText {
+    color: rgb(219, 219, 219);
+
+}

@@ -1,6 +1,17 @@
-.App {
-  text-align: center;
+
+.appItself {
+    background-color: rgb(161, 208, 248);
 }
+
+.appName{
+    font-size: 90px;
+    color: rgb(230, 230, 230);
+
+}
+
+/* .card{
+    display: flex;
+} */
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

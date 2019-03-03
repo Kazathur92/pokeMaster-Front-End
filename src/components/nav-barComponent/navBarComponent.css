@@ -1,0 +1,5 @@
+.navBar {
+    display: flex;
+    justify-content: space-evenly;
+    border: 3px solid black;
+}
