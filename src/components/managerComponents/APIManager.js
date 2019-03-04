@@ -1,15 +1,8 @@
-// import React, { Component } from 'react'
-
 const apiUrl = "http://localhost:8000/api/v1/"
-// pokeApi = "https://api.pokemontcg.io/v1/cards?name=charizard"
 
-// export default class APIManager extends Component {
 
 class APIManager {
 
-
-    // apiUrl = "http://localhost:8000/api/v1/"
-    // pokeApi =  "https://api.pokemontcg.io/v1/cards?name=charizard"
 
     getThem = (url) => {
        return fetch(url)
@@ -21,19 +14,22 @@ class APIManager {
 
 
     getAll = (resource, keyword = null) => {
-        let url = `${this.state.apiUrl}${resource}/`
+        let url = `${apiUrl}${resource}/`
         if (keyword) {
             url += keyword
         }
-        fetch(url)
+        return fetch(url)
             .then(response => response.json())
-            .then(data => {
-                console.log("decks list", data)
-                this.setState({ [resource]: data })
-            })
             .catch(err => console.log("Oopsy Daisy!", err))
     }
 
+
+    getSingle = (resource, id) => {
+        let url = `${apiUrl}${resource}/${id}`
+        return fetch(url)
+        .then(response => response.json())
+        .catch(err => console.log("oopsy", err))
+      }
 
 
     create = (resource, newObj) => {
@@ -42,20 +38,32 @@ class APIManager {
             formData.append(key, newObj[key])
         }
 
-        fetch(`${this.state.apiUrl}${resource}/`, {
+        return fetch(`${apiUrl}${resource}/`, {
             method: 'POST',
             body: formData
         })
             .then(newData => newData.json())
-            .then(newData => {
-                console.log("Added?", newData)
-                this.getAll(resource)
-            })
+            .catch(err => console.log("Oopsy Daisy!", err))
     }
 
 
+    // addToDeck = (resource, newObj, id) => {
+    //     let formData = new FormData()
+    //     for (let key in newObj) {
+    //         formData.append(key, newObj[key])
+    //     }
+
+    //     return fetch(`${apiUrl}${resource}/${id}`, {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //         .then(newData => newData.json())
+    //         .catch(err => console.log("Oopsy Daisy!", err))
+    // }
+
+
     delete = (resource, id) => {
-        fetch(`${this.state.apiUrl}${resource}/${id}/`, {
+        return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'DELETE'
         })
             .then(() => this.getAll(resource))
@@ -65,7 +73,7 @@ class APIManager {
     safeDelete = (resource, id) => {
         let formData = new FormData()
 
-        fetch(`${this.state.apiUrl}${resource}/${id}/`, {
+        return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'PATCH'
         })
             .then(() => this.getAll(resource))
@@ -80,12 +88,11 @@ class APIManager {
             formData.append(key, newObj[key])
         }
 
-        fetch(`${this.state.apiUrl}${resource}/${id}/`, {
+        return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'PATCH',
             body: formData
         })
             .then(newData => newData.json())
-            .then(() => this.getAll(resource))
     }
 
 

@@ -36,7 +36,7 @@
 
 .cardModalName {
     text-align: center;
-    font-size: 80px;
+    font-size: 40px;
     color: rgb(219, 219, 219);
     font-weight: bold;
 }
@@ -78,5 +78,27 @@
 
 .cardModalAttacksText {
     color: rgb(219, 219, 219);
+
+}
+
+.cardModalEnergyField {
+    display:flex;
+    flex-direction: column
+
+}
+
+.cardModalContentTitle {
+    font-size: 20px;
+    color: rgb(219, 219, 219);
+}
+
+.cardModalText {
+    color: rgb(219, 219, 219);
+}
+
+
+.cardModalTrainerField {
+    display:flex;
+    flex-direction: column
 
 }
