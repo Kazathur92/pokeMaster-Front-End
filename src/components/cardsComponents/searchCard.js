@@ -13,13 +13,13 @@ export default class SearchCard extends Component {
         const stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
-        console.log(this.state.keyword)
+        // console.log(this.state.keyword)
     }
 
 
     searchCard = () => {
         let keyword = this.state.keyword
-        console.log(keyword)
+        // console.log(keyword)
         this.props.getCards(keyword)
     }
 

@@ -10,6 +10,17 @@ export default class CardItem extends Component {
         modal: false
     }
 
+    // THE CARDS FROM THE DB AND THE API HAD A STATE IN APP NAMED THE SAME
+
+    componentDidMount(){
+
+    }
+
+    componentDidUpdate(prevProps){
+
+
+    }
+
 
     viewCard = (card) => {
         this.setState({
@@ -33,7 +44,12 @@ export default class CardItem extends Component {
             modal = (
                 <CardModal
                 selectedCard={this.state.selectedCard}
-                closeViewCard={this.closeViewCard}/>
+                closeViewCard={this.closeViewCard}
+                createNew={this.props.createNew}
+                decks={this.props.decks}
+                editThis={this.props.editThis}
+                users={this.props.users}
+                token={this.props.token}/>
             )
         } else {
             modal = null
@@ -43,7 +59,7 @@ export default class CardItem extends Component {
 
             <React.Fragment>
                 {modal}
-                {this.props.cards.map(card =>
+                {this.props.apiCards.map(card =>
 
                     <div key={card.id} className="card">
                         <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>

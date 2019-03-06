@@ -13,7 +13,14 @@ export default class ViewCards extends Component {
 
                 <SearchCard getCards={this.props.getCards} />
                 <div className="cardDiv">
-                    <CardItem cards={this.props.cards} />
+                    <CardItem
+                    cards={this.props.cards}
+                    apiCards={this.props.apiCards}
+                    createNew={this.props.createNew}
+                    decks={this.props.decks}
+                    editThis={this.props.editThis}
+                    users={this.props.users}
+                    token={this.props.token}/>
                 </div>
 
 

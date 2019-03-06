@@ -1,0 +1,44 @@
+.decksArea{
+display:flex;
+flex-flow: wrap;
+flex-direction: row;
+justify-content: space-between;
+}
+
+.deckDiv {
+    width: 15%;
+    height: 100%;
+}
+
+.deckCoverImage {
+    width: 100%;
+}
+
+.deckMVPImage {
+    width: 30px;
+    float: right;
+    margin-left: 10px;
+
+}
+
+.deckMVP {
+    font-size: 10px;
+    /* text-align: center; */
+}
+
+.deckSub {
+    font-size: 5px;
+    /* text-align: center; */
+}
+
+.deckName {
+    margin-top: -10%;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.deckDate {
+    margin-left: 5px;
+    font-size: 10px;
+}
