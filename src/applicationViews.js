@@ -12,34 +12,34 @@ let username = sessionStorage.getItem("username")
 export default class AplicationViews extends Component {
 
     state = {
-        apiCards: [],
+        // apiCards: [],
         pokeApi: "https://api.pokemontcg.io/v1",
         decksPage: false,
         collectionPage: false,
         searchPage: false,
-        currentUser: []
+        // currentUser: []
     }
 
 
     componentDidMount() {
-
+        // this.findCurrentUser()
     }
 
 
-    findCurrentUser = () => {
-        console.log("OUTSIDE")
-        console.log(this.props.users)
-        let username = localStorage.getItem('username')
-        this.props.users.forEach( user => {
-            console.log("IN LOOP")
-            if(user.username === username) {
-                console.log("WENT THROUGH", user)
-                this.setState({
-                    currentUser: user
-                })
-            }
-        })
-    }
+    // findCurrentUser = () => {
+    //     console.log("OUTSIDE")
+    //     console.log("USERS AP VIEWS LEVEL", this.props.users)
+    //     let username = localStorage.getItem('username')
+    //     this.props.users.forEach(user => {
+    //         console.log("IN LOOP")
+    //         if (user.username === username) {
+    //             console.log("WENT THROUGH", user)
+    //             this.setState({
+    //                 currentUser: user
+    //             })
+    //         }
+    //     })
+    // }
 
     // IF THERE IS NO USER NAME THIS WILL START AN INFINITE LOOP must fix!
     componentDidUpdate(prevProps) {
@@ -48,10 +48,10 @@ export default class AplicationViews extends Component {
     }
 
     // THIS FUNCTION GETS CARDS FROM THE POKEMON TCG API
-    getCards = (keyword) => {
-        APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
-            .then(data => this.setState({ apiCards: data.cards }))
-    }
+    // getCards = (keyword) => {
+    //     APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
+    //         .then(data => this.setState({ apiCards: data.cards }))
+    // }
 
     getAll = (resource) => {
         let token = this.props.token
@@ -65,7 +65,7 @@ export default class AplicationViews extends Component {
     // not in use
     getSingle = (resource, id) => {
         APIManager.getSingle(resource, id)
-        .then(() => this.getAll(resource))
+            .then(() => this.getAll(resource))
     }
 
     //not in use
@@ -78,7 +78,7 @@ export default class AplicationViews extends Component {
     consoleLog = () => {
         console.log("USERS STATE: ", this.state.username)
         console.log("PASS STATE: ", this.state.password)
-        console.log("USERS PROPS: ", this.state.currentUser)
+        console.log("Current USER PROPS: ", this.props.currentUser)
         console.log("SESSION STORAGE: ", sessionStorage)
     }
 
@@ -89,18 +89,19 @@ export default class AplicationViews extends Component {
             collectionPage: false,
             searchPage: false,
         })
-        this.findCurrentUser()
+        this.props.findCurrentUser()
     }
 
 
 
-// NAV BAR CLICKS
+    // NAV BAR CLICKS
     clickOnMyCollection = () => {
         this.setState({
             collectionPage: true,
             decksPage: false,
             searchPage: false,
         })
+        this.props.findCurrentUser()
     }
 
     clickOnSearchPage = () => {
@@ -118,16 +119,19 @@ export default class AplicationViews extends Component {
         let searchCards = ""
         if (this.state.searchPage) {
             searchCards = (
-                <ViewCards getCards={this.getCards}
-                    apiCards={this.state.apiCards}
+                <ViewCards
+                    // CRUD FUNCTIONS
+                    getCards={this.props.getCards}
                     createNew={this.props.createNew}
-                    decks={this.props.decks}
                     getSingle={this.getSingle}
                     editThis={this.editThis}
+                    // DATA STATES
+                    apiCards={this.props.apiCards}
+                    cards={this.props.cards}
+                    decks={this.props.decks}
                     users={this.props.users}
                     token={this.props.token}
-
-                />
+                      />
             )
         } else {
             searchCards = null
@@ -142,8 +146,8 @@ export default class AplicationViews extends Component {
                     createNew={this.props.createNew}
                     decks={this.props.decks}
                     deleteThis={this.props.deleteThis}
-                    currentUser={this.state.currentUser}
-                    />
+                    currentUser={this.props.currentUser}
+                />
             )
         } else {
             viewDecks = null
@@ -156,7 +160,9 @@ export default class AplicationViews extends Component {
             viewCollection = (
                 <ViewMyCollection
                     cards={this.props.cards}
-                    getAll={this.getAll} />
+                    getAll={this.getAll}
+                    currentUser={this.props.currentUser}
+                    cards={this.props.cards} />
             )
         } else {
             viewCollection = null
@@ -168,6 +174,7 @@ export default class AplicationViews extends Component {
                 <NavBar clickOnSearchPage={this.clickOnSearchPage}
                     clickOnMyDecks={this.clickOnMyDecks}
                     clickOnMyCollection={this.clickOnMyCollection}
+                    findCurrentUser={this.props.findCurrentUser}
                 />
             )
         } else {

@@ -43,13 +43,15 @@ export default class CardItem extends Component {
         if(this.state.modal) {
             modal = (
                 <CardModal
-                selectedCard={this.state.selectedCard}
                 closeViewCard={this.closeViewCard}
                 createNew={this.props.createNew}
-                decks={this.props.decks}
                 editThis={this.props.editThis}
+                // DATA STATES
+                selectedCard={this.state.selectedCard}
+                decks={this.props.decks}
                 users={this.props.users}
-                token={this.props.token}/>
+                token={this.props.token}
+                cards={this.props.cards}/>
             )
         } else {
             modal = null

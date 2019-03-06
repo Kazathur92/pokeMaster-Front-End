@@ -13,8 +13,9 @@ class App extends Component {
         pokeApi: "https://api.pokemontcg.io/v1",
         apiCards: [],
         decks: [],
-        dbCards: [],
+        cards: [],
         users: [],
+        currentUser: [],
         decksPage: false,
         collectionPage: false,
         searchPage: false,
@@ -31,11 +32,6 @@ class App extends Component {
         // ==========================
         isAuth: false,
         register: false,
-        // username: "",
-        // first_name: "",
-        // last_name: "",
-        // email: "",
-        // password: "",
         // ==========================
     }
 
@@ -75,7 +71,7 @@ class App extends Component {
             })
     }
 
-    createNew = (resource, newObj,) => {
+    createNew = (resource, newObj) => {
         let token = this.state.token
         console.log("CREATE TOKEN", token)
          APIManager.create(resource, newObj, token)
@@ -98,13 +94,12 @@ class App extends Component {
         const stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
-        console.log("APP LEVEL: ", stateToChange)
-        // console.log(userId)
     }
 
 
     consoleLog = () => {
         console.log("STATES")
+        console.log("CURRENT USER APP LEVEL: ", this.state.currentUser)
         console.log("DECKS app layer: ", this.state.decks)
         console.log("DB CARDS app layer: ", this.state.cards)
         console.log("USERS app layer: ", this.state.users)
@@ -116,6 +111,21 @@ class App extends Component {
         console.log("TOKEN STATE: ", this.state.token)
 
 
+    }
+
+    findCurrentUser = () => {
+        console.log("OUTSIDE")
+        console.log("USERS AP VIEWS LEVEL", this.props.users)
+        let username = localStorage.getItem('username')
+        this.state.users.forEach(user => {
+            console.log("IN LOOP")
+            if (user.username === username) {
+                console.log("WENT THROUGH", user)
+                this.setState({
+                    currentUser: user
+                })
+            }
+        })
     }
 
     clickedOnRegister = () => {
@@ -269,15 +279,19 @@ class App extends Component {
                 {login}
                 {register}
                 <ApplicationViews
+                    findCurrentUser={this.findCurrentUser}
+                    createNew={this.createNew}
+                    deleteThis={this.deleteThis}
+                    getCards={this.getCards}
+                    updateStates={this.updateStates}
+                    postAuth={this.postAuth}
+                    navBarStatus={this.state.navBarStatus}
+                    apiCards={this.state.apiCards}
                     decks={this.state.decks}
                     cards={this.state.cards}
                     users={this.state.users}
-                    navBarStatus={this.state.navBarStatus}
-                    updateStates={this.updateStates}
+                    currentUser={this.state.currentUser}
                     token={this.state.token}
-                    postAuth={this.postAuth}
-                    createNew={this.createNew}
-                    deleteThis={this.deleteThis}
                 />
             </React.Fragment>
         );

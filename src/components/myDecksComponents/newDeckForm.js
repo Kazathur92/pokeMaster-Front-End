@@ -12,7 +12,7 @@ export default class NewDeckForm extends Component {
     deleted_on: "",
     cardAmount: 0,
     maxCardAmmount: 60,
-    user: this.props.currentUser.id
+    user_id: this.props.currentUser.id
   }
 
   componentDidMount(){
@@ -23,12 +23,9 @@ export default class NewDeckForm extends Component {
     const stateToChange = {}
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
-    console.log(stateToChange)
-    console.log(userId)
   }
 
   createDeck = (resource) => {
-    console.log("STATE", this.state)
     this.props.createNew(resource, this.state)
   }
 
