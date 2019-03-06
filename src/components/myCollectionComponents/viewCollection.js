@@ -28,7 +28,7 @@ export default class ViewMyCollection extends Component {
                 <button onClick={this.consoleLog}>console log</button>
                 <h1>Card Collection</h1>
                 <CollectionItem
-                cards={this.state.cards}/>
+                cards={this.props.cards}/>
             </React.Fragment>
         )
     }

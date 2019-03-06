@@ -18,7 +18,9 @@ export default class ViewCards extends Component {
                     apiCards={this.props.apiCards}
                     createNew={this.props.createNew}
                     decks={this.props.decks}
-                    editThis={this.props.editThis}/>
+                    editThis={this.props.editThis}
+                    users={this.props.users}
+                    token={this.props.token}/>
                 </div>
 
 

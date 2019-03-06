@@ -5,7 +5,7 @@ import APIManager from '../managerComponents/APIManager';
 
 let userId = sessionStorage.getItem("id")
 
-
+// TODO: NEED TO FIGURE OUT HOW TO PATCH THE CARD RIGHT AFTER POST TO PASS URL
 export default class CardModal extends Component {
 
 
@@ -28,6 +28,7 @@ export default class CardModal extends Component {
     consoleLog = () => {
         // console.log(this.state.attacks)
         console.log(this.props.selectedCard)
+        console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         // console.log(this.props.selectedCard.ability.name)
         // console.log(this.props.selectedCard.attacks[0])
         // console.log(this.props.selectedCard.attacks[1])
@@ -39,205 +40,26 @@ export default class CardModal extends Component {
     }
 
     addCard = (resource1, resource2) => {
-        let userId = sessionStorage.getItem("id")
-        let userUrl = sessionStorage.getItem("url")
+        // let userId = sessionStorage.getItem("id")
+        // let userId = this.props.currentUser
+        let userName = localStorage.getItem("username")
+        console.log(userName)
 
-       if(this.props.selectedCard.attacks[1]){
-
-        let newObj = {
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: this.props.selectedCard.attacks[1].name,
-            attack2_text: this.props.selectedCard.attacks[1].text,
-            attack2_damage: this.props.selectedCard.attacks[1].damage,
-            attack2_convertedEnergyCost: this.props.selectedCard.attacks[1].convertedEnergyCost,
-            // resistancesType: this.props.selectedCard.resistances[0].type,
-            // resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
+        this.props.users.forEach( user => {
+            console.log("USER: ", user)
+            if(user.username === userName) {
+                console.log("THIS ID: ", user.first_name)
+        const newCard = {
+            cardId: this.props.selectedCard.id,
+            imageUrl: this.props.selectedCard.imageUrl,
+            imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
+            name: this.props.selectedCard.name,
+            rarity: this.props.selectedCard.rarity,
+            user_id: user.id
         }
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
-
-       }
-
-       else if (this.props.selectedCard.attacks[1] && this.props.selectedCard.ability) {
-        let newObj = {
-            ability_name: this.state.ability.name,
-            ability_text: this.state.ability.text,
-            ability_type: this.state.ability.type,
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: this.props.selectedCard.attacks[1].name,
-            attack2_text: this.props.selectedCard.attacks[1].text,
-            attack2_damage: this.props.selectedCard.attacks[1].damage,
-            attack2_convertedEnergyCost: this.props.selectedCard.attacks[1].convertedEnergyCost,
-            resistancesType: this.props.selectedCard.resistances[0].type,
-            resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
-        }
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
-       }
-
-       else if (this.props.selectedCard.attacks[0] && this.props.selectedCard.ability) {
-        let newObj = {
-            ability_name: this.state.ability.name,
-            ability_text: this.state.ability.text,
-            ability_type: this.state.ability.type,
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: this.props.selectedCard.attacks[1].name,
-            attack2_text: this.props.selectedCard.attacks[1].text,
-            attack2_damage: this.props.selectedCard.attacks[1].damage,
-            attack2_convertedEnergyCost: this.props.selectedCard.attacks[1].convertedEnergyCost,
-            resistancesType: this.props.selectedCard.resistances[0].type,
-            resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
-        }
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
-       }
-
-       else if (this.props.selectedCard.attacks[0] && this.props.selectedCard.resistances) {
-        let newObj = {
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: undefined,
-            attack2_text: undefined,
-            attack2_damage: undefined,
-            attack2_convertedEnergyCost: undefined,
-            resistancesType: this.props.selectedCard.resistances[0].type,
-            resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
-        }
-
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
+        this.props.createNew(resource1, newCard)
     }
-
-    else if (this.props.selectedCard.attacks[1] && this.props.selectedCard.resistances) {
-        let newObj = {
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: undefined,
-            attack2_text: undefined,
-            attack2_damage: undefined,
-            attack2_convertedEnergyCost: undefined,
-            resistancesType: this.props.selectedCard.resistances[0].type,
-            resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
-        }
-
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
-    }
-
-    else {
-        let newObj = {
-            attack1: this.props.selectedCard.attacks[0].name,
-            attack1_text: this.props.selectedCard.attacks[0].text,
-            attack1_damage: this.props.selectedCard.attacks[0].damage,
-            attack1_convertedEnergyCost: this.props.selectedCard.attacks[0].convertedEnergyCost,
-            attack2: undefined,
-            attack2_text: undefined,
-            attack2_damage: undefined,
-            attack2_convertedEnergyCost: undefined,
-            // resistancesType: this.props.selectedCard.resistances[0].type,
-            // resistancesValue: this.props.selectedCard.resistances[0].value,
-            retreatCost1: this.props.selectedCard.retreatCost[0],
-            retreatCost2: this.props.selectedCard.retreatCost[1],
-            retreatCost3: this.props.selectedCard.retreatCost[2],
-            retreatCost4: this.props.selectedCard.retreatCost[3],
-            retreatCost5: this.props.selectedCard.retreatCost[4],
-            weaknessName: this.props.selectedCard.weaknesses[0].type,
-            weaknessValue: this.props.selectedCard.weaknesses[0].value,
-            type1: this.props.selectedCard.types[0],
-            type2: this.props.selectedCard.types[1],
-            user: userUrl
-        }
-
-
-        this.props.createNew(resource1, this.props.selectedCard)
-        // this.props.createNew(resource2, newCardDeckObj)
-        // this.props.getSingle("cards", )
-        // YOU WANT TO THEN DO A PATCH TO ADD THE USER URL
-        this.props.editThis(resource1, newObj, 9)
-    }
+})
 }
 
     selectDeck = (deck) => {
@@ -258,7 +80,7 @@ export default class CardModal extends Component {
                     {
                         this.state.attacks.map(attack =>
                             <React.Fragment>
-                                <p key={attack.id} className="cardModalAttacks">{attack.name}</p>
+                                <p className="cardModalAttacks">{attack.name}</p>
                                 <p className="cardModalAttacksEnergyCost">Energy Cost:&nbsp;{attack.convertedEnergyCost}&nbsp;{attack.cost}</p>
                                 <p className="cardModalAttacksText">{attack.text}</p>
                             </React.Fragment>

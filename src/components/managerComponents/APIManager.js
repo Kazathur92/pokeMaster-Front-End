@@ -1,38 +1,74 @@
 const apiUrl = "http://localhost:8000/api/v1/"
-
+const authKey = localStorage.getItem("token")
 
 class APIManager {
 
 
     getThem = (url) => {
-       return fetch(url)
+       return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${authKey}`
+          }
+       })
         .then(response => response.json())
-        .catch(err => console.log("Oopsy Daisy!", err))
+        .catch(err => console.log("Oopsy Daisy get cards problem!", err))
     }
 
 
 
 
-    getAll = (resource, keyword = null) => {
+    getAll = (resource, authToken, keyword = null) => {
         let url = `${apiUrl}${resource}/`
         if (keyword) {
             url += keyword
         }
-        return fetch(url)
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authToken}`
+              }
+        })
             .then(response => response.json())
-            .catch(err => console.log("Oopsy Daisy!", err))
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
+    }
+
+    getAllOnRefresh = (resource, keyword = null) => {
+        let url = `${apiUrl}${resource}/`
+        if (keyword) {
+            url += keyword
+        }
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+              }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
 
     getSingle = (resource, id) => {
         let url = `${apiUrl}${resource}/${id}`
-        return fetch(url)
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+              }
+        })
         .then(response => response.json())
-        .catch(err => console.log("oopsy", err))
+        .catch(err => console.log("oopsy get single problem", err))
       }
 
 
-    create = (resource, newObj) => {
+    //   would not work with "Content-Type": "application/json",
+    create = (resource, newObj, authToken) => {
+        console.log("TOKEN MANAGER: ", authToken)
         let formData = new FormData()
         for (let key in newObj) {
             formData.append(key, newObj[key])
@@ -40,10 +76,13 @@ class APIManager {
 
         return fetch(`${apiUrl}${resource}/`, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                "Authorization": `Token ${authToken}`
+              }
         })
             .then(newData => newData.json())
-            .catch(err => console.log("Oopsy Daisy!", err))
+            .catch(err => console.log("Oopsy Daisy creating problem!", err))
     }
 
 
@@ -64,9 +103,12 @@ class APIManager {
 
     delete = (resource, id) => {
         return fetch(`${apiUrl}${resource}/${id}/`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+              }
         })
-            .then(() => this.getAll(resource))
     }
 
 
@@ -74,7 +116,11 @@ class APIManager {
         let formData = new FormData()
 
         return fetch(`${apiUrl}${resource}/${id}/`, {
-            method: 'PATCH'
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+              }
         })
             .then(() => this.getAll(resource))
     }
@@ -90,7 +136,11 @@ class APIManager {
 
         return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'PATCH',
-            body: formData
+            body: formData,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+              }
         })
             .then(newData => newData.json())
     }

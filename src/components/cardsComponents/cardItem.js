@@ -17,11 +17,7 @@ export default class CardItem extends Component {
     }
 
     componentDidUpdate(prevProps){
-        // if(this.props.apiCards !== prevProps.apiCards) {
-        //     this.setState({
-        //         selectedCard: this.props.cards[0]
-        //     })
-        // }
+
 
     }
 
@@ -51,7 +47,9 @@ export default class CardItem extends Component {
                 closeViewCard={this.closeViewCard}
                 createNew={this.props.createNew}
                 decks={this.props.decks}
-                editThis={this.props.editThis}/>
+                editThis={this.props.editThis}
+                users={this.props.users}
+                token={this.props.token}/>
             )
         } else {
             modal = null

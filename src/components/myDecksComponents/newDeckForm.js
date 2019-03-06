@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+let userId = sessionStorage.getItem("id")
 
 export default class NewDeckForm extends Component {
 
@@ -10,7 +11,8 @@ export default class NewDeckForm extends Component {
     date_added: "",
     deleted_on: "",
     cardAmount: 0,
-    maxCardAmmount: 60
+    maxCardAmmount: 60,
+    user: this.props.currentUser.id
   }
 
   componentDidMount(){
@@ -22,13 +24,12 @@ export default class NewDeckForm extends Component {
     stateToChange[event.target.id] = event.target.value
     this.setState(stateToChange)
     console.log(stateToChange)
+    console.log(userId)
   }
 
   createDeck = (resource) => {
-    //   this.props.createNew(resource, this.state)
-
+    console.log("STATE", this.state)
     this.props.createNew(resource, this.state)
-
   }
 
   makeDate = () => {

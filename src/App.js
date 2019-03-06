@@ -1,45 +1,65 @@
 import React, { Component } from 'react';
 import APIManager from './components/managerComponents/APIManager'
-import ViewCards from './components/cardsComponents/viewCards'
-import ViewMyDecks from './components/myDecksComponents/viewDecks'
-import ViewMyCollection from './components/myCollectionComponents/viewCollection'
-import NavBar from './components/nav-barComponent/navBar'
+import Register from './components/authComponents/register'
 import Login from './components/authComponents/login'
+import ApplicationViews from './applicationViews'
 import './App.css';
+
+// let username = sessionStorage.getItem("username")
 
 class App extends Component {
 
     state = {
-        apiCards: [],
-        apiUrl: "http://localhost:8000/api/v1/",
-        // pokeApi: "https://api.pokemontcg.io/v1/cards?name=charizard"
         pokeApi: "https://api.pokemontcg.io/v1",
+        apiCards: [],
+        decks: [],
+        dbCards: [],
+        users: [],
         decksPage: false,
         collectionPage: false,
         searchPage: false,
-        decks: [],
-        cards: [],
-        users: [],
-        username: "",
+        navBarStatus: false,
+        showLogin: true,
+        showRegister: false,
         password: "",
-        navBarStatus: true,
-        woop: false
+        username: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        token: localStorage.getItem("token"),
+
+        // ==========================
+        isAuth: false,
+        register: false,
+        // username: "",
+        // first_name: "",
+        // last_name: "",
+        // email: "",
+        // password: "",
+        // ==========================
     }
 
 
     componentDidMount() {
-        //   this.getCards()
-        this.getAll("decks")
-        this.getAll("cards")
-        this.getAll("users")
+        APIManager.getAllOnRefresh("decks")
+            .then(data => {
+                console.log("data list", data)
+                this.setState({ decks: data })
+            })
+        APIManager.getAllOnRefresh("cards")
+            .then(data => {
+                console.log("data list", data)
+                this.setState({ cards: data })
+            })
+        APIManager.getAllOnRefresh("users")
+            .then(data => {
+                console.log("data list", data)
+                this.setState({ users: data })
+            })
     }
 
-    componentDidUpdate() {
-        if (this.state.username) {
-            this.authenticate()
-            this.getAll("decks")
-        }
-    }
+
+
 
     // THIS FUNCTION GETS CARDS FROM THE POKEMON TCG API
     getCards = (keyword) => {
@@ -47,74 +67,89 @@ class App extends Component {
             .then(data => this.setState({ apiCards: data.cards }))
     }
 
-    getAll = (resource) => {
-        APIManager.getAll(resource)
+    getAll = (resource, token) => {
+        APIManager.getAll(resource, token)
             .then(data => {
                 console.log("data list", data)
                 this.setState({ [resource]: data })
             })
     }
 
+    createNew = (resource, newObj,) => {
+        let token = this.state.token
+        console.log("CREATE TOKEN", token)
+         APIManager.create(resource, newObj, token)
+             .then(data => {
+                 console.log("after create list", data)
+                 this.getAll(resource, token)
+             })
+     }
 
-    createNew = (resource, newObj) => {
-        APIManager.create(resource, newObj)
-            .then(data => {
-                console.log("decks list", data)
-            })
+     deleteThis = (resource, id) => {
+        let token = this.state.token
+        APIManager.delete(resource, id)
+        .then(() =>
+        this.getAll(resource, token)
+        )
     }
 
-    getSingle = (resource, id) => {
-        APIManager.getSingle(resource, id)
-            .then(data => {
-                this.setState({ [resource]: data })
-            })
-    }
 
-    editThis = (resource, newObj, id) => {
-        APIManager.edit(resource, newObj, id)
-            .then(() => this.getCards(resource))
+    handleFieldChange = (event) => {
+        const stateToChange = {}
+        stateToChange[event.target.id] = event.target.value
+        this.setState(stateToChange)
+        console.log("APP LEVEL: ", stateToChange)
+        // console.log(userId)
     }
 
 
     consoleLog = () => {
-        // console.log("Cards: ", this.state.cards)
-        // this.state.cards.map(function (index, current_value, array) {
-        //     console.log("index: ", index, current_value)
-        // }
-        // )
+        console.log("STATES")
+        console.log("DECKS app layer: ", this.state.decks)
+        console.log("DB CARDS app layer: ", this.state.cards)
+        console.log("USERS app layer: ", this.state.users)
+        console.log("username app layer state: ", this.state.username)
+        console.log("password app layer state: ", this.state.password)
+        console.log("navBar app layer state: ", this.state.navBarStatus)
+        console.log("showRegister app layer state: ", this.state.showRegister)
+        console.log("showLogin app layer state: ", this.state.showLogin)
+        console.log("TOKEN STATE: ", this.state.token)
 
-        // console.log("CARD: ", this.state.cards[0].attacks)
-        // console.log(this.state.decks)
-        console.log("USERS STATE: ", this.state.username)
-        console.log("PASS STATE: ", this.state.password)
-        console.log(this.state.users)
-        console.log("SESSION STORAGE: ", sessionStorage)
-        this.authenticate()
+
     }
 
+    clickedOnRegister = () => {
 
-    clickOnMyDecks = () => {
         this.setState({
-            decksPage: true,
-            collectionPage: false,
-            searchPage: false,
+            showLogin: false,
+            showRegister: true,
         })
     }
 
 
-    clickOnMyCollection = () => {
-        this.setState({
-            collectionPage: true,
-            decksPage: false,
-            searchPage: false,
-        })
-    }
+    registerUser = (username, password, email, firstName, lastName) => {
 
-    clickOnSearchPage = () => {
+        let user = {
+            password: password,
+            username: username,
+            first_name: firstName,
+            email: email,
+            last_name: lastName
+        }
+        console.log(user)
+
+        this.postAuth("register", user)
+        .then(() => {
+        console.log("woop")
+        }
+        )
+        }
+
+
+    registering = () => {
         this.setState({
-            searchPage: true,
-            decksPage: false,
-            collectionPage: false,
+            showRegister: false,
+            navBarStatus: true
         })
     }
 
@@ -123,110 +158,128 @@ class App extends Component {
         this.setState({
             username: username,
             password: password,
-            navBarStatus: true
         })
-        // this.authenticate()
+        this.logIn()
     }
 
-    authenticate = () => {
-        let users = this.state.users
-        for (let i = 0; i < users.length; i++) {
-            console.log("users[i]: ", users[i])
-            console.log("users[i] username: ", users[i].user_name)
-            console.log("users[i] pass: ", users[i].password)
+    updateStateOnRegister = () => {
+        this.setState({
+            navBarStatus: true,
+            showLogin: false,
+            showRegister: false
+        })
+    }
 
-            if (users[i].user_name === this.state.username && users[i].password === this.state.password) {
-                console.log("ITS PASSING")
-                sessionStorage.setItem("username", users[i].user_name)
-                sessionStorage.setItem("password", users[i].password)
-                sessionStorage.setItem("id", users[i].id)
-                sessionStorage.setItem("url", users[i].url)
+    logIn() {
+        console.log('log in', localStorage.getItem("token"));
+        const user = {
+            username: this.state.username,
+            password: this.state.password
+        };
+        this.postAuth("api-token-auth", user)
+            .then(() => {
+                console.log("user logged in!")
+            })
+    }
 
+    postAuth(route, user) {
+        console.log('PostAuth called', route, user);
+
+        return fetch(`http://127.0.0.1:8000/api/v1/${route}/`, {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                "Content-Type": "application/json"
             }
+        })
+            .then((response) => {
+                console.log("auth", response)
+                // if status code is 200 render nav bar
+                if (response.status === 200) {
+                    console.log("its 200")
+                    return response.json();
+                } else {
+                    return "you aint a user brah!"
+                }
+            })
+            .then((tokenObj) => {
+                console.log("converted token", tokenObj.token);
+                localStorage.setItem("token", tokenObj.token)
+                localStorage.setItem("username", user.username)
+                console.log("local s user?", localStorage.getItem("user"))
+                this.getAll("decks", tokenObj.token)
+                this.getAll("cards", tokenObj.token)
+                this.getAll("users", tokenObj.token)
+                this.setState({
+                    navBarStatus: true,
+                    showLogin: false,
+                    showRegister: false,
+                    token: tokenObj.token
+                })
 
-
-        }
-
+            })
+            .catch((err) => {
+                console.log("auth no like you, brah", err);
+            });
     }
+
+
 
 
 
     render() {
 
-        // ALLOWS RENDER THE VIEW CARDS COMPONENT IF SEARCH PAGE STATE IS TRUE
-        let searchCards = ""
-        if (this.state.searchPage) {
-            searchCards = (
-                <ViewCards getCards={this.getCards}
-                    cards={this.state.cards}
-                    apiCards={this.state.apiCards}
-                    createNew={this.createNew}
-                    decks={this.state.decks}
-                    getSingle={this.getSingle}
-                    editThis={this.editThis}
-
-                />
+        let register = ""
+        if (localStorage.length <= 0 && this.state.showLogin === false && this.state.showRegister === true) {
+            register = (
+                <Register handleFieldChange={this.handleFieldChange}
+                    username={this.state.username}
+                    password={this.state.password}
+                    first_name={this.state.first_name}
+                    email={this.state.email}
+                    last_name={this.state.last_name}
+                    registerUser={this.registerUser}
+                    // date_joined={this.state.date_joined}
+                    postAuth={this.postAuth} />
             )
         } else {
-            searchCards = null
+            register = null
         }
 
-        // ALLOWS RENDER THE VIEW MY DECKS COMPONENT IF DECKS PAGE STATE IS TRUE
-        let viewDecks = ""
-        if (this.state.decksPage) {
-            viewDecks = (
-                <ViewMyDecks
-                    createNew={this.createNew}
-                    decks={this.state.decks} />
-            )
-        } else {
-            viewDecks = null
-        }
-
-
-        // ALLOWS RENDER THE VIEW MY COLLECTION COMPONENT IF COLLECTION PAGE STATE IS TRUE
-        let viewCollection = ""
-        if (this.state.collectionPage) {
-            viewCollection = (
-                <ViewMyCollection
-                    cards={this.state.cards}
-                    getAll={this.getAll} />
-            )
-        } else {
-            viewCollection = null
-        }
 
         let login = ""
-        if (sessionStorage.length <= 0) {
+        if (localStorage.length <= 0 && this.state.showLogin && this.state.showRegister === false) {
             login = (
                 <Login
-                    signIn={this.signIn} />
+                    signIn={this.signIn}
+                    clickedOnRegister={this.clickedOnRegister}
+                    postAuth={this.postAuth}
+                    handleFieldChange={this.handleFieldChange}
+                    username={this.state.username}
+                    password={this.state.password} />
             )
         } else {
             login = null
         }
 
-        let navbar = ""
-        if (sessionStorage.length >= 1 && this.state.navBarStatus) {
-            navbar = (
-                <NavBar clickOnSearchPage={this.clickOnSearchPage}
-                    clickOnMyDecks={this.clickOnMyDecks}
-                    clickOnMyCollection={this.clickOnMyCollection}
-                />
-            )
-        }
 
         return (
-            <div className="appItself">
-                <button onClick={this.consoleLog}>CONSOLE LOG</button>
-                <h1 className="appName">POKEMASTER</h1>
+            <React.Fragment>
+                <button onClick={this.consoleLog}>App States</button>
                 {login}
-                {navbar}
-                {searchCards}
-                {viewDecks}
-                {viewCollection}
-
-            </div>
+                {register}
+                <ApplicationViews
+                    decks={this.state.decks}
+                    cards={this.state.cards}
+                    users={this.state.users}
+                    navBarStatus={this.state.navBarStatus}
+                    updateStates={this.updateStates}
+                    token={this.state.token}
+                    postAuth={this.postAuth}
+                    createNew={this.createNew}
+                    deleteThis={this.deleteThis}
+                />
+            </React.Fragment>
         );
     }
 }
