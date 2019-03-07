@@ -12,76 +12,43 @@ let username = sessionStorage.getItem("username")
 export default class AplicationViews extends Component {
 
     state = {
-        // apiCards: [],
         pokeApi: "https://api.pokemontcg.io/v1",
         decksPage: false,
         collectionPage: false,
         searchPage: false,
-        // currentUser: []
+        userCards: [],
+        userDecks: this.props.userDecks,
     }
 
 
     componentDidMount() {
-        // this.findCurrentUser()
     }
 
-
-    // findCurrentUser = () => {
-    //     console.log("OUTSIDE")
-    //     console.log("USERS AP VIEWS LEVEL", this.props.users)
-    //     let username = localStorage.getItem('username')
-    //     this.props.users.forEach(user => {
-    //         console.log("IN LOOP")
-    //         if (user.username === username) {
-    //             console.log("WENT THROUGH", user)
-    //             this.setState({
-    //                 currentUser: user
-    //             })
-    //         }
-    //     })
-    // }
-
-    // IF THERE IS NO USER NAME THIS WILL START AN INFINITE LOOP must fix!
     componentDidUpdate(prevProps) {
-
-
-    }
-
-    // THIS FUNCTION GETS CARDS FROM THE POKEMON TCG API
-    // getCards = (keyword) => {
-    //     APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
-    //         .then(data => this.setState({ apiCards: data.cards }))
-    // }
-
-    getAll = (resource) => {
-        let token = this.props.token
-        APIManager.getAll(resource, token)
-            .then(data => {
-                console.log("data list", data)
-                this.setState({ [resource]: data })
+        if(this.props.userDecks !== prevProps.userDecks){
+            this.setState({
+                userDecks: this.props.userDecks
             })
-    }
-
-    // not in use
-    getSingle = (resource, id) => {
-        APIManager.getSingle(resource, id)
-            .then(() => this.getAll(resource))
-    }
-
-    //not in use
-    editThis = (resource, newObj, id) => {
-        APIManager.edit(resource, newObj, id)
-            .then(() => this.getCards(resource))
+        }
     }
 
 
-    consoleLog = () => {
-        console.log("USERS STATE: ", this.state.username)
-        console.log("PASS STATE: ", this.state.password)
-        console.log("Current USER PROPS: ", this.props.currentUser)
-        console.log("SESSION STORAGE: ", sessionStorage)
+    findUserCards = () => {
+        let userCardList = []
+        this.props.cards.forEach(card => {
+
+            if (card.user === this.props.currentUser.url) {
+                userCardList.push(card)
+            }
+            this.setState({
+                userCards: userCardList
+            })
+        })
+
     }
 
+
+    // NAV BAR CLICKS START =============== NAV BAR CLICKS START ==================
 
     clickOnMyDecks = () => {
         this.setState({
@@ -92,9 +59,6 @@ export default class AplicationViews extends Component {
         this.props.findCurrentUser()
     }
 
-
-
-    // NAV BAR CLICKS
     clickOnMyCollection = () => {
         this.setState({
             collectionPage: true,
@@ -110,8 +74,20 @@ export default class AplicationViews extends Component {
             decksPage: false,
             collectionPage: false,
         })
+        this.props.findCurrentUser()
     }
 
+    // NAV BAR CLICKS END ======================= NAV BAR CLICKS END =============
+
+
+    // C O N S O L E  L O G  FUNCTION ==========================
+
+    consoleLog = () => {
+        console.log("=== STATES VIEWS LAYER START ===")
+        // console.log("USER CARDS: ", this.state.userCards)
+        console.log("USER DECKS", this.state.userDecks)
+        console.log("=== STATES VIEWS LAYER END ===")
+    }
 
     render() {
 
@@ -131,7 +107,7 @@ export default class AplicationViews extends Component {
                     decks={this.props.decks}
                     users={this.props.users}
                     token={this.props.token}
-                      />
+                />
             )
         } else {
             searchCards = null
@@ -142,11 +118,20 @@ export default class AplicationViews extends Component {
         if (this.state.decksPage) {
             viewDecks = (
                 <ViewMyDecks
-                    getAll={this.getAll}
+                    // CRUD
                     createNew={this.props.createNew}
-                    decks={this.props.decks}
+                    createButDontGet={this.props.createButDontGet}
                     deleteThis={this.props.deleteThis}
+                    deleteThis2={this.props.deleteThis2}
+                    // FETCHED DATA PROPS
+                    decks={this.props.decks}
+                    // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
+                    userDecks={this.state.userDecks}
+                    // TRIGGER SWITCHES PROPS
+
+                    // STATE CHANGING FUNCTIONS PROPS
+                    findUserDecks={this.props.findUserDecks}
                 />
             )
         } else {
@@ -159,10 +144,17 @@ export default class AplicationViews extends Component {
         if (this.state.collectionPage) {
             viewCollection = (
                 <ViewMyCollection
+                    // CRUD
+
+                    // FETCHED DATA PROPS
                     cards={this.props.cards}
-                    getAll={this.getAll}
+                    // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
-                    cards={this.props.cards} />
+                    userCards={this.state.userCards}
+                    // TRIGGER SWITCHES PROPS
+
+                    // STATE CHANGING FUNCTIONS PROPS
+                    findUserCards={this.findUserCards} />
             )
         } else {
             viewCollection = null
@@ -183,9 +175,8 @@ export default class AplicationViews extends Component {
 
         return (
             <div className="appItself">
-                <button onClick={this.consoleLog}>CONSOLE LOG</button>
+                <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button>
                 <h1 className="appName">POKEMASTER</h1>
-                {/* {login} */}
                 {navbar}
                 {searchCards}
                 {viewDecks}

@@ -12,11 +12,11 @@ export default class CardItem extends Component {
 
     // THE CARDS FROM THE DB AND THE API HAD A STATE IN APP NAMED THE SAME
 
-    componentDidMount(){
+    componentDidMount() {
 
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps) {
 
 
     }
@@ -24,7 +24,7 @@ export default class CardItem extends Component {
 
     viewCard = (card) => {
         this.setState({
-            modal:true,
+            modal: true,
             selectedCard: card
         })
     }
@@ -38,20 +38,20 @@ export default class CardItem extends Component {
 
     render() {
 
-        let modal =""
+        let modal = ""
 
-        if(this.state.modal) {
+        if (this.state.modal) {
             modal = (
                 <CardModal
-                closeViewCard={this.closeViewCard}
-                createNew={this.props.createNew}
-                editThis={this.props.editThis}
-                // DATA STATES
-                selectedCard={this.state.selectedCard}
-                decks={this.props.decks}
-                users={this.props.users}
-                token={this.props.token}
-                cards={this.props.cards}/>
+                    closeViewCard={this.closeViewCard}
+                    createNew={this.props.createNew}
+                    editThis={this.props.editThis}
+                    // DATA STATES
+                    selectedCard={this.state.selectedCard}
+                    decks={this.props.decks}
+                    users={this.props.users}
+                    token={this.props.token}
+                    cards={this.props.cards} />
             )
         } else {
             modal = null

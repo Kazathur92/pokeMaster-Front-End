@@ -12,11 +12,16 @@ export default class NewDeckForm extends Component {
     deleted_on: "",
     cardAmount: 0,
     maxCardAmmount: 60,
-    user_id: this.props.currentUser.id
+    user: this.props.currentUser.url
   }
 
   componentDidMount(){
+    console.log("#### DID MOUNT DECK FORM START ####")
       this.makeDate()
+      this.setState({
+          user: this.props.currentUser.url
+      })
+    console.log("#### DID MOUNT DECK FORM END  ####")
   }
 
   handleFieldChange = (event) => {
@@ -26,7 +31,8 @@ export default class NewDeckForm extends Component {
   }
 
   createDeck = (resource) => {
-    this.props.createNew(resource, this.state)
+      this.props.createButDontGet(resource, this.state)
+    // this.props.createNew(resource, this.state)
   }
 
   makeDate = () => {
@@ -58,6 +64,8 @@ export default class NewDeckForm extends Component {
     console.log("name state", this.state.name)
     console.log("desc state", this.state.description)
     console.log("strat", this.state.strategy)
+    console.log("current user props", this.props.currentUser)
+    console.log("STATES", this.state)
   }
 
   render(){
