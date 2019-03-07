@@ -41,6 +41,16 @@ export default class CollectionItem extends Component {
         return (
 
             <React.Fragment>
+                {/* <div>
+                    {this.props.userCards.map(card =>
+
+                        <div key={card.id}>
+                            <p>{card.name}</p>
+                            <img src={card.imageUrl}></img>
+                        </div>
+                    )
+                    }
+                </div> */}
                 {cardItem}
             </React.Fragment>
 

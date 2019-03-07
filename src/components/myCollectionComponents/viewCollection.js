@@ -11,6 +11,20 @@ export default class ViewMyCollection extends Component {
     }
 
     componentDidMount() {
+        console.log("@@@ COLLECTION MOUNT @@@")
+        let waiter = () => new Promise((resolve, reject) => {
+            return setTimeout(() => {
+                // this.props.findUserCards()
+                this.props.findCurrentUser()
+                console.log("current user in promise layer 1", this.props.currentUser)
+                console.log("1st layer promise")
+                resolve()
+            })
+        })
+        waiter().then(() => {
+            this.props.findUserCards()
+            console.log("its breaking after finding users")
+        }).catch(err => console.log("erroying", err))
 
     }
 
@@ -21,14 +35,14 @@ export default class ViewMyCollection extends Component {
         console.log("USER CARDS", this.props.userCards)
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>console log</button>
+                <button onClick={this.consoleLog}>console log collection</button>
                 <h1>Card Collection</h1>
                 <CollectionItem
-                cards={this.props.cards}
-                userCards={this.props.userCards}/>
+                    cards={this.props.cards}
+                    userCards={this.props.userCards} />
             </React.Fragment>
         )
     }

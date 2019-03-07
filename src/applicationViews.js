@@ -16,36 +16,47 @@ export default class AplicationViews extends Component {
         decksPage: false,
         collectionPage: false,
         searchPage: false,
-        userCards: [],
+        userCards: this.props.userCards,
         userDecks: this.props.userDecks,
     }
 
 
     componentDidMount() {
+        console.log("===APP VIEWS MOUNT===")
+        console.log("user cards", this.props.userCards)
+        console.log("app views users", this.props.users)
+        console.log("views", this.props.cards)
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.userDecks !== prevProps.userDecks){
+        // THIS ONLY ACTIVATES IF A NEW DECK IS ADDED OR DELETED
+        if (this.props.userDecks !== prevProps.userDecks) {
             this.setState({
-                userDecks: this.props.userDecks
+                userDecks: this.props.userDecks,
+            })
+        }
+
+        if (this.props.userCards !== prevProps.userCards) {
+            this.setState({
+                userCards: this.props.userCards,
             })
         }
     }
 
 
-    findUserCards = () => {
-        let userCardList = []
-        this.props.cards.forEach(card => {
+    // findUserCards = () => {
+    //     let userCardList = []
+    //     this.props.cards.forEach(card => {
 
-            if (card.user === this.props.currentUser.url) {
-                userCardList.push(card)
-            }
-            this.setState({
-                userCards: userCardList
-            })
-        })
+    //         if (card.user === this.props.currentUser.url) {
+    //             userCardList.push(card)
+    //         }
+    //         this.setState({
+    //             userCards: userCardList
+    //         })
+    //     })
 
-    }
+    // }
 
 
     // NAV BAR CLICKS START =============== NAV BAR CLICKS START ==================
@@ -86,6 +97,8 @@ export default class AplicationViews extends Component {
         console.log("=== STATES VIEWS LAYER START ===")
         // console.log("USER CARDS: ", this.state.userCards)
         console.log("USER DECKS", this.state.userDecks)
+        console.log("USER CARDS: ", this.state.userCards)
+        console.log("current user props", this.props.currentUser)
         console.log("=== STATES VIEWS LAYER END ===")
     }
 
@@ -154,7 +167,8 @@ export default class AplicationViews extends Component {
                     // TRIGGER SWITCHES PROPS
 
                     // STATE CHANGING FUNCTIONS PROPS
-                    findUserCards={this.findUserCards} />
+                    findUserCards={this.props.findUserCards}
+                    findCurrentUser={this.props.findCurrentUser} />
             )
         } else {
             viewCollection = null
