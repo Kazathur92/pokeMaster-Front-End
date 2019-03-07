@@ -35,6 +35,22 @@ class APIManager {
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
+    getAll2 = (resource, authToken, keyword = null) => {
+        let url = `${apiUrl}${resource}/`
+        if (keyword) {
+            url += keyword
+        }
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authToken}`
+              }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
+    }
+
     getAllOnRefresh = (resource, keyword = null) => {
         let url = `${apiUrl}${resource}/`
         if (keyword) {

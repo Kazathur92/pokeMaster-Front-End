@@ -5,26 +5,59 @@ export default class CollectionItem extends Component {
 
 
 
-render(){
-    return(
-        <React.Fragment>
-            { this.props.cards.map( card =>
 
-            <div key={card.id}>
-            <p>{card.name}</p>
-            <img src={card.imageUrl}></img>
-            </div>
 
+
+
+
+
+    render() {
+
+        let cardItem = ""
+
+        if (this.props.userCards) {
+
+            cardItem = (
+                <div>
+                    {this.props.userCards.map(card =>
+
+                        <div key={card.id}>
+                            <p>{card.name}</p>
+                            <img src={card.imageUrl}></img>
+                        </div>
+                    )
+                    }
+                </div>
             )
+        } else {
+            cardItem = null
+        }
 
 
-            }
 
 
-        </React.Fragment>
-    )
+        const cardsExist = this.props.userCards
 
-}
+        return (
+
+            <React.Fragment>
+                {/* <div>
+                    {this.props.userCards.map(card =>
+
+                        <div key={card.id}>
+                            <p>{card.name}</p>
+                            <img src={card.imageUrl}></img>
+                        </div>
+                    )
+                    }
+                </div> */}
+                {cardItem}
+            </React.Fragment>
+
+
+        )
+
+    }
 
 
 }

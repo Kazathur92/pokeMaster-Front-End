@@ -10,56 +10,120 @@ import './App.css';
 class App extends Component {
 
     state = {
+        // API
         pokeApi: "https://api.pokemontcg.io/v1",
+        // FETCHED DATA
         apiCards: [],
         decks: [],
-        dbCards: [],
+        cards: [],
         users: [],
+        // CREATED DATA
+        token: localStorage.getItem("token"),
+        userDecks: [],
+        userCards: [],
+        currentUser: [],
+        decksNumba2: [],
+        // FORM VALUES
+        password: "",
+        username: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        // TRIGGER SWITCHES
         decksPage: false,
         collectionPage: false,
         searchPage: false,
         navBarStatus: false,
         showLogin: true,
         showRegister: false,
-        password: "",
-        username: "",
-        first_name: "",
-        last_name: "",
-        email: "",
-        token: localStorage.getItem("token"),
 
-        // ==========================
-        isAuth: false,
-        register: false,
-        // username: "",
-        // first_name: "",
-        // last_name: "",
-        // email: "",
-        // password: "",
-        // ==========================
+
     }
 
 
     componentDidMount() {
+        console.log("**** DID MOUNT APP START ****")
+        console.log("user decks ", this.props.userDecks)
+        // console.log("users before fetching", this.state.users)
+        console.log("cards before fetch", this.state.cards)
+
+        // THIS FUNCTIONS CAN GET THE DATA WITHOUT A TOKEN BEING PASSED TO THEM, SEE API MANAGER
         APIManager.getAllOnRefresh("decks")
             .then(data => {
-                console.log("data list", data)
                 this.setState({ decks: data })
             })
         APIManager.getAllOnRefresh("cards")
             .then(data => {
-                console.log("data list", data)
+                console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
         APIManager.getAllOnRefresh("users")
             .then(data => {
-                console.log("data list", data)
                 this.setState({ users: data })
             })
+        console.log("**** DID MOUNT APP END ****")
     }
 
 
+    componentDidUpdate() {
+    }
 
+
+    //    STATE CHANGING FUNCTIONS ================
+
+    handleFieldChange = (event) => {
+        const stateToChange = {}
+        stateToChange[event.target.id] = event.target.value
+        this.setState(stateToChange)
+    }
+
+
+    findCurrentUser = () => {
+        let username = localStorage.getItem('username')
+        // console.log("its firing the find user function", this.state.users)
+        this.state.users.forEach(user => {
+            // console.log("inside for each", user)
+            if (user.username === username) {
+                // console.log("inside if statement", user)
+                this.setState({
+                    currentUser: user
+                })
+            }
+        })
+    }
+
+
+    findUserDecks = () => {
+        let userDeckList = []
+        this.state.decks.find(deck => {
+            if (deck.user === this.state.currentUser.url) {
+                console.log(deck)
+                userDeckList.push(deck)
+            }
+            this.setState({
+                userDecks: userDeckList
+            })
+            // console.log("IN THE FINDING USER DECKS FUNCTION: userDecks state", this.state.userDecks)
+        })
+    }
+
+    findUserCards = () => {
+        let userCardList = []
+        this.state.cards.forEach(card => {
+
+            if (card.user === this.state.currentUser.url) {
+                userCardList.push(card)
+            }
+            this.setState({
+                userCards: userCardList
+            })
+            // console.log("IN THE FINDING USER CARDS FUNCTION: userCards state", this.state.userCards)
+        })
+
+    }
+
+
+    // C R U D FUNCTIONS START ===================C R U D ==========================START
 
     // THIS FUNCTION GETS CARDS FROM THE POKEMON TCG API
     getCards = (keyword) => {
@@ -70,53 +134,73 @@ class App extends Component {
     getAll = (resource, token) => {
         APIManager.getAll(resource, token)
             .then(data => {
-                console.log("data list", data)
+                // console.log("data list", data)
+                console.log("ITs Getting All")
                 this.setState({ [resource]: data })
+                console.log("just fetched and set new state")
             })
     }
 
-    createNew = (resource, newObj,) => {
+    getAll2 = (resource, token) => {
+        APIManager.getAll2(resource, token)
+            .then(data => {
+                new Promise((resolve, reject) => {
+                    // console.log("data list", data)
+                    this.setState({ [resource]: data })
+                })
+            })
+            .then(() => {
+                new Promise((resolve, reject) => {
+                    this.findUserDecks()
+                    // this.findUserCards()
+                    resolve()
+                })
+            })
+
+    }
+
+    createNew = (resource, newObj) => {
         let token = this.state.token
         console.log("CREATE TOKEN", token)
-         APIManager.create(resource, newObj, token)
-             .then(data => {
-                 console.log("after create list", data)
-                 this.getAll(resource, token)
-             })
-     }
+        APIManager.create(resource, newObj, token)
+            .then(data => {
+                console.log("just created, now calling get all", data)
+                this.getAll(resource, token)
+            })
+    }
 
-     deleteThis = (resource, id) => {
+    createButDontGet = (resource, newObj) => {
+        let token = this.state.token
+        console.log("CREATE TOKEN", token)
+        APIManager.create(resource, newObj, token)
+            .then(data => {
+                this.getAll2(resource, token)
+            })
+    }
+
+    deleteThis = (resource, id) => {
         let token = this.state.token
         APIManager.delete(resource, id)
-        .then(() =>
-        this.getAll(resource, token)
-        )
+            .then(() =>
+                this.getAll(resource, token)
+            )
     }
 
-
-    handleFieldChange = (event) => {
-        const stateToChange = {}
-        stateToChange[event.target.id] = event.target.value
-        this.setState(stateToChange)
-        console.log("APP LEVEL: ", stateToChange)
-        // console.log(userId)
+    deleteThis2 = (resource, id) => {
+        let token = this.state.token
+        APIManager.delete(resource, id)
+            .then(data => {
+                this.getAll2(resource, token)
+            })
     }
 
-
-    consoleLog = () => {
-        console.log("STATES")
-        console.log("DECKS app layer: ", this.state.decks)
-        console.log("DB CARDS app layer: ", this.state.cards)
-        console.log("USERS app layer: ", this.state.users)
-        console.log("username app layer state: ", this.state.username)
-        console.log("password app layer state: ", this.state.password)
-        console.log("navBar app layer state: ", this.state.navBarStatus)
-        console.log("showRegister app layer state: ", this.state.showRegister)
-        console.log("showLogin app layer state: ", this.state.showLogin)
-        console.log("TOKEN STATE: ", this.state.token)
+    // C R U D  FUNCTIONS END ==============================C R U D ====================END
 
 
-    }
+
+
+    // AUTHENTICATION FUNCTIONS START ======================= AUTHENTICATION FUNCTIONS START ===========
+
 
     clickedOnRegister = () => {
 
@@ -139,11 +223,11 @@ class App extends Component {
         console.log(user)
 
         this.postAuth("register", user)
-        .then(() => {
-        console.log("woop")
-        }
-        )
-        }
+            .then(() => {
+                console.log("woop")
+            }
+            )
+    }
 
 
     registering = () => {
@@ -203,7 +287,7 @@ class App extends Component {
                 }
             })
             .then((tokenObj) => {
-                console.log("converted token", tokenObj.token);
+                console.log("converted token", tokenObj);
                 localStorage.setItem("token", tokenObj.token)
                 localStorage.setItem("username", user.username)
                 console.log("local s user?", localStorage.getItem("user"))
@@ -223,9 +307,30 @@ class App extends Component {
             });
     }
 
+    // AUTHENTICATION FUNCTIONS END =============================== AUTHENTICATION FUNCTIONS END ================
 
 
 
+
+    //  C O N S O L E  L O G  FUNCTION =====================================
+
+    consoleLog = () => {
+        console.log("****** STATES APP LAYER START ******")
+        console.log("DECKS app layer: ", this.state.decks)
+        console.log("USER CARDS: ", this.state.userCards)
+        console.log("CARDS", this.state.cards)
+        // console.log("WOOP STATE", this.state.woop)
+        // console.log("DECKNUMBA 2", this.state.decksNumba2)
+        // console.log("users after fetch", this.state.users)
+        // console.log("current User: ", this.state.currentUser)
+        console.log("****** STATES APP LAYER END ******")
+
+
+    }
+
+
+
+    // =============================================R E N D E R ================================================
 
     render() {
 
@@ -269,15 +374,34 @@ class App extends Component {
                 {login}
                 {register}
                 <ApplicationViews
-                    decks={this.state.decks}
-                    cards={this.state.cards}
-                    users={this.state.users}
-                    navBarStatus={this.state.navBarStatus}
-                    updateStates={this.updateStates}
-                    token={this.state.token}
-                    postAuth={this.postAuth}
+                    // CRUD
+                    getCards={this.getCards}
+                    getAll={this.getAll}
+                    createButDontGet={this.createButDontGet}
+                    getAll2={this.getAll2}
                     createNew={this.createNew}
                     deleteThis={this.deleteThis}
+                    deleteThis2={this.deleteThis2}
+                    // FETCHED DATA
+                    apiCards={this.state.apiCards}
+                    cards={this.state.cards}
+                    decks={this.state.decks}
+                    users={this.state.users}
+                    token={this.state.token}
+                    // CREATED DATA
+                    userCards={this.state.userCards}
+                    userDecks={this.state.userDecks}
+                    findCurrentUser={this.findCurrentUser}
+                    updateStates={this.updateStates}
+                    postAuth={this.postAuth}
+                    currentUser={this.state.currentUser}
+                    // TRIGGER SWITCHES
+                    woop={this.state.woop}
+                    navBarStatus={this.state.navBarStatus}
+                    cardsNumba2={this.state.cardsNumba2}
+                    // STATE CHANGING FUNCTIONS
+                    findUserDecks={this.findUserDecks}
+                    findUserCards={this.findUserCards}
                 />
             </React.Fragment>
         );

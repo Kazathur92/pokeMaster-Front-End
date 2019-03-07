@@ -13,10 +13,11 @@ export default class CardModal extends Component {
         attacks: [],
         resistances: [],
         weaknesses: [],
-        selectedDeck: {},
+        selectedDeck: [],
         ability: this.props.selectedCard.ability,
         selectedCard: this.props.selectedCard,
-        dbCards: []
+        dbCards: [],
+        // value: ""
     }
 
     componentDidMount() {
@@ -26,47 +27,60 @@ export default class CardModal extends Component {
     }
 
     consoleLog = () => {
-        // console.log(this.state.attacks)
-        console.log(this.props.selectedCard)
-        console.log("SELECTED CARD STATE: ", this.state.selectedCard)
-        // console.log(this.props.selectedCard.ability.name)
-        // console.log(this.props.selectedCard.attacks[0])
-        // console.log(this.props.selectedCard.attacks[1])
-        // console.log(this.state.ability.name)
-        console.log(sessionStorage.getItem("url"))
 
-        // console.log(this.props.selectedCard.weaknesses[0])
-
+        console.log("SELECTED CARD: ", this.props.selectedCard)
+        // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
+        console.log("CURRENT DECK: ", this.state.selectedDeck)
+        console.log("VALUE STATE", this.state.value)
+        console.log("CARDS modal layer", this.props.cards)
     }
 
-    addCard = (resource1, resource2) => {
-        // let userId = sessionStorage.getItem("id")
-        // let userId = this.props.currentUser
+    addCard = () => {
         let userName = localStorage.getItem("username")
         console.log(userName)
 
-        this.props.users.forEach( user => {
+        this.props.users.forEach(user => {
             console.log("USER: ", user)
-            if(user.username === userName) {
+            console.log("USER URL: ", user.url)
+            if (user.username === userName) {
                 console.log("THIS ID: ", user.first_name)
-        const newCard = {
-            cardId: this.props.selectedCard.id,
-            imageUrl: this.props.selectedCard.imageUrl,
-            imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
-            name: this.props.selectedCard.name,
-            rarity: this.props.selectedCard.rarity,
-            user_id: user.id
-        }
-        this.props.createNew(resource1, newCard)
-    }
-})
-}
+                const newCard = {
+                    cardId: this.props.selectedCard.id,
+                    imageUrl: this.props.selectedCard.imageUrl,
+                    imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
+                    name: this.props.selectedCard.name,
+                    rarity: this.props.selectedCard.rarity,
+                    user: user.url
+                }
 
-    selectDeck = (deck) => {
-        this.setState({
-            selectedDeck: deck
+
+
+                this.props.createNew("cards", newCard)
+            }
+
+            this.props.cards.forEach( card => {
+
+
+                if(card.name === this.props.selectedCard.name) {
+                    const cardToDeck = {
+                        card: card.url,
+                        deck: this.state.selectedDeck
+                    }
+                    this.props.createNew("deckcardsrelationship", cardToDeck)
+                }
+            })
+
         })
     }
+
+
+    // change = (event) => {
+    //     this.setState({value: event.target.value});
+    // }
+
+    selectDeck = (event) => {
+            this.setState({selectedDeck: event.target.value});
+        }
 
     render() {
 
@@ -86,11 +100,13 @@ export default class CardModal extends Component {
                             </React.Fragment>
                         )
                     }
-                    <select>
+                    {/* <select onChange={(event) => this.selectDeck(event)}> */}
+                    <select onChange={this.selectDeck} value={this.state.value}>
+                    <option>---------------------</option>
                         {
                             this.props.decks.map(deck =>
-                                <option onClick={() => this.selectDeck(deck)} value={deck.id}>{deck.name}</option>
-                            )
+                                <option value={deck.url}>{deck.name}</option>
+                                )
                         }
                     </select>
                     <button onClick={() => this.addCard("cards")}>add to deck</button>
@@ -181,7 +197,7 @@ export default class CardModal extends Component {
                     <select>
                         {
                             this.props.decks.map(deck =>
-                                <option value={deck.id}>{deck.name}</option>
+                                <option value={deck.id} onClick={this.setDeckId(deck.id)}>{deck.name}</option>
                             )
                         }
                     </select>
