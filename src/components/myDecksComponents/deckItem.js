@@ -1,21 +1,76 @@
 import React, { Component } from 'react'
 import DeckModal from './deckModal'
+import APIManager from '../managerComponents/APIManager';
 import './viewDeck.css'
 
 export default class DeckItem extends Component {
 
     state = {
-        selectedDeck: {},
+        selectedDeck: [],
         modal: false,
-        inspectField: false
+        inspectField: false,
+        cardsOfDeck: []
     }
 
     viewDeck= (deck) => {
         // console.log(deck.target)
+
+        const waiter = () => new Promise((resolve, reject) => {
+        return setTimeout(() => {
+            console.log("setting state of selected deck")
         this.setState({
             modal: true,
             selectedDeck: deck
         })
+        resolve()
+    })
+    })
+
+    waiter().then(() => {
+        let token = localStorage.getItem("token")
+        APIManager.getAll("deckcardsrelationship", token)
+            .then(data => {
+                // START OF AFTER GETTING ALL CARDS IN RELATIONSHIP
+                let cardsOfDeck = []
+
+                data.map(card => {
+                    // START OF RELATIONSHIP MAP
+                    // console.log("CARD COMING FROM DATABASE RELATIONSHIP :", card)
+                    // console.log("selected deck props", this.state.selectedDeck)
+                    if (card.deck === this.state.selectedDeck.url) {
+                        // START OF IF
+                        // console.log("IF CARDS URL IS THE SAME AS SELECTED DECK URL", card)
+                        this.props.getCardsById(card.cardId)
+                            .then(card => {
+
+                                new Promise((resolve, reject) => {
+                                    cardsOfDeck.push(card)
+                                    console.log("AFTER GETTING THE CARDS BY ID", card)
+                                    resolve()
+                                })
+                                    .then(() => {
+                                        this.setState({
+                                            cardsOfDeck: cardsOfDeck
+                                        })
+                                        console.log("ITS WAITING")
+                                    })
+                            })
+
+                        // END OF IF
+                    }
+
+
+                    // END OF RELATIONSHIP MAP
+                })
+
+
+                // END OF .THEN AFTER GETTING ALL CARDS IN RELATIONSHIP
+            })
+
+            // END OF FUNCTION VIEW DECK
+        })
+
+
     }
 
     closeViewDeck = () => {
@@ -24,19 +79,22 @@ export default class DeckItem extends Component {
         })
     }
 
-    inspectIt = () => {
+    inspectIt = (deck) => {
         this.setState({
-            inspectField: true
+            inspectField: true,
+            selectedDeck: deck,
+            cardsOfDeck: []
         })
-        console.log(this.state.inspectField)
+        // console.log(this.state.inspectField)
     }
 
-    dontInspectIt = (deck) => {
+    dontInspectIt = () => {
         this.setState({
             inspectField: false,
-            selectedDeck: deck
+            // selectedDeck: deck
         })
-        console.log(this.state.inspectField)
+        // console.log(this.state.inspectField)
+
     }
 
     // openDeck = () => {
@@ -44,6 +102,12 @@ export default class DeckItem extends Component {
     //         modal: true
     //     })
     // }
+
+    consoleLog = () => {
+        console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
+        console.log("SELECTED DECK IN DECK ITEM", this.state.selectedDeck)
+
+    }
 
     render() {
 
@@ -57,6 +121,7 @@ export default class DeckItem extends Component {
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
                     getAll={this.props.getAll}
+                    getCardsById={this.props.getCardsById}
                     editThis={this.props.editThis}
                     // DATA STATES
                     selectedDeck={this.state.selectedDeck}
@@ -65,7 +130,10 @@ export default class DeckItem extends Component {
                     userCards={this.props.userCards}
                     users={this.props.users}
                     token={this.props.token}
-                    cards={this.props.cards} />
+                    cards={this.props.cards}
+                    // CREATED DATA
+                    cardsOfDeck={this.state.cardsOfDeck}
+                    />
             )
         } else {
             modal = null
@@ -93,6 +161,7 @@ export default class DeckItem extends Component {
             deckItem = (
                 <React.Fragment>
                     {modal}
+                    <button onClick={this.consoleLog}>console log deck item</button>
                     {this.props.userDecks.map(deck =>
 
                         <div key={deck.id} >

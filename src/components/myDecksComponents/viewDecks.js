@@ -43,6 +43,7 @@ export default class ViewMyDecks extends Component {
                         userCards={this.props.userCards}
                         findUserDecks={this.props.findUserDecks}
                         findUserCards={this.props.findUserCards}
+                        getCardsById={this.props.getCardsById}
                         />
                 </div>
             </React.Fragment>

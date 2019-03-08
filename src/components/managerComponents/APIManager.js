@@ -17,6 +17,19 @@ class APIManager {
     }
 
 
+    getThemById = (url) => {
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${authKey}`
+          }
+       })
+        .then(response => response.json())
+        .catch(err => console.log("Oopsy Daisy get cards"))
+    }
+
+
 
 
     getAll = (resource, authToken, keyword = null) => {

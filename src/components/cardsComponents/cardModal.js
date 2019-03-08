@@ -58,6 +58,7 @@ export default class CardModal extends Component {
 
 
                         const newCardToDeck = {
+                            cardId: newBornCard.cardId,
                             card: newBornCard.url,
                             deck: this.state.selectedDeck,
                         }
@@ -72,25 +73,9 @@ export default class CardModal extends Component {
 
             }
 
-            // this.props.cards.forEach(card => {
-
-
-            //     if (card.name === this.props.selectedCard.name) {
-            //         const cardToDeck = {
-            //             card: card.url,
-            //             deck: this.state.selectedDeck
-            //         }
-            //         this.props.createNew("deckcardsrelationship", cardToDeck)
-            //     }
-            // })
-
         })
     }
 
-
-    // change = (event) => {
-    //     this.setState({value: event.target.value});
-    // }
 
     selectDeck = (event) => {
         console.log("SELECTED DECK", event.target.value)
@@ -169,13 +154,16 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select>
+
+                    <select onChange={this.selectDeck} value={this.state.value}>
+                        <option>---------------------</option>
                         {
-                            this.props.decks.map(deck =>
-                                <option value={deck.id}>{deck.name}</option>
+                            this.props.userDecks.map(deck =>
+                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
                     </select>
+
                     <button onClick={() => this.addCard("cards")}>add to deck</button>
                 </div>
             )
@@ -196,10 +184,11 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select>
+                    <select onChange={this.selectDeck} value={this.state.value}>
+                        <option>---------------------</option>
                         {
-                            this.props.decks.map(deck =>
-                                <option value={deck.id}>{deck.name}</option>
+                            this.props.userDecks.map(deck =>
+                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
                     </select>
@@ -220,10 +209,11 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select>
+                    <select onChange={this.selectDeck} value={this.state.value}>
+                        <option>---------------------</option>
                         {
-                            this.props.decks.map(deck =>
-                                <option value={deck.id} onClick={this.setDeckId(deck.id)}>{deck.name}</option>
+                            this.props.userDecks.map(deck =>
+                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
                     </select>

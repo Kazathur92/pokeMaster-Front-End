@@ -131,6 +131,10 @@ class App extends Component {
             .then(data => this.setState({ apiCards: data.cards }))
     }
 
+    getCardsById = (keyword) => {
+        return APIManager.getThemById(`${this.state.pokeApi}/cards/${keyword}`)
+    }
+
     getAll = (resource, token) => {
         APIManager.getAll(resource, token)
             .then(data => {
@@ -147,6 +151,7 @@ class App extends Component {
                 new Promise((resolve, reject) => {
                     // console.log("data list", data)
                     this.setState({ [resource]: data })
+                    resolve()
                 })
             })
             .then(() => {
@@ -384,6 +389,7 @@ class App extends Component {
                 <ApplicationViews
                     // CRUD
                     getCards={this.getCards}
+                    getCardsById={this.getCardsById}
                     getAll={this.getAll}
                     createButDontGet={this.createButDontGet}
                     getAll2={this.getAll2}
