@@ -111,10 +111,10 @@ export default class DeckItem extends Component {
                                         </div>
                                     </div>
                                     <p className="deckName">{deck.name}</p>
+                                    {inspect}
                                     <time className="deckDate" dateTime={deck.date_added}>created: {deck.date_added}</time>
                                     <button onClick={() => this.props.deleteThis2("decks", deck.id)}>delete</button>
                                     <button>edit</button>
-                                    {inspect}
                                 </div>
                             </div>
                         </div>
