@@ -13,6 +13,7 @@ export default class ViewMyDecks extends Component {
     componentDidMount() {
         console.log("$$$$ DID MOUNT VIEW DECKS $$$$")
         this.props.findUserDecks()
+        this.props.findUserCards()
     }
 
 
@@ -39,7 +40,10 @@ export default class ViewMyDecks extends Component {
                         deleteThis={this.props.deleteThis}
                         deleteThis2={this.props.deleteThis2}
                         userDecks={this.props.userDecks}
-                        findUserDecks={this.props.findUserDecks} />
+                        userCards={this.props.userCards}
+                        findUserDecks={this.props.findUserDecks}
+                        findUserCards={this.props.findUserCards}
+                        />
                 </div>
             </React.Fragment>
         )

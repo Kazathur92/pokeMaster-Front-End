@@ -26,24 +26,16 @@ export default class CardModal extends Component {
         })
     }
 
-    consoleLog = () => {
-
-        console.log("SELECTED CARD: ", this.props.selectedCard)
-        // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
-        console.log("CURRENT DECK: ", this.state.selectedDeck)
-        console.log("VALUE STATE", this.state.value)
-        console.log("CARDS modal layer", this.props.cards)
-    }
 
     addCard = () => {
         let userName = localStorage.getItem("username")
         console.log(userName)
 
         this.props.users.forEach(user => {
-            console.log("USER: ", user)
-            console.log("USER URL: ", user.url)
+            // console.log("USER: ", user)
+            // console.log("USER URL: ", user.url)
             if (user.username === userName) {
-                console.log("THIS ID: ", user.first_name)
+                // console.log("THIS ID: ", user.first_name)
                 const newCard = {
                     cardId: this.props.selectedCard.id,
                     imageUrl: this.props.selectedCard.imageUrl,
@@ -55,20 +47,42 @@ export default class CardModal extends Component {
 
 
 
-                this.props.createNew("cards", newCard)
+
+
+                this.props.createNewCard("cards", newCard)
+                .then(data => {
+                    console.log(data)
+                    let newBornCard = data
+                    let token = localStorage.getItem("token")
+
+
+
+                        const newCardToDeck = {
+                            card: newBornCard.url,
+                            deck: this.state.selectedDeck,
+                        }
+                        console.log(newCardToDeck)
+
+                        this.props.createNewCard("deckcardsrelationship", newCardToDeck)
+                        .then(data => {
+                            console.log("data getting back after postig to relationship: ", data)
+                        })
+
+                })
+
             }
 
-            this.props.cards.forEach( card => {
+            // this.props.cards.forEach(card => {
 
 
-                if(card.name === this.props.selectedCard.name) {
-                    const cardToDeck = {
-                        card: card.url,
-                        deck: this.state.selectedDeck
-                    }
-                    this.props.createNew("deckcardsrelationship", cardToDeck)
-                }
-            })
+            //     if (card.name === this.props.selectedCard.name) {
+            //         const cardToDeck = {
+            //             card: card.url,
+            //             deck: this.state.selectedDeck
+            //         }
+            //         this.props.createNew("deckcardsrelationship", cardToDeck)
+            //     }
+            // })
 
         })
     }
@@ -79,8 +93,20 @@ export default class CardModal extends Component {
     // }
 
     selectDeck = (event) => {
-            this.setState({selectedDeck: event.target.value});
-        }
+        console.log("SELECTED DECK", event.target.value)
+        // console.log("SELECTED DECK", event.target.name)
+        this.setState({ selectedDeck: event.target.value });
+    }
+
+
+    consoleLog = () => {
+
+        console.log("SELECTED CARD: ", this.props.selectedCard)
+        // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
+        console.log("CURRENT DECK: ", this.state.selectedDeck)
+        console.log("VALUE STATE", this.state.value)
+        console.log("CARDS modal layer", this.props.cards)
+    }
 
     render() {
 
@@ -102,11 +128,11 @@ export default class CardModal extends Component {
                     }
                     {/* <select onChange={(event) => this.selectDeck(event)}> */}
                     <select onChange={this.selectDeck} value={this.state.value}>
-                    <option>---------------------</option>
+                        <option>---------------------</option>
                         {
-                            this.props.decks.map(deck =>
-                                <option value={deck.url}>{deck.name}</option>
-                                )
+                            this.props.userDecks.map(deck =>
+                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
+                            )
                         }
                     </select>
                     <button onClick={() => this.addCard("cards")}>add to deck</button>
