@@ -124,6 +124,7 @@ export default class AplicationViews extends Component {
             viewDecks = (
                 <ViewMyDecks
                     // CRUD
+                    getCardsById={this.props.getCardsById}
                     createNew={this.props.createNew}
                     createButDontGet={this.props.createButDontGet}
                     deleteThis={this.props.deleteThis}
