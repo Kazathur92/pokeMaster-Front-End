@@ -43,22 +43,6 @@ export default class AplicationViews extends Component {
         }
     }
 
-
-    // findUserCards = () => {
-    //     let userCardList = []
-    //     this.props.cards.forEach(card => {
-
-    //         if (card.user === this.props.currentUser.url) {
-    //             userCardList.push(card)
-    //         }
-    //         this.setState({
-    //             userCards: userCardList
-    //         })
-    //     })
-
-    // }
-
-
     // NAV BAR CLICKS START =============== NAV BAR CLICKS START ==================
 
     clickOnMyDecks = () => {
@@ -112,6 +96,8 @@ export default class AplicationViews extends Component {
                     // CRUD FUNCTIONS
                     getCards={this.props.getCards}
                     createNew={this.props.createNew}
+                    createNewCard={this.props.createNewCard}
+                    getAll={this.props.getAll}
                     getSingle={this.getSingle}
                     editThis={this.editThis}
                     // DATA STATES
@@ -120,6 +106,12 @@ export default class AplicationViews extends Component {
                     decks={this.props.decks}
                     users={this.props.users}
                     token={this.props.token}
+                    // CREATED DATA STATES
+                    userDecks={this.props.userDecks}
+                    // TRIGGER SWITCHES PROPS
+
+                    // STATE CHANGING FUNCTIONS PROPS
+                    findUserDecks={this.props.findUserDecks}
                 />
             )
         } else {
@@ -141,10 +133,12 @@ export default class AplicationViews extends Component {
                     // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
                     userDecks={this.state.userDecks}
+                    userCards={this.state.userCards}
                     // TRIGGER SWITCHES PROPS
 
                     // STATE CHANGING FUNCTIONS PROPS
                     findUserDecks={this.props.findUserDecks}
+                    findUserCards={this.props.findUserCards}
                 />
             )
         } else {

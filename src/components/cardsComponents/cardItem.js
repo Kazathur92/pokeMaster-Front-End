@@ -45,10 +45,13 @@ export default class CardItem extends Component {
                 <CardModal
                     closeViewCard={this.closeViewCard}
                     createNew={this.props.createNew}
+                    createNewCard={this.props.createNewCard}
+                    getAll={this.props.getAll}
                     editThis={this.props.editThis}
                     // DATA STATES
                     selectedCard={this.state.selectedCard}
                     decks={this.props.decks}
+                    userDecks={this.props.userDecks}
                     users={this.props.users}
                     token={this.props.token}
                     cards={this.props.cards} />

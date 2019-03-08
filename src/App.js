@@ -159,6 +159,8 @@ class App extends Component {
 
     }
 
+    // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
+
     createNew = (resource, newObj) => {
         let token = this.state.token
         console.log("CREATE TOKEN", token)
@@ -167,6 +169,12 @@ class App extends Component {
                 console.log("just created, now calling get all", data)
                 this.getAll(resource, token)
             })
+    }
+
+    createNewCard = (resource, newObj) => {
+        let token = this.state.token
+        return APIManager.create(resource, newObj, token)
+
     }
 
     createButDontGet = (resource, newObj) => {
@@ -380,6 +388,7 @@ class App extends Component {
                     createButDontGet={this.createButDontGet}
                     getAll2={this.getAll2}
                     createNew={this.createNew}
+                    createNewCard={this.createNewCard}
                     deleteThis={this.deleteThis}
                     deleteThis2={this.deleteThis2}
                     // FETCHED DATA

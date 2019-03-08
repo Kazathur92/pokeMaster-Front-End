@@ -7,6 +7,11 @@ import './searchComponent.css'
 
 export default class ViewCards extends Component {
 
+    componentDidMount() {
+        console.log("&&& SEARCH MOUNT &&&")
+        this.props.findUserDecks()
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -17,7 +22,10 @@ export default class ViewCards extends Component {
                     cards={this.props.cards}
                     apiCards={this.props.apiCards}
                     createNew={this.props.createNew}
+                    createNewCard={this.props.createNewCard}
+                    getAll={this.props.getAll}
                     decks={this.props.decks}
+                    userDecks={this.props.userDecks}
                     editThis={this.props.editThis}
                     users={this.props.users}
                     token={this.props.token}/>

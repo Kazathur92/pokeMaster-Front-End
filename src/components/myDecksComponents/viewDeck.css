@@ -42,3 +42,13 @@ justify-content: space-between;
     margin-left: 5px;
     font-size: 10px;
 }
+
+
+.deckCard {
+    width: 60px;
+}
+
+
+.deckCard:hover {
+    width: 100px;
+}
