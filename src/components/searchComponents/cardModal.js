@@ -231,8 +231,8 @@ export default class CardModal extends Component {
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
+                        {/* <button onClick={this.consoleLog}>console log</button> */}
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
-                        <button onClick={this.consoleLog}>console log</button>
                         {cardModalAttacksFieldContent}
                         {cardModalTrainerContent}
                         {cardModalSpecialEnergyContent}

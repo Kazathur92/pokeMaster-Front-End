@@ -18,12 +18,12 @@ export default class CollectionItem extends Component {
         if (this.props.userCards) {
 
             cardItem = (
-                <div>
+                <div className="collectionCardBigDiv">
                     {this.props.userCards.map(card =>
 
-                        <div key={card.id}>
-                            <p>{card.name}</p>
-                            <img src={card.imageUrl}></img>
+                        <div className="colllectionCardDiv" key={card.id}>
+                            <img className="collectionCardImage" src={card.imageUrl}></img>
+                            <p className="collectionCardName">{card.name}</p>
                         </div>
                     )
                     }

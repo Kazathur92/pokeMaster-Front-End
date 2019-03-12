@@ -1,0 +1,33 @@
+.collectionDiv {
+    /* display:flex; */
+    /* justify-content: center; */
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    /* height: 300px; */
+    overflow: scroll;
+
+}
+
+
+.collectionCardBigDiv {
+    /* height: 300px; */
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    width: 250%;
+}
+
+.collectionCardDiv {
+
+}
+
+.collectionCardImage {
+    margin-right: 30px;
+
+    width: 100px;
+}
+
+.collectionCardName {
+    font-size: 9px;
+    text-align: center;
+}

@@ -115,3 +115,13 @@ justify-content: space-between;
     max-width: 250px;
     position: sticky;
 }
+
+.deleteFromDeckButton {
+    margin-left: 50%;
+    max-width: 200px;
+    position: sticky;
+}
+
+.deleteFromCollectionButton {
+
+}

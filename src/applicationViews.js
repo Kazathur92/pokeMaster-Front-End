@@ -186,7 +186,7 @@ export default class AplicationViews extends Component {
 
         return (
             <div className="appItself">
-                <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button>
+                {/* <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button> */}
                 <h1 className="appName">POKEMASTER</h1>
                 {navbar}
                 {searchCards}

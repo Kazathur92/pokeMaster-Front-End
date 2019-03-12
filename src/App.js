@@ -404,7 +404,7 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>App States</button>
+                {/* <button onClick={this.consoleLog}>App States</button> */}
                 {login}
                 {register}
                 <ApplicationViews

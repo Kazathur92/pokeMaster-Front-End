@@ -37,7 +37,6 @@ export default class DeckItem extends Component {
 
     waiter().then(() => {
         let token = localStorage.getItem("token")
-        // APIManager.getAll("deckcardsrelationship", token, "?filter=")
         APIManager.getAll("deckcardsrelationship", token, "?filter=")
             .then(data => {
                 // START OF AFTER GETTING ALL CARDS IN RELATIONSHIP
@@ -45,24 +44,19 @@ export default class DeckItem extends Component {
 
                 data.map(card => {
                     // START OF RELATIONSHIP MAP
-                    // console.log("CARD COMING FROM DATABASE RELATIONSHIP :", card)
-                    // console.log("selected deck props", this.state.selectedDeck)
                     if (card.deck === this.state.selectedDeck.url) {
                         // START OF IF
-                        // console.log("IF CARDS URL IS THE SAME AS SELECTED DECK URL", card)
                         this.props.getCardsById(card.cardId)
                             .then(card => {
 
                                 new Promise((resolve, reject) => {
                                     cardsOfDeck.push(card)
-                                    // console.log("AFTER GETTING THE CARDS BY ID", card)
                                     resolve()
                                 })
                                     .then(() => {
                                         this.setState({
                                             cardsOfDeck: cardsOfDeck
                                         })
-                                        // console.log("ITS WAITING")
                                     })
                             })
 
@@ -95,23 +89,15 @@ export default class DeckItem extends Component {
             selectedDeck: deck,
             cardsOfDeck: []
         })
-        // console.log(this.state.inspectField)
     }
 
     dontInspectIt = () => {
         this.setState({
             inspectField: false,
-            // selectedDeck: deck
         })
-        // console.log(this.state.inspectField)
-
     }
 
-    // openDeck = () => {
-    //     this.setState({
-    //         modal: true
-    //     })
-    // }
+
 
     consoleLog = () => {
         console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
@@ -175,7 +161,7 @@ export default class DeckItem extends Component {
             deckItem = (
                 <React.Fragment>
                     {modal}
-                    <button onClick={this.consoleLog}>console log deck item</button>
+                    {/* <button onClick={this.consoleLog}>console log deck item</button> */}
                     {this.props.userDecks.map(deck =>
 
                         <div key={deck.id} >
@@ -221,33 +207,6 @@ export default class DeckItem extends Component {
 
         return (
             <React.Fragment>
-                {/* {
-                    this.props.decks.map(deck =>
-                        <div key={deck.id}>
-                            <div className="card deckDiv">
-                                <div className="card-image">
-                                    <img className="deckCoverImage" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
-                                </div>
-                                <div className="">
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <img className="deckMVPImage" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
-                                        </div>
-                                        <div className="media-content">
-                                            <p className="title deckMVP">MVP</p>
-                                            <p className="subtitle deckSub">name of pokemon</p>
-                                        </div>
-                                    </div>
-                                    <p className="deckName">{deck.name}</p>
-                                    <time className="deckDate" dateTime={deck.date_added}>created: {deck.date_added}</time>
-                                    <button onClick={() => this.props.deleteThis("decks", deck.id)}>delete</button>
-                                    <button>edit</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    )
-                } */}
 
                 {deckItem}
             </React.Fragment>

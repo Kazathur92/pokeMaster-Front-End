@@ -57,20 +57,9 @@ export default class DeckModal extends Component {
 
         new Promise( (resolve, reject) => {
             return setTimeout(() => {
-                let token = localStorage.getItem("token")
-                // let deckId = `${this.props.selectedDeck.id}`
                 let deck_id = parseInt(this.props.selectedDeck.id)
                 let card_id = this.state.selectedCardOnDeck.id
-
-                // let paramsList = ( `${deckId}`, `${cardId}` )
-            // this.props.deleteThis2("deckcardsrelationship", cardId, deckId)
-            // this.props.deleteRelationship(`decks/${deck_id}/cards/${card_id}`)
-            // this.props.deleteRelationship(`woop/${deck_id}?card=${card_id}`)
-            this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
-
-            // console.log("DECK ID", deckId)
-            // console.log("CARD ID", cardId)
-
+                this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
             resolve()
 
         })
@@ -149,13 +138,13 @@ export default class DeckModal extends Component {
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
-                        <button onClick={this.consoleLog}>console Log modal</button>
+                        {/* <button onClick={this.consoleLog}>console Log modal</button> */}
                         <h1 className="deckModalName">{this.state.selectedDeck.name}</h1>
                         <p className="descriptionText">{this.state.selectedDeck.description}</p>
                         <p className="strategyText">{this.state.selectedDeck.strategy}</p>
                         {/* <div className="cardModalContentField"></div> */}
                         <img className="lookAtCard" src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>
-                        <button onClick={this.removeFromDeck}>Remove from Deck</button><button onClick={this.removeFromCollection}>Remove from Collection</button>
+                        <button className="deleteFromDeckButton" onClick={this.removeFromDeck}>Remove from Deck</button><button className="deleteFromCollectionButton" onClick={this.removeFromCollection}>Remove from Collection</button>
                         <div className="wrap">
                             {deckContent}
 
