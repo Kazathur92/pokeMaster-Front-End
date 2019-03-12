@@ -5,33 +5,31 @@ class APIManager {
 
 
     getThem = (url) => {
-       return fetch(url, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${authKey}`
-          }
-       })
-        .then(response => response.json())
-        .catch(err => console.log("Oopsy Daisy get cards problem!", err))
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get cards problem!", err))
     }
-
 
     getThemById = (url) => {
         return fetch(url, {
             method: 'GET',
             headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${authKey}`
-          }
-       })
-        .then(response => response.json())
-        .catch(err => console.log("Oopsy Daisy get cards"))
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get cards"))
     }
 
 
 
-
+    // IF WANT TO USE PYTHON TO FILTER ADD PARAMETER THAT THEN WILL BE LISTENED FOR IN PYTHON VIEWSET
     getAll = (resource, authToken, keyword = null) => {
         let url = `${apiUrl}${resource}/`
         if (keyword) {
@@ -42,7 +40,7 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authToken}`
-              }
+            }
         })
             .then(response => response.json())
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
@@ -58,7 +56,7 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authToken}`
-              }
+            }
         })
             .then(response => response.json())
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
@@ -74,7 +72,7 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authKey}`
-              }
+            }
         })
             .then(response => response.json())
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
@@ -88,11 +86,11 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authKey}`
-              }
+            }
         })
-        .then(response => response.json())
-        .catch(err => console.log("oopsy get single problem", err))
-      }
+            .then(response => response.json())
+            .catch(err => console.log("oopsy get single problem", err))
+    }
 
 
     //   would not work with "Content-Type": "application/json",
@@ -108,7 +106,7 @@ class APIManager {
             body: formData,
             headers: {
                 "Authorization": `Token ${authToken}`
-              }
+            }
         })
             .then(newData => newData.json())
             .catch(err => console.log("Oopsy Daisy creating problem!", err))
@@ -130,15 +128,26 @@ class APIManager {
     // }
 
 
-    delete = (resource, id) => {
+    delete = (resource, id, deckId) => {
         return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authKey}`
-              }
+            }
         })
     }
+
+    deleteIt = (resource, token) => {
+        return fetch(`${apiUrl}${resource}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
+            }
+        })
+    }
+
 
 
     safeDelete = (resource, id) => {
@@ -149,7 +158,7 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authKey}`
-              }
+            }
         })
             .then(() => this.getAll(resource))
     }
@@ -169,7 +178,7 @@ class APIManager {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${authKey}`
-              }
+            }
         })
             .then(newData => newData.json())
     }
@@ -178,7 +187,7 @@ class APIManager {
     search = (resource, keyword) => {
         let query = `?search=${keyword}`
         this.getAll(resource, query)
-      }
+    }
 
 
 }

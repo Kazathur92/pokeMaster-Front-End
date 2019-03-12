@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import APIManager from './components/managerComponents/APIManager'
-import ViewCards from './components/cardsComponents/viewCards'
+import ViewCards from './components/searchComponents/viewCards'
 import ViewMyDecks from './components/myDecksComponents/viewDecks'
 import ViewMyCollection from './components/myCollectionComponents/viewCollection'
 import NavBar from './components/nav-barComponent/navBar'
@@ -94,6 +94,7 @@ export default class AplicationViews extends Component {
             searchCards = (
                 <ViewCards
                     // CRUD FUNCTIONS
+                    gottaGetEmAll={this.props.gottaGetEmAll}
                     getCards={this.props.getCards}
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
@@ -129,6 +130,7 @@ export default class AplicationViews extends Component {
                     createButDontGet={this.props.createButDontGet}
                     deleteThis={this.props.deleteThis}
                     deleteThis2={this.props.deleteThis2}
+                    deleteRelationship={this.props.deleteRelationship}
                     // FETCHED DATA PROPS
                     decks={this.props.decks}
                     // CREATED DATA PROPS

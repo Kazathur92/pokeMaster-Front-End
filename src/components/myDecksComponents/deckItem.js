@@ -12,6 +12,15 @@ export default class DeckItem extends Component {
         cardsOfDeck: []
     }
 
+
+
+    componentDidUpdate(prevProps) {
+        if(this.props.woop !== prevProps.woop){
+            console.log("DECK ITEM UPDATING")
+            // console.log("HI")
+        }
+    }
+
     viewDeck= (deck) => {
         // console.log(deck.target)
 
@@ -28,7 +37,8 @@ export default class DeckItem extends Component {
 
     waiter().then(() => {
         let token = localStorage.getItem("token")
-        APIManager.getAll("deckcardsrelationship", token)
+        // APIManager.getAll("deckcardsrelationship", token, "?filter=")
+        APIManager.getAll("deckcardsrelationship", token, "?filter=")
             .then(data => {
                 // START OF AFTER GETTING ALL CARDS IN RELATIONSHIP
                 let cardsOfDeck = []
@@ -45,14 +55,14 @@ export default class DeckItem extends Component {
 
                                 new Promise((resolve, reject) => {
                                     cardsOfDeck.push(card)
-                                    console.log("AFTER GETTING THE CARDS BY ID", card)
+                                    // console.log("AFTER GETTING THE CARDS BY ID", card)
                                     resolve()
                                 })
                                     .then(() => {
                                         this.setState({
                                             cardsOfDeck: cardsOfDeck
                                         })
-                                        console.log("ITS WAITING")
+                                        // console.log("ITS WAITING")
                                     })
                             })
 
@@ -123,6 +133,8 @@ export default class DeckItem extends Component {
                     getAll={this.props.getAll}
                     getCardsById={this.props.getCardsById}
                     editThis={this.props.editThis}
+                    deleteThis2={this.props.deleteThis2}
+                    deleteRelationship={this.props.deleteRelationship}
                     // DATA STATES
                     selectedDeck={this.state.selectedDeck}
                     decks={this.props.decks}
@@ -133,6 +145,8 @@ export default class DeckItem extends Component {
                     cards={this.props.cards}
                     // CREATED DATA
                     cardsOfDeck={this.state.cardsOfDeck}
+                    changeWoop={this.props.changeWoop}
+                    woop={this.props.woop}
                     />
             )
         } else {

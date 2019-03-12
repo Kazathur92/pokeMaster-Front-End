@@ -23,12 +23,10 @@ justify-content: space-between;
 
 .deckMVP {
     font-size: 10px;
-    /* text-align: center; */
 }
 
 .deckSub {
     font-size: 5px;
-    /* text-align: center; */
 }
 
 .deckName {
@@ -44,11 +42,76 @@ justify-content: space-between;
 }
 
 
-.deckCard {
-    width: 60px;
+
+/* INSIDE DECK */
+
+.emptyDeck {
+    text-align: center
 }
 
 
+
+.deckModal {
+
+    height: 530px;
+}
+
+.wrap {
+    margin-top: -330px;
+
+}
+
+.allCardsInDeck {
+
+
+}
+
+.deckModalContentField {
+    display: flex;
+}
+
+.deckModalName {
+    text-align: center;
+    font-size: 40px;
+    color: rgb(219, 219, 219);
+    font-weight: bold;
+}
+
+.deckCard {
+
+    width: 60px;
+    position: absolute;
+    z-index: 1;
+}
+
 .deckCard:hover {
+
     width: 100px;
+    z-index: 2;
+}
+
+.deckModalText {
+    float: left;
+    color: rgb(227, 235, 250);
+    margin-left:80px;
+}
+
+.descriptionText {
+    text-align: center;
+    color: rgb(227, 235, 250);
+    font-weight: bold;
+}
+
+.strategyTitle {
+
+}
+
+.strategyText {
+    color: rgb(227, 235, 250);
+}
+
+.lookAtCard {
+    margin-left: 50%;
+    max-width: 250px;
+    position: sticky;
 }

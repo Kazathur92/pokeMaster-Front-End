@@ -125,15 +125,25 @@ class App extends Component {
 
     // C R U D FUNCTIONS START ===================C R U D ==========================START
 
-    // THIS FUNCTION GETS CARDS FROM THE POKEMON TCG API
+    // THIS FUNCTIONS GET CARDS FROM THE POKEMON TCG API
     getCards = (keyword) => {
         APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
             .then(data => this.setState({ apiCards: data.cards }))
     }
 
+    gottaGetEmAll = (subtype, keyword) => {
+        APIManager.getThem(`${this.state.pokeApi}/cards?subtype=${subtype}&name=${keyword}`)
+            .then(data => {
+                console.log(data)
+                this.setState({ apiCards: data.cards })
+            })
+    }
+
     getCardsById = (keyword) => {
         return APIManager.getThemById(`${this.state.pokeApi}/cards/${keyword}`)
     }
+
+    // ===============================================================
 
     getAll = (resource, token) => {
         APIManager.getAll(resource, token)
@@ -199,9 +209,17 @@ class App extends Component {
             )
     }
 
-    deleteThis2 = (resource, id) => {
+    deleteThis2 = (resource, id, deckId) => {
         let token = this.state.token
-        APIManager.delete(resource, id)
+        APIManager.delete(resource, id, deckId)
+            .then(data => {
+                this.getAll2(resource, token)
+            })
+    }
+
+    deleteRelationship = (resource) => {
+        let token = this.state.token
+        APIManager.deleteIt(resource, token)
             .then(data => {
                 this.getAll2(resource, token)
             })
@@ -300,6 +318,8 @@ class App extends Component {
                 }
             })
             .then((tokenObj) => {
+
+
                 console.log("converted token", tokenObj);
                 localStorage.setItem("token", tokenObj.token)
                 localStorage.setItem("username", user.username)
@@ -329,6 +349,7 @@ class App extends Component {
 
     consoleLog = () => {
         console.log("****** STATES APP LAYER START ******")
+        console.log("TOKEN STATE", this.state.token)
         console.log("DECKS app layer: ", this.state.decks)
         console.log("USER CARDS: ", this.state.userCards)
         console.log("CARDS", this.state.cards)
@@ -390,6 +411,7 @@ class App extends Component {
                     // CRUD
                     getCards={this.getCards}
                     getCardsById={this.getCardsById}
+                    gottaGetEmAll={this.gottaGetEmAll}
                     getAll={this.getAll}
                     createButDontGet={this.createButDontGet}
                     getAll2={this.getAll2}
@@ -397,6 +419,7 @@ class App extends Component {
                     createNewCard={this.createNewCard}
                     deleteThis={this.deleteThis}
                     deleteThis2={this.deleteThis2}
+                    deleteRelationship={this.deleteRelationship}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}

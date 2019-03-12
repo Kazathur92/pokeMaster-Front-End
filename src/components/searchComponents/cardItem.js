@@ -7,7 +7,7 @@ export default class CardItem extends Component {
 
     state = {
         selectedCard: {},
-        modal: false
+        modal: false,
     }
 
     // THE CARDS FROM THE DB AND THE API HAD A STATE IN APP NAMED THE SAME
@@ -35,6 +35,10 @@ export default class CardItem extends Component {
         })
     }
 
+    consoleLog = () => {
+        console.log(this.props.apiCards)
+    }
+
 
     render() {
 
@@ -60,11 +64,22 @@ export default class CardItem extends Component {
             modal = null
         }
 
-        return (
+        let defaultView = ""
+        let searchResults = ""
 
-            <React.Fragment>
-                {modal}
+        if(this.props.defaultView) {
+            searchResults = (
+                <div>
+                    <h5>Search Results will appear here.</h5>
+                </div>
+            )
+            }
+
+        else if(this.props.apiCards.length >= 1 && this.props.defaultView === false) {
+            searchResults = (
+                <React.Fragment>
                 {this.props.apiCards.map(card =>
+
 
                     <div key={card.id} className="card">
                         <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>
@@ -72,6 +87,19 @@ export default class CardItem extends Component {
                     </div>)
 
                 }
+                </React.Fragment>
+            )
+        } else  {
+            searchResults = (<div><p>There were no results found</p></div>)
+        }
+
+        return (
+
+            <React.Fragment>
+                {modal}
+                {/* <button onClick={this.consoleLog}>console log</button> */}
+                {defaultView}
+                {searchResults}
             </React.Fragment>
 
 

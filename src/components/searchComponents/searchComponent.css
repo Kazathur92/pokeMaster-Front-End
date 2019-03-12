@@ -1,7 +1,78 @@
 
+/* SEARCH COMPONENTS */
+
 .searchTitle{
     font-size: 50px;
 }
+
+.checkboxContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkboxPokemonDiv {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.checkboxEnergyDiv {
+    display: flex;
+    /* justify-content: space-evenly; */
+    /* flex-wrap: wrap; */
+}
+
+.checkboxTrainerDiv {
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.filterLabel {
+    font-weight: bold;
+}
+
+.checkboxLabel {
+    display:flex;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    font-weight: bold;
+    font-size: 60%;
+    color: rgb(228, 238, 255);
+    /* size:70px; */
+    /* width: 10%; */
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: rgb(33, 109, 250);
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.checkboxLabel:hover {
+    color: rgb(228, 238, 255);
+    /* width: 9%; */
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: rgb(0, 85, 243);
+}
+
+.checkboxTitle {
+    margin-right: 10px;
+    margin-left: 3px;
+}
+
+.checkbox {
+    float: right;
+}
+
+
+
+
+
+
+
+/* CARD ITEM */
 
 .cardDiv{
     display: flex;

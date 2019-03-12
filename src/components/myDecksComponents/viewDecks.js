@@ -8,6 +8,10 @@ import './viewDeck.css'
 export default class ViewMyDecks extends Component {
 
 
+    state = {
+        woop: false
+    }
+
     // TODO: need to find a way to update the component so new decks appear when added
 
     componentDidMount() {
@@ -16,6 +20,15 @@ export default class ViewMyDecks extends Component {
         this.props.findUserCards()
     }
 
+    componentDidUpdate() {
+        console.log("VIEW DECKS UPDATING")
+    }
+
+    changeWoop = () => {
+        this.setState({
+            woop: !this.state.woop
+        })
+    }
 
     componentDidUpdate(prevProps) {
     }
@@ -39,11 +52,14 @@ export default class ViewMyDecks extends Component {
                     <DeckItem decks={this.props.decks}
                         deleteThis={this.props.deleteThis}
                         deleteThis2={this.props.deleteThis2}
+                        deleteRelationship={this.props.deleteRelationship}
                         userDecks={this.props.userDecks}
                         userCards={this.props.userCards}
                         findUserDecks={this.props.findUserDecks}
                         findUserCards={this.props.findUserCards}
                         getCardsById={this.props.getCardsById}
+                        woop={this.state.woop}
+                        changeWoop={this.changeWoop}
                         />
                 </div>
             </React.Fragment>

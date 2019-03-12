@@ -13,11 +13,10 @@ export default class CardModal extends Component {
         attacks: [],
         resistances: [],
         weaknesses: [],
-        selectedDeck: [],
+        selectedDeck: "",
         ability: this.props.selectedCard.ability,
         selectedCard: this.props.selectedCard,
         dbCards: [],
-        // value: ""
     }
 
     componentDidMount() {
@@ -31,66 +30,67 @@ export default class CardModal extends Component {
         let userName = localStorage.getItem("username")
         console.log(userName)
 
-        this.props.users.forEach(user => {
-            // console.log("USER: ", user)
-            // console.log("USER URL: ", user.url)
-            if (user.username === userName) {
-                // console.log("THIS ID: ", user.first_name)
-                const newCard = {
-                    cardId: this.props.selectedCard.id,
-                    imageUrl: this.props.selectedCard.imageUrl,
-                    imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
-                    name: this.props.selectedCard.name,
-                    rarity: this.props.selectedCard.rarity,
-                    user: user.url
-                }
+        if (this.state.selectedDeck === "---------------------" || this.state.selectedDeck === "") {
+            alert("Please select a deck")
+        } else {
+
+            this.props.users.forEach(user => {
+                if (user.username === userName) {
+                    const newCard = {
+                        cardId: this.props.selectedCard.id,
+                        imageUrl: this.props.selectedCard.imageUrl,
+                        imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
+                        name: this.props.selectedCard.name,
+                        rarity: this.props.selectedCard.rarity,
+                        user: user.url
+                    }
 
 
 
 
 
-                this.props.createNewCard("cards", newCard)
-                .then(data => {
-                    console.log(data)
-                    let newBornCard = data
-                    let token = localStorage.getItem("token")
-
-
-
-                        const newCardToDeck = {
-                            cardId: newBornCard.cardId,
-                            card: newBornCard.url,
-                            deck: this.state.selectedDeck,
-                        }
-                        console.log(newCardToDeck)
-
-                        this.props.createNewCard("deckcardsrelationship", newCardToDeck)
+                    this.props.createNewCard("cards", newCard)
                         .then(data => {
-                            console.log("data getting back after postig to relationship: ", data)
+                            console.log(data)
+                            let newBornCard = data
+                            let token = localStorage.getItem("token")
+
+
+
+                            const newCardToDeck = {
+                                cardId: newBornCard.cardId,
+                                card: newBornCard.url,
+                                deck: this.state.selectedDeck,
+                            }
+                            console.log(newCardToDeck)
+
+                            this.props.createNewCard("deckcardsrelationship", newCardToDeck)
+                                .then(data => {
+                                    console.log("data getting back after postig to relationship: ", data)
+                                })
+
                         })
 
-                })
+                }
 
-            }
-
-        })
+            })
+        }
     }
 
 
     selectDeck = (event) => {
         console.log("SELECTED DECK", event.target.value)
-        // console.log("SELECTED DECK", event.target.name)
         this.setState({ selectedDeck: event.target.value });
     }
 
 
     consoleLog = () => {
 
-        console.log("SELECTED CARD: ", this.props.selectedCard)
+        // console.log("SELECTED CARD: ", this.props.selectedCard)
         // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         console.log("CURRENT DECK: ", this.state.selectedDeck)
-        console.log("VALUE STATE", this.state.value)
-        console.log("CARDS modal layer", this.props.cards)
+        // console.log("VALUE STATE", this.state.value)
+        // console.log("CARDS modal layer", this.props.cards)
     }
 
     render() {
@@ -241,14 +241,6 @@ export default class CardModal extends Component {
                 </div>
                 <button onClick={this.props.closeViewCard} className="modal-close is-large" aria-label="close"></button>
             </div>
-
-
-
         )
-
-
-
     }
-
-
 }

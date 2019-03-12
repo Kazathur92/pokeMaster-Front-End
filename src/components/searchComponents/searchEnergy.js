@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './searchComponent.css'
 
 
-export default class SearchCard extends Component {
+export default class SearchEnergy extends Component {
 
     state = {
         keyword: ""
@@ -20,7 +20,7 @@ export default class SearchCard extends Component {
     searchCard = () => {
         let keyword = this.state.keyword
         // console.log(keyword)
-        this.props.getCards(keyword)
+        this.props.getEnergyCards(keyword)
     }
 
 
@@ -33,7 +33,11 @@ export default class SearchCard extends Component {
 
         return(
             <React.Fragment>
-                <h1 className="searchTitle">Search Cards</h1>
+                <h1 className="searchTitle">Search Energy Cards</h1>
+                <div className="checkBoxes">
+                <label className="checkboxLabel">BASIC <input type="checkbox" className="checkbox"></input></label>
+                <label className="checkboxLabel">SPECIAL <input type="checkbox"></input></label>
+                </div>
                 <input id="keyword" onChange={this.handleFieldChange} placeholder="Card Name"></input>
                 <button onClick={this.searchCard}>Search</button>
 
