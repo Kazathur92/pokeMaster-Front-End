@@ -23,7 +23,7 @@ export default class ViewMyCollection extends Component {
             })
         })
         waiter().then(() => {
-            this.props.findUserCards()
+            // this.props.findUserCards()
             console.log("its breaking after finding users")
         }).catch(err => console.log("erroying", err))
 

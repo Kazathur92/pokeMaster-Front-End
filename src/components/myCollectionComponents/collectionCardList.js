@@ -10,7 +10,7 @@ render() {
 
 return(
     <div className="collectionCardBigDiv">
-    {this.props.userCards.map(card =>
+    {this.props.cards.map(card =>
         <div className="colllectionCardDiv" key={card.id}>
             <img className="collectionCardImage" src={card.imageUrl}></img>
             <p className="collectionCardName">{card.name}</p>

@@ -17,7 +17,7 @@ export default class ViewMyDecks extends Component {
     componentDidMount() {
         console.log("$$$$ DID MOUNT VIEW DECKS $$$$")
         this.props.findUserDecks()
-        this.props.findUserCards()
+        // this.props.findUserCards()
     }
 
     componentDidUpdate() {

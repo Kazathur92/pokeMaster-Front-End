@@ -92,6 +92,19 @@ class APIManager {
             .catch(err => console.log("oopsy get single problem", err))
     }
 
+    getSingleUser = (resource) => {
+        let url = `${apiUrl}${resource}`
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${authKey}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("oopsy get single problem", err))
+    }
+
 
     //   would not work with "Content-Type": "application/json",
     create = (resource, newObj, authToken) => {

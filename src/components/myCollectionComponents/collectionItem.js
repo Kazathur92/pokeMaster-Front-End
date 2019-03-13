@@ -30,6 +30,7 @@ export default class CollectionItem extends Component {
         if (this.props.userCards) {
 
             cardItem = <CollectionCardList userCards={this.props.userCards}
+            cards={this.props.cards}
             deleteThisFromCollection={this.deleteThisFromCollection}/>
 
         } else {

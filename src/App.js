@@ -56,7 +56,7 @@ class App extends Component {
 
         APIManager.getAllOnRefresh("cards")
             .then(data => {
-                console.log("cards list after fetch before setting state", data)
+                // console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
 
@@ -64,8 +64,10 @@ class App extends Component {
             .then(data => {
                 this.setState({ users: data })
             })
-        console.log("**** DID MOUNT APP END ****")
-    }
+    //     console.log("**** DID MOUNT APP END ****")
+
+    // this.getSingle("decks")
+}
 
 
     componentDidUpdate() {
@@ -131,6 +133,14 @@ class App extends Component {
     // C R U D FUNCTIONS START ===================C R U D ==========================START
 
     // THIS FUNCTIONS GET CARDS FROM THE POKEMON TCG API
+
+    getSingle = (resource) => {
+        APIManager.getSingleUser(resource)
+        .then(user => console.log(user))
+
+    }
+
+
     getCards = (keyword) => {
         APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
             .then(data => this.setState({ apiCards: data.cards }))
@@ -157,7 +167,7 @@ class App extends Component {
                 // console.log("data list", data)
                 console.log("ITs Getting All")
                 this.setState({ [resource]: data },
-                    this.findUserCards()
+                    // this.findUserCards()
                     )
                 console.log("just fetched and set new state")
             })
@@ -328,14 +338,10 @@ class App extends Component {
             })
             .then((tokenObj) => {
 
-
-                console.log("converted token", tokenObj);
                 localStorage.setItem("token", tokenObj.token)
                 localStorage.setItem("username", user.username)
-                console.log("local s user?", localStorage.getItem("user"))
                 this.getAll("decks", tokenObj.token)
                 this.getAll("cards", tokenObj.token)
-                this.getAll("users", tokenObj.token)
                 this.setState({
                     navBarStatus: true,
                     showLogin: false,
@@ -362,7 +368,7 @@ class App extends Component {
         console.log("DECKS app layer: ", this.state.decks)
         console.log("USER CARDS: ", this.state.userCards)
         console.log("CARDS", this.state.cards)
-        // console.log("WOOP STATE", this.state.woop)
+        console.log("USERS", this.state.users)
         // console.log("DECKNUMBA 2", this.state.decksNumba2)
         // console.log("users after fetch", this.state.users)
         // console.log("current User: ", this.state.currentUser)
