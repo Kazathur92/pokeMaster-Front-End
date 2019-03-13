@@ -155,6 +155,7 @@ export default class AplicationViews extends Component {
             viewCollection = (
                 <ViewMyCollection
                     // CRUD
+                    getAll={this.props.getAll}
                     deleteThis={this.props.deleteThis}
                     // FETCHED DATA PROPS
                     cards={this.props.cards}

@@ -9,13 +9,13 @@ export default class ViewMyCollection extends Component {
 
     state = {
         cards: [],
+        woop: false
     }
 
     componentDidMount() {
         console.log("@@@ COLLECTION MOUNT @@@")
         let waiter = () => new Promise((resolve, reject) => {
             return setTimeout(() => {
-                // this.props.findUserCards()
                 this.props.findCurrentUser()
                 console.log("current user in promise layer 1", this.props.currentUser)
                 console.log("1st layer promise")
@@ -32,6 +32,13 @@ export default class ViewMyCollection extends Component {
     componentDidUpdate = (prevProps) => {
     }
 
+
+    updateWoop = () => {
+        this.setState({
+            woop: !this.state.woop
+        })
+    }
+
     consoleLog = () => {
         console.log("USER CARDS", this.props.userCards)
     }
@@ -45,7 +52,9 @@ export default class ViewMyCollection extends Component {
                 <CollectionItem
                     cards={this.props.cards}
                     userCards={this.props.userCards}
-                    deleteThis={this.props.deleteThis}/>
+                    deleteThis={this.props.deleteThis}
+                    updateWoop={this.updateWoop}
+                    />
                     </div>
             </React.Fragment>
         )

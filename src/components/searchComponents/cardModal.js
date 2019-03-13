@@ -66,6 +66,8 @@ export default class CardModal extends Component {
 
                             this.props.createNewCard("deckcardsrelationship", newCardToDeck)
                                 .then(data => {
+                                    let token = localStorage.getItem("token")
+                                    this.props.getAll("cards", token)
                                     console.log("data getting back after postig to relationship: ", data)
                                 })
 
@@ -104,7 +106,7 @@ export default class CardModal extends Component {
                     <h3 className="cardModalAttacksTitle">Attacks:</h3>
                     {
                         this.state.attacks.map(attack =>
-                            <React.Fragment>
+                            <React.Fragment >
                                 <p className="cardModalAttacks">{attack.name}</p>
                                 <p className="cardModalAttacksEnergyCost">Energy Cost:&nbsp;{attack.convertedEnergyCost}&nbsp;{attack.cost}</p>
                                 <p className="cardModalAttacksText">{attack.text}</p>

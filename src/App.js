@@ -47,16 +47,19 @@ class App extends Component {
         // console.log("users before fetching", this.state.users)
         console.log("cards before fetch", this.state.cards)
 
+
         // THIS FUNCTIONS CAN GET THE DATA WITHOUT A TOKEN BEING PASSED TO THEM, SEE API MANAGER
         APIManager.getAllOnRefresh("decks")
             .then(data => {
                 this.setState({ decks: data })
             })
+
         APIManager.getAllOnRefresh("cards")
             .then(data => {
                 console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
+
         APIManager.getAllOnRefresh("users")
             .then(data => {
                 this.setState({ users: data })
@@ -108,12 +111,14 @@ class App extends Component {
     }
 
     findUserCards = () => {
+        console.log("CARDS STATE from FIND USER CARDS: ", this.state.cards)
         let userCardList = []
         this.state.cards.forEach(card => {
 
             if (card.user === this.state.currentUser.url) {
                 userCardList.push(card)
             }
+            console.log("FIND USER CARDS, CARD LIST: ", userCardList)
             this.setState({
                 userCards: userCardList
             })
@@ -146,11 +151,14 @@ class App extends Component {
     // ===============================================================
 
     getAll = (resource, token) => {
+        console.log("GET ALL: ", resource, token)
         APIManager.getAll(resource, token)
             .then(data => {
                 // console.log("data list", data)
                 console.log("ITs Getting All")
-                this.setState({ [resource]: data })
+                this.setState({ [resource]: data },
+                    this.findUserCards()
+                    )
                 console.log("just fetched and set new state")
             })
     }
@@ -189,10 +197,7 @@ class App extends Component {
     createNewCard = (resource, newObj) => {
         let token = this.state.token
         return APIManager.create(resource, newObj, token)
-        // .then(data => {
-        //     console.log("just created, now calling get all", data)
-        //     this.getAll(resource, token)
-        // })
+
     }
 
     createButDontGet = (resource, newObj) => {
@@ -205,6 +210,7 @@ class App extends Component {
     }
 
     deleteThis = (resource, id) => {
+        console.log("DELETE THIS", resource, id)
         let token = this.state.token
         APIManager.delete(resource, id)
             .then(() =>

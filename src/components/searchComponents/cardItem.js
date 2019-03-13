@@ -80,8 +80,7 @@ export default class CardItem extends Component {
                 <React.Fragment>
                 {this.props.apiCards.map(card =>
 
-
-                    <div key={card.id} className="card">
+                        <div key={card.id} className="card">
                         <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>
                         <p className="cardViewName">{card.name}</p>
                     </div>)
@@ -97,7 +96,7 @@ export default class CardItem extends Component {
 
             <React.Fragment>
                 {modal}
-                {/* <button onClick={this.consoleLog}>console log</button> */}
+                <button onClick={this.consoleLog}>console log</button>
                 {defaultView}
                 {searchResults}
             </React.Fragment>

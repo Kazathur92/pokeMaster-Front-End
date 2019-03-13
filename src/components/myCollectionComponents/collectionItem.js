@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
-
+import CollectionCardList from './collectionCardList'
 
 export default class CollectionItem extends Component {
 
 
 
-deleteThisFromCollection = (deck_id) => {
-    console.log("time to delete")
-    this.props.deleteThis("cards", deck_id)
-}
+    deleteThisFromCollection = (deck_id) => {
+        // console.log("time to delete")
+        this.props.deleteThis("cards", deck_id)
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.userCards !== prevProps.userCards) {
+            console.log("woopy!")
+        }
+    }
 
 
 
@@ -16,23 +23,15 @@ deleteThisFromCollection = (deck_id) => {
 
     render() {
 
+        // console.log(this.props.userCards)
+
         let cardItem = ""
 
         if (this.props.userCards) {
 
-            cardItem = (
-                <div className="collectionCardBigDiv">
-                    {this.props.userCards.map(card =>
+            cardItem = <CollectionCardList userCards={this.props.userCards}
+            deleteThisFromCollection={this.deleteThisFromCollection}/>
 
-                        <div className="colllectionCardDiv" key={card.id}>
-                            <img className="collectionCardImage" src={card.imageUrl}></img>
-                            <p className="collectionCardName">{card.name}</p>
-                            <button onClick={() => this.deleteThisFromCollection(card.id)}>Remove from Collection</button>
-                        </div>
-                    )
-                    }
-                </div>
-            )
         } else {
             cardItem = null
         }
@@ -45,16 +44,7 @@ deleteThisFromCollection = (deck_id) => {
         return (
 
             <React.Fragment>
-                {/* <div>
-                    {this.props.userCards.map(card =>
 
-                        <div key={card.id}>
-                            <p>{card.name}</p>
-                            <img src={card.imageUrl}></img>
-                        </div>
-                    )
-                    }
-                </div> */}
                 {cardItem}
             </React.Fragment>
 
