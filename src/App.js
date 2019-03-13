@@ -189,7 +189,10 @@ class App extends Component {
     createNewCard = (resource, newObj) => {
         let token = this.state.token
         return APIManager.create(resource, newObj, token)
-
+        // .then(data => {
+        //     console.log("just created, now calling get all", data)
+        //     this.getAll(resource, token)
+        // })
     }
 
     createButDontGet = (resource, newObj) => {
@@ -404,7 +407,7 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                {/* <button onClick={this.consoleLog}>App States</button> */}
+                <button onClick={this.consoleLog}>App States</button>
                 {login}
                 {register}
                 <ApplicationViews

@@ -5,7 +5,10 @@ export default class CollectionItem extends Component {
 
 
 
-
+deleteThisFromCollection = (deck_id) => {
+    console.log("time to delete")
+    this.props.deleteThis("cards", deck_id)
+}
 
 
 
@@ -24,6 +27,7 @@ export default class CollectionItem extends Component {
                         <div className="colllectionCardDiv" key={card.id}>
                             <img className="collectionCardImage" src={card.imageUrl}></img>
                             <p className="collectionCardName">{card.name}</p>
+                            <button onClick={() => this.deleteThisFromCollection(card.id)}>Remove from Collection</button>
                         </div>
                     )
                     }

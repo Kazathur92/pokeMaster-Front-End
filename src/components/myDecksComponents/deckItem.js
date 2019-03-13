@@ -144,7 +144,10 @@ export default class DeckItem extends Component {
         if(this.state.inspectField) {
 
             inspect = (
+                <React.Fragment>
                 <button  onClick={() => this.viewDeck(this.state.selectedDeck)}>inspect</button>
+                <br></br>
+                </React.Fragment>
             )
 
 
@@ -179,7 +182,9 @@ export default class DeckItem extends Component {
                                             <p className="subtitle deckSub">name of pokemon</p>
                                         </div>
                                     </div>
+                                    <div className="deckNameDiv">
                                     <p className="deckName">{deck.name}</p>
+                                    </div>
                                     {inspect}
                                     <time className="deckDate" dateTime={deck.date_added}>created: {deck.date_added}</time>
                                     <button onClick={() => this.props.deleteThis2("decks", deck.id)}>delete</button>

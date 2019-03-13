@@ -39,12 +39,13 @@ export default class ViewMyCollection extends Component {
     render() {
         return (
             <React.Fragment>
-                {/* <button onClick={this.consoleLog}>console log collection</button> */}
+                <button onClick={this.consoleLog}>console log collection</button>
                 <h1>Card Collection</h1>
                 <div className="collectionDiv">
                 <CollectionItem
                     cards={this.props.cards}
-                    userCards={this.props.userCards} />
+                    userCards={this.props.userCards}
+                    deleteThis={this.props.deleteThis}/>
                     </div>
             </React.Fragment>
         )

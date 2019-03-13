@@ -1,13 +1,16 @@
 .decksArea{
 display:flex;
-flex-flow: wrap;
+width: 80%;
 flex-direction: row;
-justify-content: space-between;
+overflow: scroll;
+
 }
 
 .deckDiv {
-    width: 15%;
-    height: 100%;
+    width: 130px;
+    margin-right: 50px;
+    height: 110%;
+
 }
 
 .deckCoverImage {
@@ -29,7 +32,13 @@ justify-content: space-between;
     font-size: 5px;
 }
 
+.deckNameDiv {
+    /* size:50px; */
+}
+
 .deckName {
+    overflow: auto;
+    height: 30px;
     margin-top: -10%;
     font-size: 10px;
     font-weight: bold;
