@@ -346,13 +346,6 @@ export default class SearchAll extends Component {
     }
 
 
-    searchCard = () => {
-        let keyword = this.state.keyword
-        // console.log(keyword)
-        this.props.getCards(keyword)
-    }
-
-
 
     searchIt = () => {
         let keyword = this.state.keyword
@@ -471,7 +464,6 @@ export default class SearchAll extends Component {
                     </div>
                 </div>
                 <input id="keyword" onChange={this.handleFieldChange} placeholder="Card Name"></input>
-                {/* <button onClick={this.searchCard}>Search</button> */}
                 <button onClick={this.searchIt}>Search</button>
 
 

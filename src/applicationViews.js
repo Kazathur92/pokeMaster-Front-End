@@ -23,9 +23,7 @@ export default class AplicationViews extends Component {
 
     componentDidMount() {
         console.log("===APP VIEWS MOUNT===")
-        console.log("user cards", this.props.userCards)
-        console.log("app views users", this.props.users)
-        console.log("views", this.props.cards)
+
     }
 
     componentDidUpdate(prevProps) {
@@ -51,7 +49,6 @@ export default class AplicationViews extends Component {
             collectionPage: false,
             searchPage: false,
         })
-        this.props.findCurrentUser()
     }
 
     clickOnMyCollection = () => {
@@ -60,7 +57,6 @@ export default class AplicationViews extends Component {
             decksPage: false,
             searchPage: false,
         })
-        this.props.findCurrentUser()
     }
 
     clickOnSearchPage = () => {
@@ -69,7 +65,6 @@ export default class AplicationViews extends Component {
             decksPage: false,
             collectionPage: false,
         })
-        this.props.findCurrentUser()
     }
 
     // NAV BAR CLICKS END ======================= NAV BAR CLICKS END =============
@@ -95,10 +90,9 @@ export default class AplicationViews extends Component {
                 <ViewCards
                     // CRUD FUNCTIONS
                     gottaGetEmAll={this.props.gottaGetEmAll}
-                    getCards={this.props.getCards}
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
-                    getAll={this.props.getAll}
+                    getAll2={this.props.getAll2}
                     getSingle={this.getSingle}
                     editThis={this.editThis}
                     // DATA STATES
@@ -125,6 +119,8 @@ export default class AplicationViews extends Component {
             viewDecks = (
                 <ViewMyDecks
                     // CRUD
+                    getAllWithQuery={this.props.getAllWithQuery}
+                    getAll2={this.props.getAll2}
                     getCardsById={this.props.getCardsById}
                     createNew={this.props.createNew}
                     createButDontGet={this.props.createButDontGet}
@@ -137,6 +133,8 @@ export default class AplicationViews extends Component {
                     currentUser={this.props.currentUser}
                     userDecks={this.state.userDecks}
                     userCards={this.state.userCards}
+                    cardsOfDeck={this.props.cardsOfDeck}
+                    token={this.props.token}
                     // TRIGGER SWITCHES PROPS
 
                     // STATE CHANGING FUNCTIONS PROPS
@@ -155,7 +153,7 @@ export default class AplicationViews extends Component {
             viewCollection = (
                 <ViewMyCollection
                     // CRUD
-                    getAll={this.props.getAll}
+                    getAllWithQuery={this.props.getAllWithQuery}
                     deleteThis={this.props.deleteThis}
                     // FETCHED DATA PROPS
                     cards={this.props.cards}

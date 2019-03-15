@@ -14,7 +14,7 @@ return(
         <div className="colllectionCardDiv" key={card.id}>
             <img className="collectionCardImage" src={card.imageUrl}></img>
             <p className="collectionCardName">{card.name}</p>
-            <button onClick={() => this.props.deleteThisFromCollection(card.id)}>Remove from Collection</button>
+            <button onClick={() => this.props.deleteThis("cards", card.id)}>Remove from Collection</button>
         </div>
     )
     }

@@ -32,7 +32,6 @@ export default class ViewCards extends Component {
 
     componentDidMount() {
         console.log("&&& SEARCH MOUNT &&&")
-        this.props.findUserDecks()
     }
 
     componentDidUpdate() {
@@ -99,7 +98,7 @@ export default class ViewCards extends Component {
 
         if(this.state.all) {
             searchAll = (
-                <SearchAll getCards={this.props.getCards}
+                <SearchAll
                 gottaGetEmAll={this.props.gottaGetEmAll}
                 loadCards={this.loadCards}
                 />
@@ -168,13 +167,13 @@ export default class ViewCards extends Component {
                     apiCards={this.props.apiCards}
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
-                    getAll={this.props.getAll}
                     decks={this.props.decks}
                     userDecks={this.props.userDecks}
                     editThis={this.props.editThis}
                     users={this.props.users}
                     token={this.props.token}
-                    defaultView={this.state.defaultView}/>
+                    defaultView={this.state.defaultView}
+                    getAll2={this.props.getAll2}/>
                 </div>
 
              </React.Fragment>

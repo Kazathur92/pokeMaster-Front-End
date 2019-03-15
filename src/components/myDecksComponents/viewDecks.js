@@ -16,8 +16,6 @@ export default class ViewMyDecks extends Component {
 
     componentDidMount() {
         console.log("$$$$ DID MOUNT VIEW DECKS $$$$")
-        this.props.findUserDecks()
-        // this.props.findUserCards()
     }
 
     componentDidUpdate() {
@@ -50,16 +48,18 @@ export default class ViewMyDecks extends Component {
                 />
                 <div className="decksArea">
                     <DeckItem decks={this.props.decks}
+                    getAll2={this.props.getAll2}
+                    token={this.props.token}
+                        getAllWithQuery={this.props.getAllWithQuery}
                         deleteThis={this.props.deleteThis}
                         deleteThis2={this.props.deleteThis2}
                         deleteRelationship={this.props.deleteRelationship}
-                        userDecks={this.props.userDecks}
-                        userCards={this.props.userCards}
                         findUserDecks={this.props.findUserDecks}
                         findUserCards={this.props.findUserCards}
                         getCardsById={this.props.getCardsById}
                         woop={this.state.woop}
                         changeWoop={this.changeWoop}
+                        cardsOfDeck={this.props.cardsOfDeck}
                         />
                 </div>
             </React.Fragment>

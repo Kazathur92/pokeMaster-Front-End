@@ -28,6 +28,7 @@ export default class CardModal extends Component {
 
     addCard = () => {
         let userName = localStorage.getItem("username")
+        let token = localStorage.getItem("token")
         console.log(userName)
 
         if (this.state.selectedDeck === "---------------------" || this.state.selectedDeck === "") {
@@ -53,8 +54,6 @@ export default class CardModal extends Component {
                         .then(data => {
                             console.log(data)
                             let newBornCard = data
-                            let token = localStorage.getItem("token")
-
 
 
                             const newCardToDeck = {
@@ -66,8 +65,7 @@ export default class CardModal extends Component {
 
                             this.props.createNewCard("deckcardsrelationship", newCardToDeck)
                                 .then(data => {
-                                    let token = localStorage.getItem("token")
-                                    this.props.getAll("cards", token)
+                                    this.props.getAll2("cards")
                                     console.log("data getting back after postig to relationship: ", data)
                                 })
 
@@ -117,7 +115,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -160,7 +158,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -189,7 +187,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -214,7 +212,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }

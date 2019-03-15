@@ -30,8 +30,8 @@ class APIManager {
 
 
     // IF WANT TO USE PYTHON TO FILTER ADD PARAMETER THAT THEN WILL BE LISTENED FOR IN PYTHON VIEWSET
-    getAll = (resource, authToken, keyword = null) => {
-        let url = `${apiUrl}${resource}/`
+    getAllWithQuery = (resource, query, token, keyword = null) => {
+        let url = `${apiUrl}${resource}${query}`
         if (keyword) {
             url += keyword
         }
@@ -39,14 +39,30 @@ class APIManager {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authToken}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
-    getAll2 = (resource, authToken, keyword = null) => {
+    getAll2 = (resource, token, keyword = null) => {
+        let url = `${apiUrl}${resource}`
+        if (keyword) {
+            url += keyword
+        }
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
+    }
+
+    getAllWithToken = (resource, token, keyword = null) => {
         let url = `${apiUrl}${resource}/`
         if (keyword) {
             url += keyword
@@ -55,7 +71,7 @@ class APIManager {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authToken}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -141,12 +157,12 @@ class APIManager {
     // }
 
 
-    delete = (resource, id, deckId) => {
+    delete = (resource, id, token) => {
         return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
+                "Authorization": `Token ${token}`
             }
         })
     }

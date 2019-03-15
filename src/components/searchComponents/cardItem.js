@@ -50,7 +50,7 @@ export default class CardItem extends Component {
                     closeViewCard={this.closeViewCard}
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
-                    getAll={this.props.getAll}
+                    getAll2={this.props.getAll2}
                     editThis={this.props.editThis}
                     // DATA STATES
                     selectedCard={this.state.selectedCard}
@@ -103,13 +103,5 @@ export default class CardItem extends Component {
 
 
         )
-
-
-
     }
-
-
-
-
-
 }

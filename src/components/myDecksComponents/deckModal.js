@@ -9,7 +9,7 @@ export default class DeckModal extends Component {
     state = {
         selectedDeck: {},
         selectedCardOnDeck: {},
-        cardsOfDeck: []
+        woop: true
     }
 
     // onMouseOut={this.outOfCard}
@@ -19,7 +19,6 @@ export default class DeckModal extends Component {
 
         this.setState({
             selectedDeck: this.props.selectedDeck,
-            cardsOfDeck: this.props.cardsOfDeck,
             selectedCardOnDeck: {}
         })
     }
@@ -27,10 +26,17 @@ export default class DeckModal extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
             console.log("MODAL UPDATING")
+            if(this.props.cardsOfDeck.length < 1){
+                this.setState({
+                    selectedCardOnDeck: []
+                })
+            }
+
+            else {
             this.setState({
-                selectedCardOnDeck: this.props.cardsOfDeck[0].card
+                selectedCardOnDeck: this.props.cardsOfDeck[0].card,
             })
-            this.props.changeWoop()
+        }
         }
     }
 
@@ -53,24 +59,13 @@ export default class DeckModal extends Component {
     }
 
     removeFromDeck = () => {
-        const waiter = () =>
 
-        new Promise( (resolve, reject) => {
-            return setTimeout(() => {
+
+
                 let deck_id = parseInt(this.props.selectedDeck.id)
                 let card_id = this.state.selectedCardOnDeck.id
-                this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
-            resolve()
+            this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
 
-        })
-    })
-
-
-        waiter().then(() =>{
-            this.setState({
-                selectedCardOnDeck: this.props.cardsOfDeck[0].card
-            })
-        })
     }
 
 
@@ -82,20 +77,9 @@ export default class DeckModal extends Component {
         // console.log("USER CARDS", this.props.userCards)
         console.log("SELECTED DECK", this.props.selectedDeck)
         console.log("cards of deck state modal: ", this.state.cardsOfDeck)
-        console.log("cards of deck props", this.props.cardsOfDeck   )
+        console.log("cards of deck props", this.props.cardsOfDeck)
+        console.log("CARDS PROPS", this.props.cards)
         console.log("selected card on deck", this.state.selectedCardOnDeck)
-        console.log("WOOP STATE", this.props.woop)
-
-        //    let cardList = []
-
-        //     this.props.cardsOfDeck.map(
-        //         card => cardList.push(card.card)
-        //     )
-
-        //     console.log("CARD LIST", cardList)
-        //     console.log("CARD LIST SORTED", cardList.sort(function(a, b){return b-a}))
-
-
     }
 
     // TODO ADD A TERNARY IN JSX SO IT SEPARATES THE CARDS AND RENDERS DIFFERENT DIVS FOR EACH SUPERTYPE OF CARD
@@ -138,7 +122,7 @@ export default class DeckModal extends Component {
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
-                        {/* <button onClick={this.consoleLog}>console Log modal</button> */}
+                        <button onClick={this.consoleLog}>console Log modal</button>
                         <h1 className="deckModalName">{this.state.selectedDeck.name}</h1>
                         <p className="descriptionText">{this.state.selectedDeck.description}</p>
                         <p className="strategyText">{this.state.selectedDeck.strategy}</p>

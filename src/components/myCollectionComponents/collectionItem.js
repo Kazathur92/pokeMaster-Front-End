@@ -12,7 +12,7 @@ export default class CollectionItem extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.userCards !== prevProps.userCards) {
+        if(this.props.cards !== prevProps.cards) {
             console.log("woopy!")
         }
     }
@@ -27,20 +27,17 @@ export default class CollectionItem extends Component {
 
         let cardItem = ""
 
-        if (this.props.userCards) {
+        if (this.props.cards) {
 
             cardItem = <CollectionCardList userCards={this.props.userCards}
             cards={this.props.cards}
+            deleteThis={this.props.deleteThis}
             deleteThisFromCollection={this.deleteThisFromCollection}/>
 
         } else {
             cardItem = null
         }
 
-
-
-
-        const cardsExist = this.props.userCards
 
         return (
 
