@@ -55,7 +55,8 @@ overflow: scroll;
 /* INSIDE DECK */
 
 .emptyDeck {
-    text-align: center
+    text-align: center;
+    color: white;
 }
 
 
@@ -85,6 +86,7 @@ overflow: scroll;
     color: rgb(219, 219, 219);
     font-weight: bold;
 }
+
 
 .deckCard {
 
@@ -116,6 +118,7 @@ overflow: scroll;
 }
 
 .strategyText {
+    text-align: center;
     color: rgb(227, 235, 250);
 }
 
@@ -133,4 +136,39 @@ overflow: scroll;
 
 .deleteFromCollectionButton {
 
+}
+
+
+/* EDIT */
+
+.editButton {
+    height: 30px;
+}
+
+.editIcon {
+    font-size: 30px;
+    margin-left: 40px;
+}
+
+.editNameForm {
+     margin-left: 180px;
+}
+
+.Icons {
+    margin-left: 10px;
+}
+
+.IconCheck {
+}
+
+.IconCheck:hover {
+    color: green;
+}
+
+.IconTimes {
+    margin-left: 10px;
+}
+
+.IconTimes:hover {
+    color: red;
 }

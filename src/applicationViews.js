@@ -123,11 +123,14 @@ export default class AplicationViews extends Component {
                     getAll2={this.props.getAll2}
                     getCardsById={this.props.getCardsById}
                     createNew={this.props.createNew}
+                    createNewDeck={this.props.createNewDeck}
                     createButDontGet={this.props.createButDontGet}
                     deleteThis={this.props.deleteThis}
                     deleteThis2={this.props.deleteThis2}
                     deleteRelationship={this.props.deleteRelationship}
+                    editThis={this.props.editThis}
                     // FETCHED DATA PROPS
+                    users={this.props.users}
                     decks={this.props.decks}
                     // CREATED DATA PROPS
                     currentUser={this.props.currentUser}

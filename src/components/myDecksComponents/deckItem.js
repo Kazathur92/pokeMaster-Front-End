@@ -8,8 +8,12 @@ export default class DeckItem extends Component {
     state = {
         selectedDeck: [],
         modal: false,
+        warningModal: false,
         inspectField: false,
-        cardsOfDeck: []
+        cardsOfDeck: [],
+        emptyDeck: false,
+        newName: ""
+
     }
 
     componentDidMount() {
@@ -18,9 +22,80 @@ export default class DeckItem extends Component {
 
     componentDidUpdate(prevProps) {
         console.log("DECK ITEM UPDATING")
+        if(this.props.woop !== prevProps.woop) {
+            let cardsOfDeck = []
+            let token = localStorage.getItem("token")
+            APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
+                .then(data => {
+                    console.log(data)
+                    data.map(card => {
+                        console.log("CARD", card)
+                        this.props.getCardsById(card.cardId)
+                            .then(card => {
+                                new Promise((resolve, reject) => {
+                                    cardsOfDeck.push(card)
+                                    resolve()
+                                })
+                                    .then(() => {
+                                        this.setState({
+                                            cardsOfDeck: cardsOfDeck
+                                        })
+                                    })
+                            })
+                    })
+                })
+                APIManager.getSingle("decks", this.state.selectedDeck.id, token)
+                .then( deck => {
+                    this.setState({
+                        selectedDeck: deck,
+                    })
+                })
+        }
 
 
 
+    }
+
+    showWarningModal = (newName, deck) => {
+        this.setState({
+            warningModal: true,
+            modal: false,
+            newName: newName,
+            selectedDeck: deck
+        })
+        console.log("warningModalState", this.state.warningModal)
+
+    }
+
+    closeWarningModal = () => {
+        this.setState({
+            modal:true
+        })
+        console.log("warningModalState", this.state.warningModal)
+    }
+
+    warningModalProceed = (deck) => {
+        let deckId = this.state.selectedDeck.id
+        this.props.editThis("decks", this.state.newName, deckId)
+        .then( data => {
+                this.setState({
+                    warningModal: false,
+                    modal: true,
+                    selectedDeck: deck
+                })
+                this.props.changeWoop()
+            this.props.getAll2("decks")
+        })
+
+    }
+
+    warningModalCancel = (deck) => {
+            this.setState({
+                warningModal: false,
+                modal: true,
+                selectedDeck: deck
+            })
+            this.props.changeWoop()
     }
 
 
@@ -44,7 +119,8 @@ export default class DeckItem extends Component {
                                         })
                                             .then(() => {
                                                 this.setState({
-                                                    cardsOfDeck: cardsOfDeck
+                                                    cardsOfDeck: cardsOfDeck,
+                                                    emptyDeck: false
                                                 })
                                             })
                                     })
@@ -52,7 +128,8 @@ export default class DeckItem extends Component {
 
                         } else {
                             this.setState({
-                                cardsOfDeck: []
+                                cardsOfDeck: [],
+                                emptyDeck: true,
                             })
                         }
                     }
@@ -124,8 +201,10 @@ export default class DeckItem extends Component {
 
 
     consoleLog = () => {
-        console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
+        // console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
         console.log("SELECTED DECK IN DECK ITEM", this.state.selectedDeck)
+        // console.log("warning modal stat", this.state.warningModal)
+        console.log("NEW NAME", this.state.newName)
 
     }
 
@@ -153,13 +232,46 @@ export default class DeckItem extends Component {
                     cards={this.props.cards}
                     cardsOfDeck={this.state.cardsOfDeck}
                     // CREATED DATA
-                    changeWoop={this.props.changeWoop}
-                    woop={this.props.woop}
+                    emptyDeck={this.state.emptyDeck}
+                    newName={this.state.newName}
+                    //TRIGGER SWITCH FUNCTIONS
+                    showWarningModal={this.showWarningModal}
+                    closeWarningModal={this.closeWarningModal}
+                    warningModalProceed={this.warningModalProceed}
+                    warningModalCancel={this.warningModalCancel}
+
                 />
             )
         } else {
             modal = null
         }
+
+
+        let warningModalField = ""
+
+        if (this.state.warningModal) {
+            warningModalField = (
+                <div className="modal is-active">
+                    <div className="modal-background"></div>
+                    <div className="modal-card">
+                        <header className="modal-card-head">
+                            <p className="modal-card-title">Are you sure you want save this changes?</p>
+                            <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
+                        </header>
+                        <section className="modal-card-body">
+                             <buttton onClick={this.consoleLog}>console log</buttton>
+                         </section>
+                        <footer className="modal-card-foot">
+                            <button onClick={() => this.warningModalProceed(this.state.selectedDeck)}className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </footer>
+                    </div>
+                </div>
+            )
+        } else {
+            warningModalField = null
+        }
+
 
 
         let inspect = ""
@@ -185,6 +297,7 @@ export default class DeckItem extends Component {
 
             deckItem = (
                 <React.Fragment>
+                    {warningModalField}
                     {modal}
                     <button onClick={this.consoleLog}>console log deck item</button>
                     {this.props.decks.map(deck =>

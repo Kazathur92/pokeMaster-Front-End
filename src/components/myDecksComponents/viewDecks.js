@@ -23,6 +23,7 @@ export default class ViewMyDecks extends Component {
     }
 
     changeWoop = () => {
+        // THIS FORCEs AN UPDATE DOWN IN DECK ITEM
         this.setState({
             woop: !this.state.woop
         })
@@ -42,14 +43,16 @@ export default class ViewMyDecks extends Component {
                 <h1>Decks</h1>
                 <button onClick={this.consoleLog}>consoleLog viewDecks</button>
                 <NewDeckForm createNew={this.props.createNew}
-                    currentUser={this.props.currentUser}
+                    createNewDeck={this.props.createNewDeck}
+                    getAll2={this.props.getAll2}
+                    users={this.props.users}
                     middleManUpdater={this.props.middleManUpdater}
                     createButDontGet={this.props.createButDontGet}
                 />
                 <div className="decksArea">
                     <DeckItem decks={this.props.decks}
-                    getAll2={this.props.getAll2}
-                    token={this.props.token}
+                        getAll2={this.props.getAll2}
+                        token={this.props.token}
                         getAllWithQuery={this.props.getAllWithQuery}
                         deleteThis={this.props.deleteThis}
                         deleteThis2={this.props.deleteThis2}
@@ -60,7 +63,8 @@ export default class ViewMyDecks extends Component {
                         woop={this.state.woop}
                         changeWoop={this.changeWoop}
                         cardsOfDeck={this.props.cardsOfDeck}
-                        />
+                        editThis={this.props.editThis}
+                    />
                 </div>
             </React.Fragment>
         )

@@ -95,26 +95,26 @@ class APIManager {
     }
 
 
-    getSingle = (resource, id) => {
+    getSingle = (resource, id, token) => {
         let url = `${apiUrl}${resource}/${id}`
         return fetch(url, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
             .catch(err => console.log("oopsy get single problem", err))
     }
 
-    getSingleUser = (resource) => {
+    getSingleUser = (resource, token) => {
         let url = `${apiUrl}${resource}`
         return fetch(url, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -178,6 +178,23 @@ class APIManager {
     }
 
 
+    edit = (resource, newObj, id, token) => {
+
+        let formData = new FormData()
+        for (let key in newObj) {
+            formData.append(key, newObj[key])
+        }
+
+        return fetch(`${apiUrl}${resource}/${id}/`, {
+            method: 'PATCH',
+            body: formData,
+            headers: {
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(newData => newData.json())
+    }
+
 
     safeDelete = (resource, id) => {
         let formData = new FormData()
@@ -193,24 +210,6 @@ class APIManager {
     }
 
 
-
-    edit = (resource, newObj, id) => {
-
-        let formData = new FormData()
-        for (let key in newObj) {
-            formData.append(key, newObj[key])
-        }
-
-        return fetch(`${apiUrl}${resource}/${id}/`, {
-            method: 'PATCH',
-            body: formData,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
-            }
-        })
-            .then(newData => newData.json())
-    }
 
 
     search = (resource, keyword) => {

@@ -16,7 +16,7 @@ class App extends Component {
         apiCards: [],
         decks: [],
         cards: [],
-        users: [],
+        users: {},
         cardsOfDeck: [],
         // CREATED DATA
         token: localStorage.getItem("token"),
@@ -58,21 +58,14 @@ class App extends Component {
                 this.setState({ cards: data })
             })
 
-        // APIManager.getAllOnRefresh("users")
-        //     .then(data => {
-        //         this.setState({ users: data })
-        //     })
-
-            APIManager.getAllOnRefresh("user-id")
+        APIManager.getAllOnRefresh("user-id")
             .then(data => {
                 console.log("USER", data)
-                this.setState({ users: data })
+                this.setState({ users: data[0] })
             })
 
-    //     console.log("**** DID MOUNT APP END ****")
-
-    // this.getSingle("decks")
-}
+            console.log("**** DID MOUNT APP END ****")
+    }
 
 
     componentDidUpdate() {
@@ -89,26 +82,13 @@ class App extends Component {
 
 
     findCurrentUser = () => {
-        // let username = localStorage.getItem('username')
-        // // console.log("its firing the find user function", this.state.users)
-        // this.state.users.forEach(user => {
-        //     // console.log("inside for each", user)
-        //     if (user.username === username) {
-        //         // console.log("inside if statement", user)
-        //         this.setState({
-        //             currentUser: user
-        //         })
-        //     }
-        // })
         console.log("LOCAL STORAGE: ", localStorage.getItem("token"))
 
         APIManager.getAllOnRefresh("user-id")
-        .then(data => {
-            console.log("USER", data)
-            this.setState({ users: data })
-        })
-
-
+            .then(data => {
+                console.log("USER", data)
+                this.setState({ users: data })
+            })
     }
 
 
@@ -121,8 +101,9 @@ class App extends Component {
     // THIS FUNCTIONS GET CARDS FROM THE POKEMON TCG API
 
     getSingle = (resource) => {
-        APIManager.getSingleUser(resource)
-        .then(user => console.log(user))
+        let token = localStorage.getItem("token")
+        APIManager.getSingleUser(resource, token)
+            .then(user => console.log(user))
 
     }
 
@@ -146,7 +127,7 @@ class App extends Component {
                 // console.log("data list", data)
                 console.log("ITs Getting All")
                 this.setState({ cardsOfDeck: data },
-                 )
+                )
                 console.log("just fetched and set new state")
             })
     }
@@ -155,25 +136,25 @@ class App extends Component {
         let token = localStorage.getItem("token")
         APIManager.getAll2(resource, token)
             .then(data => {
-                    console.log("setting state with getAll 2")
-                    this.setState({ [resource]: data })
+                console.log("setting state with getAll 2")
+                this.setState({ [resource]: data })
             })
     }
 
     getAllWithToken = (resource, token) => {
         APIManager.getAllWithToken(resource, token)
-        .then(data => {
-            console.log("USING THE TOKEN")
-            this.setState({ [resource]: data})
-        })
+            .then(data => {
+                console.log("USING THE TOKEN")
+                this.setState({ [resource]: data })
+            })
     }
 
     getUser = (resource, token) => {
         APIManager.getAllWithToken(resource, token)
-        .then(data => {
-            console.log("USING THE TOKEN")
-            this.setState({ users: data})
-        })
+            .then(data => {
+                console.log("USING THE TOKEN")
+                this.setState({ users: data[0] })
+            })
     }
 
     // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
@@ -194,6 +175,12 @@ class App extends Component {
 
     }
 
+    createNewDeck = (resource, newObj) => {
+        let token = this.state.token
+        return APIManager.create(resource, newObj, token)
+
+    }
+
     createButDontGet = (resource, newObj) => {
         let token = this.state.token
         console.log("CREATE TOKEN", token)
@@ -209,24 +196,30 @@ class App extends Component {
         APIManager.delete(resource, id, token)
             .then(() =>
                 APIManager.getAll2(resource, token)
-                .then(data => {
-                    // console.log("data list", data)
-                    console.log("ITs Getting All")
-                    this.setState({ [resource]: data },
+                    .then(data => {
+                        // console.log("data list", data)
+                        console.log("ITs Getting All")
+                        this.setState({ [resource]: data },
                         )
-                    console.log("just fetched and set new state")
-                })
+                        console.log("just fetched and set new state")
+                    })
             )
     }
 
     deleteThis2 = (resource, id, deckId) => {
         let token = this.state.token
-        APIManager.delete(resource, id, deckId)
+        APIManager.delete(resource, id, token)
             .then(data => {
                 this.getAll2(resource, token)
             })
     }
 
+
+    editThis = (resource, newObj, id) => {
+        let token = this.state.token
+        return APIManager.edit(resource, newObj, id, token)
+
+    }
 
 
     // C R U D  FUNCTIONS END ==============================C R U D ====================END
@@ -414,6 +407,7 @@ class App extends Component {
                     // CRUD
                     getCards={this.getCards}
                     getCardsById={this.getCardsById}
+                    createNewDeck={this.createNewDeck}
                     gottaGetEmAll={this.gottaGetEmAll}
                     getAllWithQuery={this.getAllWithQuery}
                     createButDontGet={this.createButDontGet}
@@ -424,6 +418,7 @@ class App extends Component {
                     deleteThis={this.deleteThis}
                     deleteThis2={this.deleteThis2}
                     deleteRelationship={this.deleteRelationship}
+                    editThis={this.editThis}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}
@@ -440,7 +435,7 @@ class App extends Component {
                     woop={this.state.woop}
                     navBarStatus={this.state.navBarStatus}
                     cardsNumba2={this.state.cardsNumba2}
-                    // STATE CHANGING FUNCTIONS
+                // STATE CHANGING FUNCTIONS
                 />
             </React.Fragment>
         );

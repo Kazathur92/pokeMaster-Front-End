@@ -35,20 +35,14 @@ export default class CardModal extends Component {
             alert("Please select a deck")
         } else {
 
-            this.props.users.forEach(user => {
-                if (user.username === userName) {
                     const newCard = {
                         cardId: this.props.selectedCard.id,
                         imageUrl: this.props.selectedCard.imageUrl,
                         imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
                         name: this.props.selectedCard.name,
                         rarity: this.props.selectedCard.rarity,
-                        user: user.url
+                        user: this.props.users.url
                     }
-
-
-
-
 
                     this.props.createNewCard("cards", newCard)
                         .then(data => {
@@ -70,10 +64,6 @@ export default class CardModal extends Component {
                                 })
 
                         })
-
-                }
-
-            })
         }
     }
 
@@ -85,7 +75,7 @@ export default class CardModal extends Component {
 
 
     consoleLog = () => {
-
+        console.log("USER", this.props.users)
         // console.log("SELECTED CARD: ", this.props.selectedCard)
         // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         console.log("CURRENT DECK: ", this.state.selectedDeck)
@@ -231,7 +221,7 @@ export default class CardModal extends Component {
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
-                        {/* <button onClick={this.consoleLog}>console log</button> */}
+                        <button onClick={this.consoleLog}>console log</button>
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
                         {cardModalAttacksFieldContent}
                         {cardModalTrainerContent}

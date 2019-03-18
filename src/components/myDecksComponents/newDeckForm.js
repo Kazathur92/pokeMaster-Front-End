@@ -12,14 +12,14 @@ export default class NewDeckForm extends Component {
     deleted_on: "",
     cardAmount: 0,
     maxCardAmmount: 60,
-    user: this.props.currentUser.url
+    user: this.props.users.url
   }
 
   componentDidMount(){
     console.log("#### DID MOUNT DECK FORM START ####")
       this.makeDate()
       this.setState({
-          user: this.props.currentUser.url
+          user: this.props.users.url
       })
     console.log("#### DID MOUNT DECK FORM END  ####")
   }
@@ -31,8 +31,21 @@ export default class NewDeckForm extends Component {
   }
 
   createDeck = (resource) => {
-      this.props.createButDontGet(resource, this.state)
-    // this.props.createNew(resource, this.state)
+    //   this.props.createButDontGet(resource, this.state)
+    this.props.createNewDeck(resource, this.state)
+    .then(() => {
+        this.setState({
+            name: "",
+        description: "",
+        strategy: "",
+        date_added: "",
+        deleted_on: "",
+        cardAmount: 0,
+        maxCardAmmount: 60,
+        user: this.props.users.url
+        })
+        this.props.getAll2(resource)
+    })
   }
 
   makeDate = () => {
