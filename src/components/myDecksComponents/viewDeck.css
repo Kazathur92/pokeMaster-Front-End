@@ -154,6 +154,10 @@ overflow: scroll;
      margin-left: 180px;
 }
 
+.editDescriptionForm {
+    margin-left: 180px;
+}
+
 .Icons {
     margin-left: 10px;
 }
@@ -171,4 +175,38 @@ overflow: scroll;
 
 .IconTimes:hover {
     color: red;
+}
+
+/* NEW DECK FORM */
+.newDeckFields {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+#name {
+    width:30%;
+}
+
+.saveDeckButton {
+    width: 10%;
+}
+
+/* DECK FORM */
+#description {
+    height: 55px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 55px;
+    min-height: 55px;
+}
+
+#strategy {
+    height: 55px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 55px;
+    min-height: 55px;
 }

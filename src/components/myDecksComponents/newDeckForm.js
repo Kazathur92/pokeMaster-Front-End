@@ -85,11 +85,15 @@ export default class NewDeckForm extends Component {
     return(
       <React.Fragment>
         <h3>Add a new deck to the collection!</h3>
+        <div className="newDeckFields">
         <input id="name" type="text" placeholder="deck title" onChange={this.handleFieldChange}></input>
-        <input id="description" type="text" placeholder="description" onChange={this.handleFieldChange}></input>
-        <input id="strategy" type="text" placeholder="strategy" onChange={this.handleFieldChange}></input>
-        <button onClick={() => this.createDeck("decks")}>Save Deck</button>
-        <button onClick={this.consoleLog}>check states</button>
+        <div className="newDeckDescriptionAndStrategy">
+        <textarea id="description" rows="4" cols="50" type="text" placeholder="description" onChange={this.handleFieldChange}></textarea>
+        <textarea id="strategy" rows="4" cols="50" type="text" placeholder="strategy" onChange={this.handleFieldChange}></textarea>
+        </div>
+        <button className="saveDeckButton" onClick={() => this.createDeck("decks")}>Save Deck</button>
+        {/* <button onClick={this.consoleLog}>check states</button> */}
+        </div>
       </React.Fragment>
     )
   }

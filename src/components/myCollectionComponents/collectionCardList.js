@@ -12,6 +12,7 @@ return(
     <div className="collectionCardBigDiv">
     {this.props.cards.map(card =>
         <div className="colllectionCardDiv" key={card.id}>
+        {console.log(card.id)}
             <img className="collectionCardImage" src={card.imageUrl}></img>
             <p className="collectionCardName">{card.name}</p>
             <button onClick={() => this.props.deleteThis("cards", card.id)}>Remove from Collection</button>

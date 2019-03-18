@@ -30,7 +30,7 @@ export default class EditName extends Component {
                 <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input>
                 <span className="icon Icons">
                     <i onClick={() => this.props.showWarningModal(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
-                    <i onClick={this.props.closeEditForm} className="fas fa-times IconTimes"></i>
+                    <i onClick={this.props.closeEditNameForm} className="fas fa-times IconTimes"></i>
                 </span>
 
 

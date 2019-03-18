@@ -206,6 +206,21 @@ class App extends Component {
             )
     }
 
+    deleteIt = (resource) => {
+        let token = this.state.token
+        APIManager.deleteIt(resource, token)
+        .then(() =>
+        APIManager.getAll2(resource, token)
+            .then(data => {
+                // console.log("data list", data)
+                console.log("ITs Getting All")
+                this.setState({ cards: data },
+                )
+                console.log("just fetched and set new state")
+            })
+    )
+    }
+
     deleteThis2 = (resource, id, deckId) => {
         let token = this.state.token
         APIManager.delete(resource, id, token)
@@ -419,6 +434,7 @@ class App extends Component {
                     deleteThis2={this.deleteThis2}
                     deleteRelationship={this.deleteRelationship}
                     editThis={this.editThis}
+                    deleteIt={this.deleteIt}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}

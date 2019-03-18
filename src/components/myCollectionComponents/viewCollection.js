@@ -27,7 +27,7 @@ export default class ViewMyCollection extends Component {
     render() {
         return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>console log collection</button>
+                {/* <button onClick={this.consoleLog}>console log collection</button> */}
                 <h1>Card Collection</h1>
                 <div className="collectionDiv">
                 <CollectionItem

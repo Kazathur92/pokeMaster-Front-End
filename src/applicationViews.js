@@ -125,6 +125,7 @@ export default class AplicationViews extends Component {
                     createNew={this.props.createNew}
                     createNewDeck={this.props.createNewDeck}
                     createButDontGet={this.props.createButDontGet}
+                    deleteIt={this.props.deleteIt}
                     deleteThis={this.props.deleteThis}
                     deleteThis2={this.props.deleteThis2}
                     deleteRelationship={this.props.deleteRelationship}
