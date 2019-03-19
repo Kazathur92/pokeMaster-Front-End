@@ -1,5 +1,25 @@
 .navBar {
     display: flex;
     justify-content: space-evenly;
-    border: 3px solid black;
+    border-top: 3px solid rgb(58, 58, 58);
+    border-bottom: 3px solid rgb(58, 58, 58);
+    background-color: black;
+}
+
+.myDecksButton {
+    border-radius: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.myCollectionButton {
+    border-radius: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.searchButton {
+    border-radius: 15px;
+    color: black;
+    font-weight: bold;
 }

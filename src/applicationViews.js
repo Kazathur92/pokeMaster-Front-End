@@ -128,7 +128,6 @@ export default class AplicationViews extends Component {
                     deleteIt={this.props.deleteIt}
                     deleteThis={this.props.deleteThis}
                     deleteThis2={this.props.deleteThis2}
-                    deleteRelationship={this.props.deleteRelationship}
                     editThis={this.props.editThis}
                     // FETCHED DATA PROPS
                     users={this.props.users}
@@ -159,8 +158,12 @@ export default class AplicationViews extends Component {
                     // CRUD
                     getAllWithQuery={this.props.getAllWithQuery}
                     deleteThis={this.props.deleteThis}
+                    getAll2={this.props.getAll2}
+                    createNewCard={this.props.createNewCard}
                     // FETCHED DATA PROPS
+                    decks={this.props.decks}
                     cards={this.props.cards}
+                    users={this.props.users}
                     // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
                     userCards={this.state.userCards}
@@ -190,7 +193,7 @@ export default class AplicationViews extends Component {
         return (
             <div className="appItself">
                 {/* <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button> */}
-                <h1 className="appName">POKEMASTER</h1>
+                <h1 className="appName">POKE-MASTER <img className="pokeballImage" src="/images/pokeball2.png"></img></h1>
                 {navbar}
                 {searchCards}
                 {viewDecks}

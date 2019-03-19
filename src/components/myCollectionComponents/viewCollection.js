@@ -13,26 +13,34 @@ export default class ViewMyCollection extends Component {
     }
 
     componentDidMount() {
+
     }
 
     componentDidUpdate = (prevProps) => {
+
     }
 
 
 
     consoleLog = () => {
-        console.log("USER CARDS", this.props.cards)
+        console.log("CARDS", this.props.cards)
+        console.log("USER CARDS", this.props.userCards)
+        console.log("CARDS")
     }
 
     render() {
         return (
             <React.Fragment>
                 {/* <button onClick={this.consoleLog}>console log collection</button> */}
-                <h1>Card Collection</h1>
+                <h1 className="cardCollectionTitle">CARD COLLECTION</h1>
                 <div className="collectionDiv">
                 <CollectionItem
                     cards={this.props.cards}
+                    decks={this.props.decks}
                     deleteThis={this.props.deleteThis}
+                    users={this.props.users}
+                    createNewCard={this.props.createNewCard}
+                    getAll2={this.props.getAll2}
 
                     />
                     </div>

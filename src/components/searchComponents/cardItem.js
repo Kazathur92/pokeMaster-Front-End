@@ -69,8 +69,8 @@ export default class CardItem extends Component {
 
         if(this.props.defaultView) {
             searchResults = (
-                <div>
-                    <h5>Search Results will appear here.</h5>
+                <div className="resulstDiv">
+                    <h5 className="results">Search Results will appear here.</h5>
                 </div>
             )
             }
@@ -89,14 +89,14 @@ export default class CardItem extends Component {
                 </React.Fragment>
             )
         } else  {
-            searchResults = (<div><p>There were no results found</p></div>)
+            searchResults = (<div><p className="noResults">There were no results found</p></div>)
         }
 
         return (
 
             <React.Fragment>
                 {modal}
-                <button onClick={this.consoleLog}>console log</button>
+                {/* <button onClick={this.consoleLog}>console log</button> */}
                 {defaultView}
                 {searchResults}
             </React.Fragment>

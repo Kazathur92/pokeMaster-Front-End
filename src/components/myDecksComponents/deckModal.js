@@ -25,6 +25,7 @@ export default class DeckModal extends Component {
 
     componentDidMount() {
         console.log("%%% DECK MODAL MOUNT %%%")
+        console.log("CARDS OF DECK", this.props.cardsOfDeck)
         let token = localStorage.getItem("token")
         APIManager.getSingle("decks", this.props.selectedDeck.id, token)
         .then( deck => {
@@ -41,6 +42,7 @@ export default class DeckModal extends Component {
         if (this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
             console.log("MODAL UPDATING")
             if (this.props.cardsOfDeck.length < 1) {
+                console.log("NOTHING HERE")
                 this.setState({
                     selectedCardOnDeck: []
                 })
@@ -105,8 +107,6 @@ export default class DeckModal extends Component {
         let deck_id = parseInt(this.props.selectedDeck.id)
         let card_id = this.state.selectedCardOnDeck.id
         this.props.deleteRelationshipToGetId(`findRelationship/${deck_id}?card=${card_id}`)
-        // this.props.deleteIt(`cards/${deck_id}?card=${card_id}`)
-
     }
 
     showEditNameIcon = () => {
@@ -174,9 +174,9 @@ export default class DeckModal extends Component {
     consoleLog = () => {
         console.log("SELECTED CARD ON DECK", this.state.selectedCardOnDeck)
         // console.log("USER CARDS", this.props.userCards)
-        // console.log("EMPTY DECK STATE", this.props.emptyDeck)
+        console.log("EMPTY DECK STATE", this.props.emptyDeck)
         // console.log("SELECTED DECK", this.props.selectedDeck)
-        // console.log("cards of deck props", this.props.cardsOfDeck)
+        console.log("cards of deck props", this.props.cardsOfDeck)
         // console.log("CARDS PROPS", this.props.cards)
         // console.log("selected card on deck", this.state.selectedCardOnDeck)
         // console.log("EDIT NAME STATE", this.state.editName)

@@ -1,16 +1,18 @@
-.collectionDiv {
-    /* display:flex; */
-    /* justify-content: center; */
-    /* flex-direction: row; */
-    /* flex-wrap: wrap; */
-    height: 250px;
-    overflow: scroll;
+.cardCollectionTitle {
+        font-weight: bold;
+        text-align: center;
+        font-size: 280%;
+        color: white;
+}
 
+.collectionDiv {
+    height: 670px;
+    overflow: scroll;
+    background-color: rgb(250, 199, 199);
 }
 
 
 .collectionCardBigDiv {
-    /* height: 300px; */
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
@@ -22,14 +24,32 @@
 }
 
 .collectionCardImage {
-    /* display: flex; */
-    /* justify-content: center; */
     margin-right: 30px;
-
     width: 100px;
+}
+
+.collectionCardImage:hover {
+    margin-right: 30px;
+    width: 150px;
 }
 
 .collectionCardName {
     font-size: 9px;
     text-align: center;
+}
+
+
+/* SELECTED CARD MODAL */
+
+.selectedCardImage {
+    width: 350px;
+}
+
+.modalSection {
+    display:flex;
+}
+
+.deckTitle {
+    font-weight: bold;
+    margin-left: 20px;
 }

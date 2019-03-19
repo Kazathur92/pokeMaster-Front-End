@@ -132,6 +132,17 @@ class App extends Component {
             })
     }
 
+    getAllWithQuery2 = (resource, query) => {
+       return APIManager.getAllWithQuery(resource, query)
+            // .then(data => {
+            //     // console.log("data list", data)
+            //     console.log("ITs Getting All")
+            //     this.setState({ cardsOfDeck: data },
+            //     )
+            //     console.log("just fetched and set new state")
+            // })
+    }
+
     getAll2 = (resource) => {
         let token = localStorage.getItem("token")
         APIManager.getAll2(resource, token)
@@ -415,7 +426,7 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>App States</button>
+                {/* <button onClick={this.consoleLog}>App States</button> */}
                 {login}
                 {register}
                 <ApplicationViews
@@ -432,7 +443,6 @@ class App extends Component {
                     createNewCard={this.createNewCard}
                     deleteThis={this.deleteThis}
                     deleteThis2={this.deleteThis2}
-                    deleteRelationship={this.deleteRelationship}
                     editThis={this.editThis}
                     deleteIt={this.deleteIt}
                     // FETCHED DATA

@@ -9,7 +9,8 @@ export default class ViewMyDecks extends Component {
 
 
     state = {
-        woop: false
+        woop: false,
+        createNewDeckForm: false
     }
 
     // TODO: need to find a way to update the component so new decks appear when added
@@ -29,8 +30,25 @@ export default class ViewMyDecks extends Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
+    showCreateDeckForm = () => {
+        if(this.state.createNewDeckForm === true) {
+            this.setState({
+                createNewDeckForm: false
+            })
+        }
+        else {
+            this.setState({
+                createNewDeckForm: true
+            })
+        }
     }
+
+    hideCreateDeckForm = () => {
+        this.setState({
+            createNewDeckForm: false
+        })
+    }
+
 
 
     consoleLog = () => {
@@ -38,17 +56,41 @@ export default class ViewMyDecks extends Component {
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <h1>Decks</h1>
-                {/* <button onClick={this.consoleLog}>consoleLog viewDecks</button> */}
+
+        let createNewDeckForm = ""
+        if(this.state.createNewDeckForm) {
+            createNewDeckForm = (
                 <NewDeckForm createNew={this.props.createNew}
                     createNewDeck={this.props.createNewDeck}
                     getAll2={this.props.getAll2}
                     users={this.props.users}
                     middleManUpdater={this.props.middleManUpdater}
                     createButDontGet={this.props.createButDontGet}
+                    decks={this.props.decks}
+                    hideCreateDeckForm={this.hideCreateDeckForm}
                 />
+            )
+        } else {
+            createNewDeckForm = null
+        }
+
+        let scrollRightMessage = ""
+        if(this.props.decks.length > 4) {
+            scrollRightMessage = (
+                <p className="scrollRightMessage">Scroll Right to see more Decks</p>
+            )
+        } else {
+            scrollRightMessage = null
+        }
+
+
+        return (
+            <React.Fragment>
+                <h1 className="decksTitle">DECKS</h1>
+                {/* <button onClick={this.consoleLog}>consoleLog viewDecks</button> */}
+                <button onClick={this.showCreateDeckForm}>Create New Deck</button>
+                {createNewDeckForm}
+                {scrollRightMessage}
                 <div className="decksArea">
                     <DeckItem decks={this.props.decks}
                         getAll2={this.props.getAll2}

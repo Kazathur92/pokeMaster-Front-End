@@ -171,11 +171,12 @@ export default class DeckItem extends Component {
                                             resolve()
                                         })
                                             .then(() => {
-                                                this.setState({
+                                                    this.setState({
                                                     cardsOfDeck: cardsOfDeck,
                                                     emptyDeck: false
-                                                })
                                             })
+                                        })
+
                                     })
                             })
 
@@ -194,39 +195,55 @@ export default class DeckItem extends Component {
     deleteRelationshipToGetId = (resource) => {
         let token = this.props.token
         APIManager.deleteIt(resource, token)
-            // .then(() => {
-            //     let cardsOfDeck = []
-            //     let token = localStorage.getItem("token")
-            //     APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
-            //         .then(data => {
-            //             console.log("NEW DATA COMING IN", data)
-            //             if (data.length >= 1) {
-            //                 data.map(card => {
-            //                     console.log("CARD", card)
-            //                     this.props.getCardsById(card.cardId)
-            //                         .then(card => {
-            //                             new Promise((resolve, reject) => {
-            //                                 cardsOfDeck.push(card)
-            //                                 resolve()
-            //                             })
-            //                                 .then(() => {
-            //                                     this.setState({
-            //                                         cardsOfDeck: cardsOfDeck,
-            //                                         emptyDeck: false
-            //                                     })
-            //                                 })
-            //                         })
-            //                 })
+            .then(() => {
+                let cardsOfDeck = []
+                let token = localStorage.getItem("token")
+                APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
+                    .then(data => {
+                        console.log("NEW DATA COMING IN", data)
+                        if (data.length >= 1) {
+                            data.map(card => {
+                                console.log("CARD", card)
+                                this.props.getCardsById(card.cardId)
+                                    .then(card => {
+                                        console.log("FIRST LAYER PROMISE")
+                                        new Promise((resolve, reject) => {
+                                            cardsOfDeck.push(card)
+                                            resolve()
+                                        })
+                                            .then(() => {
+                                                console.log("SECOND LAYER PROMISE")
+                                                new Promise((resolve, reject) => {
+                                                this.setState({
+                                                    cardsOfDeck: cardsOfDeck,
+                                                    emptyDeck: false
+                                                })
+                                                resolve()
+                                            })
+                                            })
+                                            .then(() => {
+                                                console.log("ITS DOING THIS LAST")
+                                                this.props.getAll2("cards")
+                                            })
+                                    })
+                            })
 
-            //             } else {
-            //                 this.setState({
-            //                     cardsOfDeck: [],
-            //                     emptyDeck: true,
-            //                 })
-            //             }
-            //         }
-            //         )
-            // })
+                        }
+                        else {
+                            new Promise((resolve, reject) => {
+                            this.setState({
+                                cardsOfDeck: [],
+                                emptyDeck: true,
+                            })
+                            resolve()
+                        })
+                        .then(() => {
+                            this.props.getAll2("cards")
+                        })
+                        }
+                    }
+                    )
+            })
 
     }
 
@@ -292,11 +309,12 @@ export default class DeckItem extends Component {
 
 
 
-    consoleLog = () => {
-        // console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
+    consoleLog = (deck) => {
+        console.log("cards of deck in deck item layer", this.state.cardsOfDeck)
         console.log("SELECTED DECK IN DECK ITEM", this.state.selectedDeck)
         // console.log("warning modal stat", this.state.warningModal)
         console.log("NEW NAME", this.state.newName)
+        console.log("THIS DECK", deck)
 
     }
 
@@ -386,7 +404,7 @@ export default class DeckItem extends Component {
                              <buttton onClick={this.consoleLog}>console log</buttton>
                          </section>
                         <footer className="modal-card-foot">
-                            <button onClick={() => this.warningModalProceedStrategy(this.state.selectedDeck)}className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalProceedDescription(this.state.selectedDeck)}className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
                         </footer>
                     </div>
@@ -451,13 +469,14 @@ export default class DeckItem extends Component {
                     {warningModalFieldDescription}
                     {warningModalFieldStrategy}
                     {modal}
-                    {/* <button onClick={this.consoleLog}>console log deck item</button> */}
+                    <button onClick={this.consoleLog}>console log deck item</button>
                     {this.props.decks.map(deck =>
 
-                        <div key={deck.id} >
+                        <div onClick={() => this.consoleLog(deck)} className="deckItself" key={deck.id} >
                             <div className="card deckDiv" onMouseEnter={() => this.inspectIt(deck)} onMouseLeave={this.dontInspectIt}>
-                                <div className="card-image" >
-                                    <img className="deckCoverImage" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
+                                <div className="card-image deckImageDiv" >
+                                    <img className="deckCoverImage1" src={deck.imageCover1} alt="Placeholder image" />
+                                    { deck.imageCover2 && <img className="deckCoverImage2" src={deck.imageCover2} alt="Placeholder image" /> }
                                 </div>
                                 <div className="">
                                     <div className="media">
@@ -475,7 +494,6 @@ export default class DeckItem extends Component {
                                     {inspect}
                                     <time className="deckDate" dateTime={deck.date_added}>created: {deck.date_added}</time>
                                     <button onClick={() => this.props.deleteThis2("decks", deck.id)}>delete</button>
-                                    <button>edit</button>
                                 </div>
                             </div>
                         </div>
