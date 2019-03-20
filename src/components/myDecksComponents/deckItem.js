@@ -16,7 +16,8 @@ export default class DeckItem extends Component {
         emptyDeck: false,
         newName: "",
         newDescription: "",
-        newStrategy: ""
+        newStrategy: "",
+        deckMvp: ""
 
     }
 
@@ -27,30 +28,9 @@ export default class DeckItem extends Component {
 
     componentDidUpdate(prevProps) {
         console.log("DECK ITEM UPDATING")
-        if(this.props.woop !== prevProps.woop) {
+        if (this.props.woop !== prevProps.woop) {
             console.log("WOOP IS DIFFERENT")
-            let cardsOfDeck = []
-            let token = localStorage.getItem("token")
-            APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
-                .then(data => {
-                    console.log(data)
-                    data.map(card => {
-                        console.log("CARD", card)
-                        this.props.getCardsById(card.cardId)
-                            .then(card => {
-                                new Promise((resolve, reject) => {
-                                    cardsOfDeck.push(card)
-                                    resolve()
-                                })
-                            })
-                    })
-                })
-                APIManager.getSingle("decks", this.state.selectedDeck.id, token)
-                .then( deck => {
-                    // this.setState({
-                    //     selectedDeck: deck,
-                    // })
-                })
+
         }
 
     }
@@ -91,7 +71,7 @@ export default class DeckItem extends Component {
 
     closeWarningModal = () => {
         this.setState({
-            modal:true
+            modal: true
         })
         console.log("warningModalState", this.state.warningModal)
     }
@@ -99,55 +79,55 @@ export default class DeckItem extends Component {
     warningModalProceed = (deck) => {
         let deckId = this.state.selectedDeck.id
         this.props.editThis("decks", this.state.newName, deckId)
-        .then( data => {
+            .then(data => {
                 this.setState({
                     warningModal: false,
                     modal: true,
                     selectedDeck: deck
                 })
                 this.props.changeWoop()
-            this.props.getAll2("decks")
-        })
+                this.props.getAll2("decks")
+            })
 
     }
 
     warningModalProceedDescription = (deck) => {
         let deckId = this.state.selectedDeck.id
         this.props.editThis("decks", this.state.newDescription, deckId)
-        .then( data => {
+            .then(data => {
                 this.setState({
                     warningModalDescription: false,
                     modal: true,
                     selectedDeck: deck
                 })
                 this.props.changeWoop()
-            this.props.getAll2("decks")
-        })
+                this.props.getAll2("decks")
+            })
 
     }
 
     warningModalProceedStrategy = (deck) => {
         let deckId = this.state.selectedDeck.id
         this.props.editThis("decks", this.state.newStrategy, deckId)
-        .then( data => {
+            .then(data => {
                 this.setState({
                     warningModalStrategy: false,
                     modal: true,
                     selectedDeck: deck
                 })
                 this.props.changeWoop()
-            this.props.getAll2("decks")
-        })
+                this.props.getAll2("decks")
+            })
 
     }
 
     warningModalCancel = (deck) => {
-            this.setState({
-                warningModal: false,
-                modal: true,
-                selectedDeck: deck
-            })
-            this.props.changeWoop()
+        this.setState({
+            warningModal: false,
+            modal: true,
+            selectedDeck: deck
+        })
+        this.props.changeWoop()
     }
 
 
@@ -160,7 +140,6 @@ export default class DeckItem extends Component {
                 APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
                     .then(data => {
                         console.log("NEW DATA COMING IN", data)
-
                         if (data.length >= 1) {
                             data.map(card => {
                                 console.log("CARD", card)
@@ -172,7 +151,7 @@ export default class DeckItem extends Component {
                                         })
                                             .then(() => {
                                                 this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
-                                        })
+                                            })
 
                                     })
                             })
@@ -208,12 +187,12 @@ export default class DeckItem extends Component {
                                             .then(() => {
                                                 console.log("SECOND LAYER PROMISE")
                                                 new Promise((resolve, reject) => {
-                                                this.setState({
-                                                    cardsOfDeck: cardsOfDeck,
-                                                    emptyDeck: false
+                                                    this.setState({
+                                                        emptyDeck: false
+                                                    })
+                                                    this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
+                                                    resolve()
                                                 })
-                                                resolve()
-                                            })
                                             })
                                             .then(() => {
                                                 console.log("ITS DOING THIS LAST")
@@ -225,15 +204,15 @@ export default class DeckItem extends Component {
                         }
                         else {
                             new Promise((resolve, reject) => {
-                            this.setState({
-                                cardsOfDeck: [],
-                                emptyDeck: true,
+                                this.setState({
+                                    cardsOfDeck: [],
+                                    emptyDeck: true,
+                                })
+                                resolve()
                             })
-                            resolve()
-                        })
-                        .then(() => {
-                            this.props.getAll2("cards")
-                        })
+                                .then(() => {
+                                    this.props.getAll2("cards")
+                                })
                         }
                     }
                     )
@@ -245,8 +224,8 @@ export default class DeckItem extends Component {
     viewDeck = (deck) => {
         // console.log(deck.target)
 
-        const waiter = () => new Promise((resolve, reject) => {
-            return setTimeout(() => {
+        new Promise((resolve, reject) => {
+
                 console.log("setting state of selected deck")
                 this.setState({
                     modal: true,
@@ -254,16 +233,15 @@ export default class DeckItem extends Component {
                 })
                 resolve()
             })
-        })
-
-        waiter().then(() => {
+            .then(() => {
             let cardsOfDeck = []
             let token = localStorage.getItem("token")
+            console.log("SELECTED DECK BEFORE FETCH", this.state.selectedDeck)
             APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
                 .then(data => {
                     console.log(data)
                     data.map(card => {
-                        console.log("CARD", card)
+                        console.log("BRING ME CARD", card)
                         this.props.getCardsById(card.cardId)
                             .then(card => {
                                 new Promise((resolve, reject) => {
@@ -271,6 +249,7 @@ export default class DeckItem extends Component {
                                     resolve()
                                 })
                                     .then(() => {
+                                        console.log("CARDS OF DECK AFTER GETTING", cardsOfDeck)
                                         this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
                                     })
                             })
@@ -284,6 +263,7 @@ export default class DeckItem extends Component {
         this.setState({
             modal: false
         })
+        this.props.updateCardsOfDeckStateTrue()
     }
 
     inspectIt = (deck) => {
@@ -299,6 +279,18 @@ export default class DeckItem extends Component {
         })
     }
 
+    makeMvp = (card, deck) => {
+
+        let newObj = {
+            imageMvp: card.imageUrl
+        }
+
+        this.props.editThis("decks", newObj, deck.id)
+            .then(deck => {
+                console.log("DATA BROUGHT BACK", deck)
+                this.props.getAll2("decks")
+            })
+    }
 
 
     consoleLog = (deck) => {
@@ -350,6 +342,8 @@ export default class DeckItem extends Component {
                     showWarningModalStrategyForm={this.showWarningModalStrategyForm}
                     warningModalProceedStrategy={this.warningModalProceedStrategy}
 
+                    makeMvp={this.makeMvp}
+
                 />
             )
         } else {
@@ -369,10 +363,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                             <buttton onClick={this.consoleLog}>console log</buttton>
-                         </section>
+                            <buttton onClick={this.consoleLog}>console log</buttton>
+                        </section>
                         <footer className="modal-card-foot">
-                            <button onClick={() => this.warningModalProceed(this.state.selectedDeck)}className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalProceed(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
                         </footer>
                     </div>
@@ -394,10 +388,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                             <buttton onClick={this.consoleLog}>console log</buttton>
-                         </section>
+                            <buttton onClick={this.consoleLog}>console log</buttton>
+                        </section>
                         <footer className="modal-card-foot">
-                            <button onClick={() => this.warningModalProceedDescription(this.state.selectedDeck)}className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalProceedDescription(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
                         </footer>
                     </div>
@@ -420,10 +414,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                             <buttton onClick={this.consoleLog}>console log</buttton>
-                         </section>
+                            <buttton onClick={this.consoleLog}>console log</buttton>
+                        </section>
                         <footer className="modal-card-foot">
-                            <button onClick={() => this.warningModalProceedStrategy(this.state.selectedDeck)}className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalProceedStrategy(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
                         </footer>
                     </div>
@@ -469,12 +463,12 @@ export default class DeckItem extends Component {
                             <div className="card deckDiv" onMouseEnter={() => this.inspectIt(deck)} onMouseLeave={this.dontInspectIt}>
                                 <div className="card-image deckImageDiv" >
                                     <img className="deckCoverImage1" src={deck.imageCover1} alt="Placeholder image" />
-                                    { deck.imageCover2 && <img className="deckCoverImage2" src={deck.imageCover2} alt="Placeholder image" /> }
+                                    {deck.imageCover2 && <img className="deckCoverImage2" src={deck.imageCover2} alt="Placeholder image" />}
                                 </div>
                                 <div className="">
                                     <div className="media">
                                         <div className="media-left">
-                                            <img className="deckMVPImage" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+                                            {deck.imageMvp ? <img className="deckMVPImage" src={deck.imageMvp} alt="Placeholder image" /> : <img className="deckMVPImageNone" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />}
                                         </div>
                                         <div className="media-content">
                                             <p className="title deckMVP">MVP</p>

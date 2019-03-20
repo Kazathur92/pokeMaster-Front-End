@@ -27,6 +27,19 @@ export default class DeckModal extends Component {
         console.log("%%% DECK MODAL MOUNT %%%")
         console.log("CARDS OF DECK", this.props.cardsOfDeck)
         let token = localStorage.getItem("token")
+        if(this.props.cardsOfDeck.length >= 1) {
+            console.log("MORE THAN I CARD IN CARDS OF DECK")
+            APIManager.getSingle("decks", this.props.selectedDeck.id, token)
+            .then( deck => {
+            this.setState({
+                currentDeck: deck,
+                selectedDeck: this.props.selectedDeck,
+                selectedCardOnDeck: this.props.cardsOfDeck[0].card
+            })
+        })
+    }
+        else {
+            console.log("ANYTHING ELSE")
         APIManager.getSingle("decks", this.props.selectedDeck.id, token)
         .then( deck => {
             this.setState({
@@ -35,16 +48,17 @@ export default class DeckModal extends Component {
                 selectedCardOnDeck: {}
             })
         })
+    }
 
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
             console.log("MODAL UPDATING")
-            if (this.props.cardsOfDeck.length < 1) {
+            if (this.props.cardsOfDeck.length >= 1) {
                 console.log("NOTHING HERE")
                 this.setState({
-                    selectedCardOnDeck: ""
+                    selectedCardOnDeck: this.props.cardsOfDeck[0].card,
                 })
             }
 
@@ -52,7 +66,7 @@ export default class DeckModal extends Component {
                 console.log("CARDS OF DECK REMAIN THE SAME")
                 this.setState({
 
-                    selectedCardOnDeck: this.props.cardsOfDeck[0].card,
+                    selectedCardOnDeck: ""
                 })
             }
         }
@@ -192,7 +206,7 @@ export default class DeckModal extends Component {
         console.log("SELECTED CARD ON DECK", this.state.selectedCardOnDeck)
         // console.log("USER CARDS", this.props.userCards)
         console.log("EMPTY DECK STATE", this.props.emptyDeck)
-        // console.log("SELECTED DECK", this.props.selectedDeck)
+        console.log("SELECTED DECK", this.props.selectedDeck)
         console.log("cards of deck props", this.props.cardsOfDeck)
         console.log("CARDS PROPS", this.props.cards)
         // console.log("selected card on deck", this.state.selectedCardOnDeck)
@@ -202,6 +216,8 @@ export default class DeckModal extends Component {
         // console.log("CURRENT DECK", this.state.currentDeck)
         // console.log("NEW NAME", this.props.newName)
     }
+
+
 
     // TODO ADD A TERNARY IN JSX SO IT SEPARATES THE CARDS AND RENDERS DIFFERENT DIVS FOR EACH SUPERTYPE OF CARD
 
@@ -358,11 +374,14 @@ export default class DeckModal extends Component {
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
+                    <img className="energyType1" src="/images/steel.png"></img>
+                    <img className="energyType2" src="/images/thunder.png"></img>
                         <button onClick={this.consoleLog}>console Log modal</button>
                         {deckName}
                         {deckDescription}
                         {deckStrategy}
                         <br></br>
+                        <button onClick={() => this.props.makeMvp(this.state.selectedCardOnDeck, this.props.selectedDeck)} className="makeMvp">Make MVP</button>
                         <img className="lookAtCard" src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>
                         {interactionButtons}
                         <div className="wrap">

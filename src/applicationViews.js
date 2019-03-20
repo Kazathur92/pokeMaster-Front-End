@@ -52,6 +52,7 @@ export default class AplicationViews extends Component {
     }
 
     updateCardsOfDeckStateFalse = (cardsOfDeck) => {
+        console.log("CARDS OF DECK CHANGING IN AP VIEWS", cardsOfDeck)
         this.setState({
             cardsOfDeck: cardsOfDeck,
             emptyDeck: false,
@@ -59,9 +60,9 @@ export default class AplicationViews extends Component {
     })
     }
 
-    updateCardsOfDeckStateTrue = () => {
+    updateCardsOfDeckStateTrue = (cardsOfDeck) => {
         this.setState({
-            cardsOfDeck: [],
+            cardsOfDeck: "",
             emptyDeck: true,
             // triggerSwitch: !this.state.triggerSwitch
         })

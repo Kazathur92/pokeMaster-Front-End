@@ -154,21 +154,6 @@ class APIManager {
     }
 
 
-    // addToDeck = (resource, newObj, id) => {
-    //     let formData = new FormData()
-    //     for (let key in newObj) {
-    //         formData.append(key, newObj[key])
-    //     }
-
-    //     return fetch(`${apiUrl}${resource}/${id}`, {
-    //         method: 'POST',
-    //         body: formData
-    //     })
-    //         .then(newData => newData.json())
-    //         .catch(err => console.log("Oopsy Daisy!", err))
-    // }
-
-
     delete = (resource, id, token) => {
         return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'DELETE',
