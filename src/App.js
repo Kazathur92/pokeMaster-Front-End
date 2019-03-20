@@ -35,6 +35,7 @@ class App extends Component {
         navBarStatus: false,
         showLogin: true,
         showRegister: false,
+        loggedIn: false
 
 
     }
@@ -296,6 +297,7 @@ class App extends Component {
         this.setState({
             username: username,
             password: password,
+            loggedIn: true
         })
         this.logIn()
     }
@@ -361,6 +363,14 @@ class App extends Component {
             .catch((err) => {
                 console.log("auth no like you, brah", err);
             });
+    }
+
+    logOut = () => {
+        this.setState({
+            loggedIn: false,
+            navBarStatus: false,
+            showLogin: true,
+        })
     }
 
     // AUTHENTICATION FUNCTIONS END =============================== AUTHENTICATION FUNCTIONS END ================
@@ -457,10 +467,12 @@ class App extends Component {
                     updateStates={this.updateStates}
                     postAuth={this.postAuth}
                     currentUser={this.state.currentUser}
+                    showLogin={this.state.showLogin}
                     // TRIGGER SWITCHES
                     woop={this.state.woop}
                     navBarStatus={this.state.navBarStatus}
                     cardsNumba2={this.state.cardsNumba2}
+                    logOut={this.logOut}
                 // STATE CHANGING FUNCTIONS
                 />
             </React.Fragment>

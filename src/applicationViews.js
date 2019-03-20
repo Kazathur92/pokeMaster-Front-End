@@ -45,6 +45,16 @@ export default class AplicationViews extends Component {
         }
     }
 
+    signOut = () => {
+        localStorage.clear()
+        this.setState({
+            collectionPage: false,
+            searchPage: false,
+            decksPage: false
+        })
+        this.props.logOut()
+    }
+
     changeTriggerSwitch = () => {
         this.setState({
             triggerSwitch: !this.state.triggerSwitch
@@ -228,9 +238,21 @@ export default class AplicationViews extends Component {
             navbar = null
         }
 
+        let logOutButton = ""
+        if(this.props.showLogin === false) {
+            logOutButton = (
+                <button onClick={this.signOut}>Log Out</button>
+
+            )
+        }
+        else {
+            logOutButton = null
+        }
+
         return (
             <div className="appItself">
-                <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button>
+                {/* <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button> */}
+                {logOutButton}
                 <h1 className="appName">POKE-MASTER <img className="pokeballImage" src="/images/pokeball2.png"></img></h1>
                 {navbar}
                 {searchCards}
