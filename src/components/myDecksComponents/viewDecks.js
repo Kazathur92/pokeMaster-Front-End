@@ -107,6 +107,12 @@ export default class ViewMyDecks extends Component {
                         changeWoop={this.changeWoop}
                         cardsOfDeck={this.props.cardsOfDeck}
                         editThis={this.props.editThis}
+                        cards={this.props.cards}
+
+                        cardsOfDeck={this.props.cardsOfDeck}
+                        emptyDeck={this.props.emptyDeck}
+                        updateCardsOfDeckStateFalse={this.props.updateCardsOfDeckStateFalse}
+                        updateCardsOfDeckStateTrue={this.props.updateCardsOfDeckStateTrue}
                     />
                 </div>
             </React.Fragment>

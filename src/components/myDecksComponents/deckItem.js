@@ -12,7 +12,7 @@ export default class DeckItem extends Component {
         warningModalDescription: false,
         warningModalStrategy: false,
         inspectField: false,
-        cardsOfDeck: [],
+        cardsOfDeck: this.props.cardsOfDeck,
         emptyDeck: false,
         newName: "",
         newDescription: "",
@@ -22,6 +22,7 @@ export default class DeckItem extends Component {
 
     componentDidMount() {
         console.log("!!! DECK ITEM MOUNT !!!")
+
     }
 
     componentDidUpdate(prevProps) {
@@ -41,22 +42,20 @@ export default class DeckItem extends Component {
                                     cardsOfDeck.push(card)
                                     resolve()
                                 })
-                                    .then(() => {
-                                        this.setState({
-                                            cardsOfDeck: cardsOfDeck
-                                        })
-                                    })
                             })
                     })
                 })
                 APIManager.getSingle("decks", this.state.selectedDeck.id, token)
                 .then( deck => {
-                    this.setState({
-                        selectedDeck: deck,
-                    })
+                    // this.setState({
+                    //     selectedDeck: deck,
+                    // })
                 })
         }
+
     }
+
+
 
     showWarningModal = (newName, deck) => {
         this.setState({
@@ -161,6 +160,7 @@ export default class DeckItem extends Component {
                 APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
                     .then(data => {
                         console.log("NEW DATA COMING IN", data)
+
                         if (data.length >= 1) {
                             data.map(card => {
                                 console.log("CARD", card)
@@ -171,20 +171,14 @@ export default class DeckItem extends Component {
                                             resolve()
                                         })
                                             .then(() => {
-                                                    this.setState({
-                                                    cardsOfDeck: cardsOfDeck,
-                                                    emptyDeck: false
-                                            })
+                                                this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
                                         })
 
                                     })
                             })
 
                         } else {
-                            this.setState({
-                                cardsOfDeck: [],
-                                emptyDeck: true,
-                            })
+                            this.props.updateCardsOfDeckStateTrue()
                         }
                     }
                     )
@@ -277,9 +271,7 @@ export default class DeckItem extends Component {
                                     resolve()
                                 })
                                     .then(() => {
-                                        this.setState({
-                                            cardsOfDeck: cardsOfDeck
-                                        })
+                                        this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
                                     })
                             })
                     })
@@ -315,6 +307,7 @@ export default class DeckItem extends Component {
         // console.log("warning modal stat", this.state.warningModal)
         console.log("NEW NAME", this.state.newName)
         console.log("THIS DECK", deck)
+        console.log("CARDS", this.props.cards)
 
     }
 
@@ -343,7 +336,7 @@ export default class DeckItem extends Component {
                     users={this.props.users}
                     token={this.props.token}
                     cards={this.props.cards}
-                    cardsOfDeck={this.state.cardsOfDeck}
+                    cardsOfDeck={this.props.cardsOfDeck}
                     // CREATED DATA
                     emptyDeck={this.state.emptyDeck}
                     newName={this.state.newName}

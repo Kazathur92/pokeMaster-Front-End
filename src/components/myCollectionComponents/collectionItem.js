@@ -26,10 +26,25 @@ export default class CollectionItem extends Component {
                 woopie: true
             })
         }
+
+
     }
 
-    showCardModal = (card) => {
+    // PENDING
+    // updateCardsOfDeck = () => {
+    //     let token = localStorage.getItem("token")
+    //     APIManager.getWithUrl(card.deck, token)
+    //     .then(data => {
+    //         this.setState({
+    //             modal: true,
+    //             selectedCard: card,
+    //             deckOfThisCard: data
+    //         })
+    //     })
+    // }
 
+    showCardModal = (card) => {
+        console.log("THIS CARD: ", card)
         let token = localStorage.getItem("token")
         APIManager.getWithUrl(card.deck, token)
         .then(data => {
@@ -98,7 +113,10 @@ export default class CollectionItem extends Component {
                 createNewCard={this.props.createNewCard}
                 getAll2={this.props.getAll2}
                 cards={this.props.cards}
-                updateCardsOfDeck={this.updateCardsOfDeck}/>
+                updateCardsOfDeck={this.updateCardsOfDeck}
+                cardsOfDeck={this.props.cardsOfDeck}
+                triggerSwitch={this.props.triggerSwitch}
+                changeTriggerSwitch={this.props.changeTriggerSwitch}/>
             )
         } else {
             cardModal = null

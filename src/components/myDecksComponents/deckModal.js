@@ -44,7 +44,7 @@ export default class DeckModal extends Component {
             if (this.props.cardsOfDeck.length < 1) {
                 console.log("NOTHING HERE")
                 this.setState({
-                    selectedCardOnDeck: []
+                    selectedCardOnDeck: ""
                 })
             }
 
@@ -98,7 +98,15 @@ export default class DeckModal extends Component {
 
         let deck_id = parseInt(this.props.selectedDeck.id)
         let card_id = this.state.selectedCardOnDeck.id
-        this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
+        new Promise((resolve, reject) => {
+            this.setState({
+                cardsOfDeck: ""
+            })
+            resolve()
+        })
+        .then(() => {
+            this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
+        })
 
     }
 
@@ -106,7 +114,16 @@ export default class DeckModal extends Component {
     removeFromCollection = () => {
         let deck_id = parseInt(this.props.selectedDeck.id)
         let card_id = this.state.selectedCardOnDeck.id
+        new Promise((resolve, reject) => {
+            this.setState({
+                selectedCardOnDeck: ""
+            })
+            resolve()
+        })
+        .then(() => {
+        console.log("ITS WAITING TO DELETE")
         this.props.deleteRelationshipToGetId(`findRelationship/${deck_id}?card=${card_id}`)
+        })
     }
 
     showEditNameIcon = () => {
@@ -177,7 +194,7 @@ export default class DeckModal extends Component {
         console.log("EMPTY DECK STATE", this.props.emptyDeck)
         // console.log("SELECTED DECK", this.props.selectedDeck)
         console.log("cards of deck props", this.props.cardsOfDeck)
-        // console.log("CARDS PROPS", this.props.cards)
+        console.log("CARDS PROPS", this.props.cards)
         // console.log("selected card on deck", this.state.selectedCardOnDeck)
         // console.log("EDIT NAME STATE", this.state.editName)
         // console.log("EDIT DESCRIPTION STATE", this.state.editDescription)
