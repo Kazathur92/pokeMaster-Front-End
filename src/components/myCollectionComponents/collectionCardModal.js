@@ -21,6 +21,7 @@ export default class CardModal extends Component {
     componentDidUpdate(prevProps) {
         if(this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
             console.log("!@#!@#COLLECTION MODAL COMPONENT UPDATING!@#!@#")
+            this.props.updateCardsOfDeck(this.props.selectedCard, this.state.selectedDeck)
             // let cardsOfThisDeck = []
             // let token = localStorage.getItem("token")
             // APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
@@ -48,34 +49,12 @@ export default class CardModal extends Component {
             // this.props.changeTriggerSwitch()
             this.props.getAll2("cards")
         }
+
+        if(this.props.deckOfThisCard !== prevProps.deckOfThisCard){
+            console.log("HI")
+        }
     }
 
-    consoleLog = () => {
-        console.log("CARDS", this.props.cards)
-        console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
-        // console.log("SELECTED DECK", this.state.selectedDeck)
-        // console.log("DECK ID", this.state.selectedDeckId)
-        // console.log("SELECTED CARD", this.props.selectedCard)
-        console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
-        console.log("CARDS OF DECK", this.props.cardsOfDeck)
-        console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
-        // let cardsOfThisDeck = []
-        // let token = localStorage.getItem("token")
-        // APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
-        //         .then(data => {
-        //             console.log("DATA", data)
-        //             data.map(card => {
-        //                 new Promise((resolve, reject) => {
-        //                     cardsOfThisDeck.push(card)
-        //                     resolve()
-        //                 })
-        //             })
-        //         }
-        //         ).then(() => {
-        //                console.log("CARDS OF DECK", cardsOfThisDeck)
-
-        //         })
-    }
 
     selectDeck = (event) => {
         console.log("SELECTED DECK", event.target.value)
@@ -144,7 +123,7 @@ export default class CardModal extends Component {
 
                                 this.props.createNewCard("deckcardsrelationship", newCardToDeck)
                                     .then(data => {
-                                        this.props.updateCardsOfDeck(this.props.selectedCard, this.state.selectedDeck)
+                                        this.props.updateCardsOfDeck(this.props.selectedCard, data.deck)
                                         // this.props.getAll2("cards")
                                         console.log("data getting back after postig to relationship: ", data)
                                     })
@@ -153,6 +132,35 @@ export default class CardModal extends Component {
                 })
             }
     }
+
+
+    consoleLog = () => {
+        console.log("CARDS", this.props.cards)
+        console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
+        console.log("SELECTED DECK props", this.state.selectedDeck)
+        // console.log("DECK ID", this.state.selectedDeckId)
+        // console.log("SELECTED CARD", this.props.selectedCard)
+        console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
+        console.log("CARDS OF DECK", this.props.cardsOfDeck)
+        console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
+        // let cardsOfThisDeck = []
+        // let token = localStorage.getItem("token")
+        // APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
+        //         .then(data => {
+        //             console.log("DATA", data)
+        //             data.map(card => {
+        //                 new Promise((resolve, reject) => {
+        //                     cardsOfThisDeck.push(card)
+        //                     resolve()
+        //                 })
+        //             })
+        //         }
+        //         ).then(() => {
+        //                console.log("CARDS OF DECK", cardsOfThisDeck)
+
+        //         })
+    }
+
 
     render() {
 

@@ -10,7 +10,8 @@ export default class CollectionItem extends Component {
         modal: false,
         selectedCard: {},
         deckOfThisCard: {},
-        woopie: false
+        woopie: false,
+        deckUrl: ""
     }
 
     deleteThisFromCollection = (deck_id) => {
@@ -45,7 +46,9 @@ export default class CollectionItem extends Component {
 
     showCardModal = (card) => {
         console.log("THIS CARD: ", card)
+        console.log("ITS TRYING TO GET THE DECK OF THIS CARD")
         let token = localStorage.getItem("token")
+
         APIManager.getWithUrl(card.deck, token)
         .then(data => {
             this.setState({
@@ -54,26 +57,36 @@ export default class CollectionItem extends Component {
                 deckOfThisCard: data
             })
         })
+
     }
 
     updateCardsOfDeck = (card, deck) => {
-        console.log("CARD", card)
-        console.log("DECK", deck)
+        // console.log("CARD", card)
+        // console.log("DECK", deck)
+        console.log("ITS UPDATING THE DECK OF THIS CARD")
         let token = localStorage.getItem("token")
         APIManager.getWithUrl(deck, token)
         .then(data => {
             this.setState({
                 modal: true,
                 selectedCard: card,
-                deckOfThisCard: data
+                deckOfThisCard: data,
+                deckUrl: deck
             })
         })
     }
 
+
     closeModal = () => {
+       new Promise((resolve, reject) => {
         this.setState({
             modal: false
         })
+        resolve()
+       })
+       .then(() => {
+           this.props.getAll2("cards")
+       })
     }
 
     consoleLog = () => {
@@ -116,7 +129,8 @@ export default class CollectionItem extends Component {
                 updateCardsOfDeck={this.updateCardsOfDeck}
                 cardsOfDeck={this.props.cardsOfDeck}
                 triggerSwitch={this.props.triggerSwitch}
-                changeTriggerSwitch={this.props.changeTriggerSwitch}/>
+                changeTriggerSwitch={this.props.changeTriggerSwitch}
+                deckUrl={this.state.deckUrl}/>
             )
         } else {
             cardModal = null
