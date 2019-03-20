@@ -11,9 +11,9 @@ render(){
     return(
         <React.Fragment>
         <nav className="navBar">
-            <button onClick={this.props.clickOnMyDecks}>My Decks</button>
-            <button onClick={this.props.clickOnMyCollection}>My Card Collection</button>
-            <button onClick={this.props.clickOnSearchPage}>Search Cards</button>
+            <button className="myDecksButton" onClick={this.props.clickOnMyDecks}>My Decks</button>
+            <button className="myCollectionButton" onClick={this.props.clickOnMyCollection}>My Card Collection</button>
+            <button className="searchButton" onClick={this.props.clickOnSearchPage}>Search Cards</button>
         </nav>
         </React.Fragment>
     )

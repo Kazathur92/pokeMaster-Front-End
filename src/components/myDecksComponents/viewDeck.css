@@ -1,24 +1,64 @@
 .decksArea{
 display:flex;
-width: 80%;
+border: 3px solid black;
+width: 100%;
+height: 700px;
 flex-direction: row;
 overflow: scroll;
 
 }
 
+.scrollRightMessage {
+    font-weight: bold;
+    color: black;
+    background-color: rgb(255, 247, 175);
+}
+
+/* DECK ITEM */
+
+.deckItself {
+    margin-left: 70px;
+}
+
 .deckDiv {
+    margin-top: 30px;
+    box-shadow: 5px 5px 8px black;
     width: 130px;
     margin-right: 50px;
-    height: 110%;
+    height: 280px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* height: 110%; */
 
 }
 
-.deckCoverImage {
+.deckImageDiv {
+    position: relative;
+}
+
+.deckCoverImage1 {
+    position: relative;
+    width: 100%;
+}
+
+.deckCoverImage2 {
+    position: absolute;
+    clip-path: polygon(0 0, 0 100px, 30px 115px, 100px 20px);
+    top: 0px;
+    right: 0px;
     width: 100%;
 }
 
 .deckMVPImage {
     width: 30px;
+    float: right;
+    margin-left: 10px;
+
+}
+
+.deckMVPImageNone {
+    width: 30px;
+    height: 40px;
     float: right;
     margin-left: 10px;
 
@@ -55,7 +95,8 @@ overflow: scroll;
 /* INSIDE DECK */
 
 .emptyDeck {
-    text-align: center
+    text-align: center;
+    color: white;
 }
 
 
@@ -85,6 +126,7 @@ overflow: scroll;
     color: rgb(219, 219, 219);
     font-weight: bold;
 }
+
 
 .deckCard {
 
@@ -116,6 +158,7 @@ overflow: scroll;
 }
 
 .strategyText {
+    text-align: center;
     color: rgb(227, 235, 250);
 }
 
@@ -133,4 +176,132 @@ overflow: scroll;
 
 .deleteFromCollectionButton {
 
+}
+
+.energyType1 {
+    width: 20%;
+}
+
+.energyType2 {
+    width: 20%;
+}
+
+.makeMvp {
+    margin-left: 64%;
+}
+
+
+/* EDIT */
+
+.editButton {
+    height: 30px;
+}
+
+.editIcon {
+    font-size: 30px;
+    margin-left: 40px;
+}
+
+.editNameForm {
+     margin-left: 180px;
+}
+
+.editDescriptionForm {
+    margin-left: 180px;
+}
+
+.Icons {
+    margin-left: 10px;
+}
+
+.IconCheck {
+}
+
+.IconCheck:hover {
+    color: green;
+}
+
+.IconTimes {
+    margin-left: 10px;
+}
+
+.IconTimes:hover {
+    color: red;
+}
+
+/* NEW DECK FORM */
+.newDeckFields {
+    border-radius: 10px;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255)
+}
+
+
+.saveDeckButton {
+    width: 10%;
+}
+
+/* DECK FORM */
+
+.decksTitle {
+    font-size: 280%;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(231, 231, 231);
+}
+
+.viewDecksTitle {
+    margin-left: 20px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
+
+.newDeckDescriptionAndStrategy {
+    display: flex;
+    flex-direction: column;
+}
+
+#name {
+    width:30%;
+    margin-left: 20px;
+}
+
+#description {
+    margin-left: 20px;
+    height: 55px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 55px;
+    min-height: 55px;
+}
+
+#strategy {
+    height: 55px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 55px;
+    min-height: 55px;
+}
+
+.saveDeckButton {
+    margin-left: 21px;
+    border-radius: 10px;
+}
+
+.selectImage {
+    width: 7%;
+}
+
+.deckImage {
+    width: 8%;
+    height: 3%;
+}
+
+.predominantEnergiesDiv {
+    display: flex;
 }

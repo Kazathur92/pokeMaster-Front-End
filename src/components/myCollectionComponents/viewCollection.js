@@ -13,47 +13,40 @@ export default class ViewMyCollection extends Component {
     }
 
     componentDidMount() {
-        console.log("@@@ COLLECTION MOUNT @@@")
-        let waiter = () => new Promise((resolve, reject) => {
-            return setTimeout(() => {
-                this.props.findCurrentUser()
-                console.log("current user in promise layer 1", this.props.currentUser)
-                console.log("1st layer promise")
-                resolve()
-            })
-        })
-        waiter().then(() => {
-            this.props.findUserCards()
-            console.log("its breaking after finding users")
-        }).catch(err => console.log("erroying", err))
+        this.props.getAll2("cards")
 
     }
 
     componentDidUpdate = (prevProps) => {
+        console.log("!@#!@#view collection updating")
+
     }
 
 
-    updateWoop = () => {
-        this.setState({
-            woop: !this.state.woop
-        })
-    }
 
     consoleLog = () => {
+        console.log("CARDS", this.props.cards)
         console.log("USER CARDS", this.props.userCards)
+        console.log("trigger switch", this.props.triggerSwitch)
     }
 
     render() {
         return (
             <React.Fragment>
                 <button onClick={this.consoleLog}>console log collection</button>
-                <h1>Card Collection</h1>
+                <h1 className="cardCollectionTitle">CARD COLLECTION</h1>
                 <div className="collectionDiv">
                 <CollectionItem
                     cards={this.props.cards}
-                    userCards={this.props.userCards}
+                    decks={this.props.decks}
                     deleteThis={this.props.deleteThis}
-                    updateWoop={this.updateWoop}
+                    users={this.props.users}
+                    createNewCard={this.props.createNewCard}
+                    getAll2={this.props.getAll2}
+                    triggerSwitch={this.props.triggerSwitch}
+                    cardsOfDeck={this.props.cardsOfDeck}
+                    triggetSwitch={this.props.triggerSwitch}
+                    changeTriggerSwitch={this.props.changeTriggerSwitch}
                     />
                     </div>
             </React.Fragment>

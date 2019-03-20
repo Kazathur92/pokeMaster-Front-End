@@ -346,13 +346,6 @@ export default class SearchAll extends Component {
     }
 
 
-    searchCard = () => {
-        let keyword = this.state.keyword
-        // console.log(keyword)
-        this.props.getCards(keyword)
-    }
-
-
 
     searchIt = () => {
         let keyword = this.state.keyword
@@ -424,9 +417,9 @@ export default class SearchAll extends Component {
 
         return (
             <React.Fragment>
-                <h1 className="searchTitle">Search Cards</h1>
+                <h1 className="searchTitle">SEARCH CARDS</h1>
                 <div className="checkboxContainer">
-                    <h6 className="filterLabel">Pokemon</h6>
+                    {/* <h6 className="filterLabel">Pokemon</h6> */}
                     <div className="checkboxPokemonDiv">
 
                         <label className="checkboxLabel"><p className="checkboxTitle">BASIC</p><input type="checkbox" id="basic" checked={this.state.basicCheckbox}
@@ -449,7 +442,7 @@ export default class SearchAll extends Component {
                             onClick={this.handleCheckboxChange}></input></label>
 
                     </div>
-                    <h6 className="filterLabel">Trainer</h6>
+                    {/* <h6 className="filterLabel">Trainer</h6> */}
                     <div className="checkboxTrainerDiv">
                         <label className="checkboxLabel"><p className="checkboxTitle">ITEM</p><input id="item" type="checkbox" className="checkbox" checked={this.state.itemCheckbox}
                             onClick={this.handleCheckboxChange}></input></label>
@@ -461,7 +454,7 @@ export default class SearchAll extends Component {
                             onClick={this.handleCheckboxChange}></input></label>
 
                     </div>
-                    <h6 className="filterLabel">Energy</h6>
+                    {/* <h6 className="filterLabel">Energy</h6> */}
                     <div className="checkboxEnergyDiv">
                         <label className="checkboxLabel"><p className="checkboxTitle">SPECIAL</p><input id="special" type="checkbox" checked={this.state.specialCheckbox}
                             onClick={this.handleCheckboxChange}></input></label>
@@ -470,9 +463,8 @@ export default class SearchAll extends Component {
 
                     </div>
                 </div>
-                <input id="keyword" onChange={this.handleFieldChange} placeholder="Card Name"></input>
-                {/* <button onClick={this.searchCard}>Search</button> */}
-                <button onClick={this.searchIt}>Search</button>
+                <input id="keyword" className="searchInput" onChange={this.handleFieldChange} placeholder="Card Name"></input>
+                <button className="searchItButton" onClick={this.searchIt}>Search</button>
 
 
             </React.Fragment>

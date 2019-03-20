@@ -30,8 +30,8 @@ class APIManager {
 
 
     // IF WANT TO USE PYTHON TO FILTER ADD PARAMETER THAT THEN WILL BE LISTENED FOR IN PYTHON VIEWSET
-    getAll = (resource, authToken, keyword = null) => {
-        let url = `${apiUrl}${resource}/`
+    getAllWithQuery = (resource, query, token, keyword = null) => {
+        let url = `${apiUrl}${resource}${query}`
         if (keyword) {
             url += keyword
         }
@@ -39,14 +39,30 @@ class APIManager {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authToken}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
             .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
-    getAll2 = (resource, authToken, keyword = null) => {
+    getAll2 = (resource, token, keyword = null) => {
+        let url = `${apiUrl}${resource}`
+        if (keyword) {
+            url += keyword
+        }
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
+    }
+
+    getAllWithToken = (resource, token, keyword = null) => {
         let url = `${apiUrl}${resource}/`
         if (keyword) {
             url += keyword
@@ -55,7 +71,7 @@ class APIManager {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authToken}`
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -79,13 +95,38 @@ class APIManager {
     }
 
 
-    getSingle = (resource, id) => {
+    getSingle = (resource, id, token) => {
         let url = `${apiUrl}${resource}/${id}`
         return fetch(url, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("oopsy get single problem", err))
+    }
+
+    getWithUrl = (resource, token) => {
+        return fetch(resource, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(response => response.json())
+            .catch(err => console.log("oopsy get single problem", err))
+    }
+
+    getSingleUser = (resource, token) => {
+        let url = `${apiUrl}${resource}`
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
             }
         })
             .then(response => response.json())
@@ -113,27 +154,12 @@ class APIManager {
     }
 
 
-    // addToDeck = (resource, newObj, id) => {
-    //     let formData = new FormData()
-    //     for (let key in newObj) {
-    //         formData.append(key, newObj[key])
-    //     }
-
-    //     return fetch(`${apiUrl}${resource}/${id}`, {
-    //         method: 'POST',
-    //         body: formData
-    //     })
-    //         .then(newData => newData.json())
-    //         .catch(err => console.log("Oopsy Daisy!", err))
-    // }
-
-
-    delete = (resource, id, deckId) => {
+    delete = (resource, id, token) => {
         return fetch(`${apiUrl}${resource}/${id}/`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
+                "Authorization": `Token ${token}`
             }
         })
     }
@@ -148,6 +174,23 @@ class APIManager {
         })
     }
 
+
+    edit = (resource, newObj, id, token) => {
+
+        let formData = new FormData()
+        for (let key in newObj) {
+            formData.append(key, newObj[key])
+        }
+
+        return fetch(`${apiUrl}${resource}/${id}/`, {
+            method: 'PATCH',
+            body: formData,
+            headers: {
+                "Authorization": `Token ${token}`
+            }
+        })
+            .then(newData => newData.json())
+    }
 
 
     safeDelete = (resource, id) => {
@@ -164,24 +207,6 @@ class APIManager {
     }
 
 
-
-    edit = (resource, newObj, id) => {
-
-        let formData = new FormData()
-        for (let key in newObj) {
-            formData.append(key, newObj[key])
-        }
-
-        return fetch(`${apiUrl}${resource}/${id}/`, {
-            method: 'PATCH',
-            body: formData,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${authKey}`
-            }
-        })
-            .then(newData => newData.json())
-    }
 
 
     search = (resource, keyword) => {

@@ -16,11 +16,10 @@ class App extends Component {
         apiCards: [],
         decks: [],
         cards: [],
-        users: [],
+        users: {},
+        cardsOfDeck: [],
         // CREATED DATA
         token: localStorage.getItem("token"),
-        userDecks: [],
-        userCards: [],
         currentUser: [],
         decksNumba2: [],
         // FORM VALUES
@@ -43,7 +42,6 @@ class App extends Component {
 
     componentDidMount() {
         console.log("**** DID MOUNT APP START ****")
-        console.log("user decks ", this.props.userDecks)
         // console.log("users before fetching", this.state.users)
         console.log("cards before fetch", this.state.cards)
 
@@ -56,15 +54,17 @@ class App extends Component {
 
         APIManager.getAllOnRefresh("cards")
             .then(data => {
-                console.log("cards list after fetch before setting state", data)
+                // console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
 
-        APIManager.getAllOnRefresh("users")
+        APIManager.getAllOnRefresh("user-id")
             .then(data => {
-                this.setState({ users: data })
+                console.log("USER", data)
+                this.setState({ users: data[0] })
             })
-        console.log("**** DID MOUNT APP END ****")
+
+            console.log("**** DID MOUNT APP END ****")
     }
 
 
@@ -82,58 +82,29 @@ class App extends Component {
 
 
     findCurrentUser = () => {
-        let username = localStorage.getItem('username')
-        // console.log("its firing the find user function", this.state.users)
-        this.state.users.forEach(user => {
-            // console.log("inside for each", user)
-            if (user.username === username) {
-                // console.log("inside if statement", user)
-                this.setState({
-                    currentUser: user
-                })
-            }
-        })
-    }
+        console.log("LOCAL STORAGE: ", localStorage.getItem("token"))
 
-
-    findUserDecks = () => {
-        let userDeckList = []
-        this.state.decks.find(deck => {
-            if (deck.user === this.state.currentUser.url) {
-                console.log(deck)
-                userDeckList.push(deck)
-            }
-            this.setState({
-                userDecks: userDeckList
+        APIManager.getAllOnRefresh("user-id")
+            .then(data => {
+                console.log("USER", data)
+                this.setState({ users: data })
             })
-            // console.log("IN THE FINDING USER DECKS FUNCTION: userDecks state", this.state.userDecks)
-        })
     }
 
-    findUserCards = () => {
-        console.log("CARDS STATE from FIND USER CARDS: ", this.state.cards)
-        let userCardList = []
-        this.state.cards.forEach(card => {
 
-            if (card.user === this.state.currentUser.url) {
-                userCardList.push(card)
-            }
-            console.log("FIND USER CARDS, CARD LIST: ", userCardList)
-            this.setState({
-                userCards: userCardList
-            })
-            // console.log("IN THE FINDING USER CARDS FUNCTION: userCards state", this.state.userCards)
-        })
 
-    }
+
 
 
     // C R U D FUNCTIONS START ===================C R U D ==========================START
 
     // THIS FUNCTIONS GET CARDS FROM THE POKEMON TCG API
-    getCards = (keyword) => {
-        APIManager.getThem(`${this.state.pokeApi}/cards?name=${keyword}`)
-            .then(data => this.setState({ apiCards: data.cards }))
+
+    getSingle = (resource) => {
+        let token = localStorage.getItem("token")
+        APIManager.getSingleUser(resource, token)
+            .then(user => console.log(user))
+
     }
 
     gottaGetEmAll = (subtype, keyword) => {
@@ -150,36 +121,51 @@ class App extends Component {
 
     // ===============================================================
 
-    getAll = (resource, token) => {
-        console.log("GET ALL: ", resource, token)
-        APIManager.getAll(resource, token)
+    getAllWithQuery = (resource, query) => {
+        APIManager.getAllWithQuery(resource, query)
             .then(data => {
                 // console.log("data list", data)
                 console.log("ITs Getting All")
-                this.setState({ [resource]: data },
-                    this.findUserCards()
-                    )
+                this.setState({ cardsOfDeck: data },
+                )
                 console.log("just fetched and set new state")
             })
     }
 
-    getAll2 = (resource, token) => {
+    getAllWithQuery2 = (resource, query) => {
+       return APIManager.getAllWithQuery(resource, query)
+            // .then(data => {
+            //     // console.log("data list", data)
+            //     console.log("ITs Getting All")
+            //     this.setState({ cardsOfDeck: data },
+            //     )
+            //     console.log("just fetched and set new state")
+            // })
+    }
+
+    getAll2 = (resource) => {
+        let token = localStorage.getItem("token")
         APIManager.getAll2(resource, token)
             .then(data => {
-                new Promise((resolve, reject) => {
-                    // console.log("data list", data)
-                    this.setState({ [resource]: data })
-                    resolve()
-                })
+                console.log("setting state with getAll 2")
+                this.setState({ [resource]: data })
             })
-            .then(() => {
-                new Promise((resolve, reject) => {
-                    this.findUserDecks()
-                    // this.findUserCards()
-                    resolve()
-                })
-            })
+    }
 
+    getAllWithToken = (resource, token) => {
+        APIManager.getAllWithToken(resource, token)
+            .then(data => {
+                console.log("USING THE TOKEN")
+                this.setState({ [resource]: data })
+            })
+    }
+
+    getUser = (resource, token) => {
+        APIManager.getAllWithToken(resource, token)
+            .then(data => {
+                console.log("USING THE TOKEN")
+                this.setState({ users: data[0] })
+            })
     }
 
     // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
@@ -190,11 +176,17 @@ class App extends Component {
         APIManager.create(resource, newObj, token)
             .then(data => {
                 console.log("just created, now calling get all", data)
-                this.getAll(resource, token)
+                this.getAllWithQuery(resource, token)
             })
     }
 
     createNewCard = (resource, newObj) => {
+        let token = this.state.token
+        return APIManager.create(resource, newObj, token)
+
+    }
+
+    createNewDeck = (resource, newObj) => {
         let token = this.state.token
         return APIManager.create(resource, newObj, token)
 
@@ -212,27 +204,49 @@ class App extends Component {
     deleteThis = (resource, id) => {
         console.log("DELETE THIS", resource, id)
         let token = this.state.token
-        APIManager.delete(resource, id)
+        APIManager.delete(resource, id, token)
             .then(() =>
-                this.getAll(resource, token)
+                APIManager.getAll2(resource, token)
+                    .then(data => {
+                        // console.log("data list", data)
+                        console.log("ITs Getting All")
+                        this.setState({ [resource]: data },
+                        )
+                        console.log("just fetched and set new state")
+                    })
             )
+    }
+
+    deleteIt = (resource) => {
+        let token = this.state.token
+        APIManager.deleteIt(resource, token)
+        .then(() =>
+        APIManager.getAll2(resource, token)
+            .then(data => {
+                // console.log("data list", data)
+                console.log("ITs Getting All")
+                this.setState({ cards: data },
+                )
+                console.log("just fetched and set new state")
+            })
+    )
     }
 
     deleteThis2 = (resource, id, deckId) => {
         let token = this.state.token
-        APIManager.delete(resource, id, deckId)
+        APIManager.delete(resource, id, token)
             .then(data => {
                 this.getAll2(resource, token)
             })
     }
 
-    deleteRelationship = (resource) => {
+
+    editThis = (resource, newObj, id) => {
         let token = this.state.token
-        APIManager.deleteIt(resource, token)
-            .then(data => {
-                this.getAll2(resource, token)
-            })
+        return APIManager.edit(resource, newObj, id, token)
+
     }
+
 
     // C R U D  FUNCTIONS END ==============================C R U D ====================END
 
@@ -302,6 +316,12 @@ class App extends Component {
         };
         this.postAuth("api-token-auth", user)
             .then(() => {
+                let token = localStorage.getItem("token")
+                this.getAllWithToken("decks", token)
+                this.getAllWithToken("cards", token)
+                this.getUser("user-id", token)
+
+
                 console.log("user logged in!")
             })
     }
@@ -328,14 +348,8 @@ class App extends Component {
             })
             .then((tokenObj) => {
 
-
-                console.log("converted token", tokenObj);
                 localStorage.setItem("token", tokenObj.token)
                 localStorage.setItem("username", user.username)
-                console.log("local s user?", localStorage.getItem("user"))
-                this.getAll("decks", tokenObj.token)
-                this.getAll("cards", tokenObj.token)
-                this.getAll("users", tokenObj.token)
                 this.setState({
                     navBarStatus: true,
                     showLogin: false,
@@ -360,9 +374,8 @@ class App extends Component {
         console.log("****** STATES APP LAYER START ******")
         console.log("TOKEN STATE", this.state.token)
         console.log("DECKS app layer: ", this.state.decks)
-        console.log("USER CARDS: ", this.state.userCards)
         console.log("CARDS", this.state.cards)
-        // console.log("WOOP STATE", this.state.woop)
+        console.log("USERS", this.state.users)
         // console.log("DECKNUMBA 2", this.state.decksNumba2)
         // console.log("users after fetch", this.state.users)
         // console.log("current User: ", this.state.currentUser)
@@ -413,31 +426,33 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>App States</button>
+                {/* <button onClick={this.consoleLog}>App States</button> */}
                 {login}
                 {register}
                 <ApplicationViews
                     // CRUD
                     getCards={this.getCards}
                     getCardsById={this.getCardsById}
+                    createNewDeck={this.createNewDeck}
                     gottaGetEmAll={this.gottaGetEmAll}
-                    getAll={this.getAll}
+                    getAllWithQuery={this.getAllWithQuery}
                     createButDontGet={this.createButDontGet}
                     getAll2={this.getAll2}
+                    getAllWithToken={this.getAllWithToken}
                     createNew={this.createNew}
                     createNewCard={this.createNewCard}
                     deleteThis={this.deleteThis}
                     deleteThis2={this.deleteThis2}
-                    deleteRelationship={this.deleteRelationship}
+                    editThis={this.editThis}
+                    deleteIt={this.deleteIt}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}
                     decks={this.state.decks}
                     users={this.state.users}
                     token={this.state.token}
+                    cardsOfDeck={this.state.cardsOfDeck}
                     // CREATED DATA
-                    userCards={this.state.userCards}
-                    userDecks={this.state.userDecks}
                     findCurrentUser={this.findCurrentUser}
                     updateStates={this.updateStates}
                     postAuth={this.postAuth}
@@ -446,9 +461,7 @@ class App extends Component {
                     woop={this.state.woop}
                     navBarStatus={this.state.navBarStatus}
                     cardsNumba2={this.state.cardsNumba2}
-                    // STATE CHANGING FUNCTIONS
-                    findUserDecks={this.findUserDecks}
-                    findUserCards={this.findUserCards}
+                // STATE CHANGING FUNCTIONS
                 />
             </React.Fragment>
         );

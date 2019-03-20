@@ -17,6 +17,8 @@ export default class CardModal extends Component {
         ability: this.props.selectedCard.ability,
         selectedCard: this.props.selectedCard,
         dbCards: [],
+        deckInQuestion: {},
+        selectedDeckId: ""
     }
 
     componentDidMount() {
@@ -28,71 +30,109 @@ export default class CardModal extends Component {
 
     addCard = () => {
         let userName = localStorage.getItem("username")
-        console.log(userName)
+        let token = localStorage.getItem("token")
+        console.log("DECK ID", this.state.selectedDeckId)
+
+        let cardsOfThisDeck = []
 
         if (this.state.selectedDeck === "---------------------" || this.state.selectedDeck === "") {
             alert("Please select a deck")
-        } else {
+        }
 
-            this.props.users.forEach(user => {
-                if (user.username === userName) {
-                    const newCard = {
-                        cardId: this.props.selectedCard.id,
-                        imageUrl: this.props.selectedCard.imageUrl,
-                        imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
-                        name: this.props.selectedCard.name,
-                        rarity: this.props.selectedCard.rarity,
-                        user: user.url
+        else {
+
+            APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
+                .then(data => {
+                    console.log("DATA", data)
+                    data.map(card => {
+                        new Promise((resolve, reject) => {
+                            cardsOfThisDeck.push(card)
+                            resolve()
+                        })
+                    })
+                }
+                ).then(() => {
+                    new Promise((resolve, reject) => {
+                        this.setState({
+                            deckInQuestion: cardsOfThisDeck
+                        })
+                        resolve()
+                    })
+                })
+                .then(() => {
+                    if (this.state.deckInQuestion.length >= 60) {
+                        alert("This Deck already has 60 cards")
                     }
 
+                    else {
+                        const newCard = {
+                            cardId: this.props.selectedCard.id,
+                            imageUrl: this.props.selectedCard.imageUrl,
+                            imageUrlHiRes: this.props.selectedCard.imageUrlHiRes,
+                            name: this.props.selectedCard.name,
+                            rarity: this.props.selectedCard.rarity,
+                            user: this.props.users.url
+                        }
+
+                        this.props.createNewCard("cards", newCard)
+                            .then(data => {
+                                console.log(data)
+                                let newBornCard = data
 
 
+                                const newCardToDeck = {
+                                    cardId: newBornCard.cardId,
+                                    card: newBornCard.url,
+                                    deck: this.state.selectedDeck,
+                                }
+                                console.log(newCardToDeck)
 
+                                this.props.createNewCard("deckcardsrelationship", newCardToDeck)
+                                    .then(data => {
+                                        this.props.getAll2("cards")
+                                        console.log("data getting back after postig to relationship: ", data)
+                                    })
 
-                    this.props.createNewCard("cards", newCard)
-                        .then(data => {
-                            console.log(data)
-                            let newBornCard = data
-                            let token = localStorage.getItem("token")
+                            })
+                    }
 
-
-
-                            const newCardToDeck = {
-                                cardId: newBornCard.cardId,
-                                card: newBornCard.url,
-                                deck: this.state.selectedDeck,
-                            }
-                            console.log(newCardToDeck)
-
-                            this.props.createNewCard("deckcardsrelationship", newCardToDeck)
-                                .then(data => {
-                                    let token = localStorage.getItem("token")
-                                    this.props.getAll("cards", token)
-                                    console.log("data getting back after postig to relationship: ", data)
-                                })
-
-                        })
-
-                }
-
-            })
+                })
         }
+
     }
 
 
     selectDeck = (event) => {
         console.log("SELECTED DECK", event.target.value)
-        this.setState({ selectedDeck: event.target.value });
+        let token = localStorage.getItem("token")
+
+        new Promise((resolve, reject) => {
+            this.setState({
+                selectedDeck: event.target.value,
+            })
+            resolve()
+        })
+            .then(() =>
+                APIManager.getWithUrl(`${this.state.selectedDeck}`, token)
+            )
+            .then(deck => {
+                this.setState({
+                    selectedDeckId: deck.id
+                })
+            })
     }
 
 
     consoleLog = () => {
-
+        console.log("USER", this.props.users)
+        console.log("CARDS IN THIS DECK", this.state.cardsOfThisDeck)
         // console.log("SELECTED CARD: ", this.props.selectedCard)
         // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         console.log("CURRENT DECK: ", this.state.selectedDeck)
         // console.log("VALUE STATE", this.state.value)
         // console.log("CARDS modal layer", this.props.cards)
+        console.log("CURRENT DECK ID", this.state.selectedDeckId)
+        console.log("SEELCTED DECK".this.state.selectedDeck)
     }
 
     render() {
@@ -117,8 +157,8 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
-                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
+                            this.props.decks.map(deck =>
+                                <option woop={deck.date_added} name={deck.name} id={deck.id} value={deck.url}>{deck.name}</option>
                             )
                         }
                     </select>
@@ -160,7 +200,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -189,7 +229,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -214,7 +254,7 @@ export default class CardModal extends Component {
                     <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
-                            this.props.userDecks.map(deck =>
+                            this.props.decks.map(deck =>
                                 <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
                             )
                         }
@@ -233,7 +273,7 @@ export default class CardModal extends Component {
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
-                        {/* <button onClick={this.consoleLog}>console log</button> */}
+                        <button onClick={this.consoleLog}>console log</button>
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
                         {cardModalAttacksFieldContent}
                         {cardModalTrainerContent}

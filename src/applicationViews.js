@@ -18,14 +18,16 @@ export default class AplicationViews extends Component {
         searchPage: false,
         userCards: this.props.userCards,
         userDecks: this.props.userDecks,
+
+        cardsOfDeck: [],
+        emptyDeck: false,
+        triggerSwitch: false
     }
 
 
     componentDidMount() {
         console.log("===APP VIEWS MOUNT===")
-        console.log("user cards", this.props.userCards)
-        console.log("app views users", this.props.users)
-        console.log("views", this.props.cards)
+
     }
 
     componentDidUpdate(prevProps) {
@@ -43,6 +45,29 @@ export default class AplicationViews extends Component {
         }
     }
 
+    changeTriggerSwitch = () => {
+        this.setState({
+            triggerSwitch: !this.state.triggerSwitch
+        })
+    }
+
+    updateCardsOfDeckStateFalse = (cardsOfDeck) => {
+        console.log("CARDS OF DECK CHANGING IN AP VIEWS", cardsOfDeck)
+        this.setState({
+            cardsOfDeck: cardsOfDeck,
+            emptyDeck: false,
+            triggerSwitch: true
+    })
+    }
+
+    updateCardsOfDeckStateTrue = (cardsOfDeck) => {
+        this.setState({
+            cardsOfDeck: "",
+            emptyDeck: true,
+            // triggerSwitch: !this.state.triggerSwitch
+        })
+    }
+
     // NAV BAR CLICKS START =============== NAV BAR CLICKS START ==================
 
     clickOnMyDecks = () => {
@@ -51,7 +76,6 @@ export default class AplicationViews extends Component {
             collectionPage: false,
             searchPage: false,
         })
-        this.props.findCurrentUser()
     }
 
     clickOnMyCollection = () => {
@@ -59,8 +83,8 @@ export default class AplicationViews extends Component {
             collectionPage: true,
             decksPage: false,
             searchPage: false,
+            // triggerSwitch: !this.state.triggerSwitch
         })
-        this.props.findCurrentUser()
     }
 
     clickOnSearchPage = () => {
@@ -69,7 +93,6 @@ export default class AplicationViews extends Component {
             decksPage: false,
             collectionPage: false,
         })
-        this.props.findCurrentUser()
     }
 
     // NAV BAR CLICKS END ======================= NAV BAR CLICKS END =============
@@ -83,6 +106,7 @@ export default class AplicationViews extends Component {
         console.log("USER DECKS", this.state.userDecks)
         console.log("USER CARDS: ", this.state.userCards)
         console.log("current user props", this.props.currentUser)
+        console.log("TriggerSwitch AP VIEWS", this.state.triggerSwitch)
         console.log("=== STATES VIEWS LAYER END ===")
     }
 
@@ -95,10 +119,9 @@ export default class AplicationViews extends Component {
                 <ViewCards
                     // CRUD FUNCTIONS
                     gottaGetEmAll={this.props.gottaGetEmAll}
-                    getCards={this.props.getCards}
                     createNew={this.props.createNew}
                     createNewCard={this.props.createNewCard}
-                    getAll={this.props.getAll}
+                    getAll2={this.props.getAll2}
                     getSingle={this.getSingle}
                     editThis={this.editThis}
                     // DATA STATES
@@ -125,23 +148,36 @@ export default class AplicationViews extends Component {
             viewDecks = (
                 <ViewMyDecks
                     // CRUD
+                    getAllWithQuery={this.props.getAllWithQuery}
+                    getAll2={this.props.getAll2}
                     getCardsById={this.props.getCardsById}
                     createNew={this.props.createNew}
+                    createNewDeck={this.props.createNewDeck}
                     createButDontGet={this.props.createButDontGet}
+                    deleteIt={this.props.deleteIt}
                     deleteThis={this.props.deleteThis}
                     deleteThis2={this.props.deleteThis2}
-                    deleteRelationship={this.props.deleteRelationship}
+                    editThis={this.props.editThis}
                     // FETCHED DATA PROPS
+                    users={this.props.users}
                     decks={this.props.decks}
+                    cards={this.props.cards}
                     // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
                     userDecks={this.state.userDecks}
                     userCards={this.state.userCards}
+                    cardsOfDeck={this.props.cardsOfDeck}
+                    token={this.props.token}
                     // TRIGGER SWITCHES PROPS
 
                     // STATE CHANGING FUNCTIONS PROPS
                     findUserDecks={this.props.findUserDecks}
                     findUserCards={this.props.findUserCards}
+
+                    updateCardsOfDeckStateFalse={this.updateCardsOfDeckStateFalse}
+                    updateCardsOfDeckStateTrue={this.updateCardsOfDeckStateTrue}
+                    cardsOfDeck={this.state.cardsOfDeck}
+                    emptyDeck={this.state.emptyDeck}
                 />
             )
         } else {
@@ -155,18 +191,25 @@ export default class AplicationViews extends Component {
             viewCollection = (
                 <ViewMyCollection
                     // CRUD
-                    getAll={this.props.getAll}
+                    getAllWithQuery={this.props.getAllWithQuery}
                     deleteThis={this.props.deleteThis}
+                    getAll2={this.props.getAll2}
+                    createNewCard={this.props.createNewCard}
                     // FETCHED DATA PROPS
+                    decks={this.props.decks}
                     cards={this.props.cards}
+                    users={this.props.users}
                     // CREATED DATA PROPS
                     currentUser={this.props.currentUser}
                     userCards={this.state.userCards}
+                    cardsOfDeck={this.state.cardsOfDeck}
                     // TRIGGER SWITCHES PROPS
 
                     // STATE CHANGING FUNCTIONS PROPS
                     findUserCards={this.props.findUserCards}
-                    findCurrentUser={this.props.findCurrentUser} />
+                    findCurrentUser={this.props.findCurrentUser}
+                    triggerSwitch={this.state.triggerSwitch}
+                    changeTriggerSwitch={this.changeTriggerSwitch} />
             )
         } else {
             viewCollection = null
@@ -187,8 +230,8 @@ export default class AplicationViews extends Component {
 
         return (
             <div className="appItself">
-                {/* <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button> */}
-                <h1 className="appName">POKEMASTER</h1>
+                <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button>
+                <h1 className="appName">POKE-MASTER <img className="pokeballImage" src="/images/pokeball2.png"></img></h1>
                 {navbar}
                 {searchCards}
                 {viewDecks}

@@ -2,30 +2,31 @@
 /* SEARCH COMPONENTS */
 
 .searchTitle{
-    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 280%;
+    color: white;
 }
 
 .checkboxContainer {
     display: flex;
     flex-direction: column;
+    margin-left: 200px;
 }
 
 .checkboxPokemonDiv {
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     flex-wrap: wrap;
 }
 
 .checkboxEnergyDiv {
     display: flex;
-    /* justify-content: space-evenly; */
-    /* flex-wrap: wrap; */
 }
 
 .checkboxTrainerDiv {
     display: flex;
-    /* flex-direction: row; */
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     flex-wrap: wrap;
 }
 
@@ -35,13 +36,9 @@
 
 .checkboxLabel {
     display:flex;
-    /* flex-direction: row; */
-    /* flex-wrap: wrap; */
     font-weight: bold;
     font-size: 60%;
     color: rgb(228, 238, 255);
-    /* size:70px; */
-    /* width: 10%; */
     border: 2px solid black;
     border-radius: 5px;
     background-color: rgb(33, 109, 250);
@@ -51,7 +48,6 @@
 
 .checkboxLabel:hover {
     color: rgb(228, 238, 255);
-    /* width: 9%; */
     border: 2px solid black;
     border-radius: 5px;
     background-color: rgb(0, 85, 243);
@@ -66,6 +62,25 @@
     float: right;
 }
 
+.searchInput {
+    margin-left: 430px;
+}
+
+.resultsDiv {
+    margin-left: 300px;
+}
+
+.results {
+    margin-left: 410px;
+    margin-top: 100px;
+    color: white;
+}
+
+.noResults {
+        margin-left: 420px;
+        margin-top: 100px;
+        color: white;
+}
 
 
 
@@ -77,10 +92,8 @@
 .cardDiv{
     display: flex;
     flex-direction: row;
-    /* justify-content: space-evenly; */
     overflow: scroll;
-    max-width: 100%;
-    /* width: 150px; */
+    max-width: 150%;
 }
 
 .card {

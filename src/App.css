@@ -1,16 +1,25 @@
 body{
-    background-color: rgb(161, 208, 248);
+    background-color: rgb(236, 236, 236);
 }
 
 
 .appItself {
-    background-color: rgb(161, 208, 248);
+    background-color: rgb(128, 19, 19);
 }
 
 .appName{
+    margin-left: 15px;
+    letter-spacing: 8px;
     font-size: 90px;
-    color: rgb(230, 230, 230);
+    font-style: oblique;
+    font-weight: bold;
+    text-shadow: 5px 5px black;
+    color: rgb(245, 245, 245);
 
+}
+
+.pokeballImage {
+    width: 6%;
 }
 
 /* .card{
