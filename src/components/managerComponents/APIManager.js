@@ -42,8 +42,16 @@ class APIManager {
                 "Authorization": `Token ${token}`
             }
         })
-            .then(response => response.json())
-            .catch(err => console.log("Oopsy Daisy get all problem!", err))
+            .then(response => {
+                if(response.status === 400){
+                    alert("THIS POKEMON IS NOT IN YOUR COLLECTION")
+                }
+                else if(response.status === 200) {
+                }
+               return response.json()
+            }
+            )
+            // .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
     getAll2 = (resource, token, keyword = null) => {
@@ -171,7 +179,12 @@ class APIManager {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${token}`
             }
-        })
+        }).then(response => {
+            console.log("response", response)
+            if(response.status === 404){
+               return alert("THIS POKEMON IS NOT IN YOUR COLLECTION")
+            }
+        } )
     }
 
 

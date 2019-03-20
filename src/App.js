@@ -169,6 +169,14 @@ class App extends Component {
             })
     }
 
+    setUser = (resource, token) => {
+        APIManager.getAll2(resource, token)
+            .then(data => {
+                console.log("USER", data)
+                this.setState({ users: data[0] })
+            })
+    }
+
     // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
 
     createNew = (resource, newObj) => {
@@ -188,6 +196,7 @@ class App extends Component {
     }
 
     createNewDeck = (resource, newObj) => {
+        console.log(newObj)
         let token = this.state.token
         return APIManager.create(resource, newObj, token)
 
@@ -278,10 +287,6 @@ class App extends Component {
         console.log(user)
 
         this.postAuth("register", user)
-            .then(() => {
-                console.log("woop")
-            }
-            )
     }
 
 
@@ -297,7 +302,7 @@ class App extends Component {
         this.setState({
             username: username,
             password: password,
-            loggedIn: true
+
         })
         this.logIn()
     }
@@ -344,21 +349,37 @@ class App extends Component {
                 if (response.status === 200) {
                     console.log("its 200")
                     return response.json();
-                } else {
+                }
+                else if (response.status === 400) {
+                     alert("You are not currently a user, you should register.")
+                    //  return response.json()
+                }
+                else {
                     return "you aint a user brah!"
                 }
             })
             .then((tokenObj) => {
+                console.log("ITS PASSING", tokenObj.token)
+                if(tokenObj.token === false) {
+                    console.log("OOPS")
+                }
 
-                localStorage.setItem("token", tokenObj.token)
-                localStorage.setItem("username", user.username)
-                this.setState({
-                    navBarStatus: true,
-                    showLogin: false,
-                    showRegister: false,
-                    token: tokenObj.token
+                else if(tokenObj.token !== false) {
+                new Promise((resolve, reject) => {
+                    localStorage.setItem("token", tokenObj.token)
+                    localStorage.setItem("username", user.username)
+                    resolve()
                 })
-
+                .then(() => {
+                    this.setState({
+                        navBarStatus: true,
+                        showLogin: false,
+                        showRegister: false,
+                        token: tokenObj.token,
+                        loggedIn: true
+                    })
+                })
+            }
             })
             .catch((err) => {
                 console.log("auth no like you, brah", err);
@@ -436,7 +457,7 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                {/* <button onClick={this.consoleLog}>App States</button> */}
+                <button onClick={this.consoleLog}>App States</button>
                 {login}
                 {register}
                 <ApplicationViews
@@ -455,6 +476,7 @@ class App extends Component {
                     deleteThis2={this.deleteThis2}
                     editThis={this.editThis}
                     deleteIt={this.deleteIt}
+                    setUser={this.setUser}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}

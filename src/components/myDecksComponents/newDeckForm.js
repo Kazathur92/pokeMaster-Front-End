@@ -15,7 +15,9 @@ export default class NewDeckForm extends Component {
         maxCardAmmount: 60,
         user: this.props.users.url,
         imageCover1: "https://bulma.io/images/placeholders/1280x960.png",
-        imageCover2: "https://bulma.io/images/placeholders/1280x960.png"
+        imageCover2: "https://bulma.io/images/placeholders/1280x960.png",
+        energyType1: "",
+        energyType2: ""
     }
 
     componentDidMount() {
@@ -30,6 +32,12 @@ export default class NewDeckForm extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.decks !== prevProps.decks) {
             this.makeDate()
+        }
+
+        if(this.props.token !== prevProps.token) {
+            this.setState({
+                user: this.props.users.url
+            })
         }
     }
 
@@ -49,12 +57,14 @@ export default class NewDeckForm extends Component {
         else if (this.state.imageCover2 === "https://bulma.io/images/placeholders/1280x960.png" || this.state.imageCover2 === "") {
 
             new Promise((resolve, reject) => { this.setState({
-                imageCover2: ""
+                imageCover2: "",
+                energyType2: ""
             })
             resolve()
         })
             .then(() => {
                 console.log("PROMISE 2nd LAYER")
+                console.log("CURRENT STATES", this.state)
             this.props.createNewDeck(resource, this.state)
         })
             .then(() => {
@@ -70,7 +80,9 @@ export default class NewDeckForm extends Component {
                         maxCardAmmount: 60,
                         user: this.props.users.url,
                         imageCover1: this.state.imageCover1,
-                        imageCover2: "https://bulma.io/images/placeholders/1280x960.png"
+                        imageCover2: "https://bulma.io/images/placeholders/1280x960.png",
+                        energyType1: this.state.energyType1,
+                        energyType2: this.state.energyType2
                     })
                     resolve()
                 })
@@ -96,7 +108,10 @@ export default class NewDeckForm extends Component {
                         maxCardAmmount: 60,
                         user: this.props.users.url,
                         imageCover1: this.state.imageCover1,
-                        imageCover2: this.state.imageCover2
+                        imageCover2: this.state.imageCover2,
+                        energyType1: this.state.energyType1,
+                        energyType2: this.state.energyType2
+
                     })
                     resolve()
                 })
@@ -132,16 +147,17 @@ export default class NewDeckForm extends Component {
     }
 
     selectImageCover1 = (event) => {
-        console.log("WOOP", event.target.value)
+        console.log("IMAGE NAME", event[event.selectedIndex].id)
         this.setState({
-            imageCover1: event.target.value
+            imageCover1: event[event.selectedIndex].value,
+            energyType1: event[event.selectedIndex].id
         })
     }
 
     selectImageCover2 = (event) => {
-        console.log("WOOP", event.target.value)
         this.setState({
-            imageCover2: event.target.value
+            imageCover2: event[event.selectedIndex].value,
+            energyType2: event[event.selectedIndex].id
         })
     }
 
@@ -153,6 +169,8 @@ export default class NewDeckForm extends Component {
         console.log("strat", this.state.strategy)
         console.log("current user props", this.props.currentUser)
         console.log("STATES", this.state)
+        console.log("ENERGY TYPE", this.state.energyType1)
+        console.log("ENERGY TYPE 2", this.state.energyType2)
     }
 
     render() {
@@ -170,41 +188,41 @@ export default class NewDeckForm extends Component {
                         <textarea name="strategy" id="strategy" rows="4" cols="50" type="text" placeholder="How is this deck played?" value={this.state.strategy} onChange={this.handleFieldChange}></textarea>
                     </div>
                     <p className="predominantEnergy">Predominant Energy: </p>
-                    <select onChange={this.selectImageCover1}  className="selectImage">
-                        <option value="https://bulma.io/images/placeholders/1280x960.png">---------</option>
-                        <option value="/images/DarknessSymbol.jpg">Darkness</option>
-                        <option value="/images/DragonSymbol.jpg">Dragon</option>
-                        <option value="/images/FairySymbol.jpg">Fairy</option>
-                        <option value="/images/FireSymbol.jpg">Fire</option>
-                        <option value="/images/FightingSymbol.jpg">Fighting</option>
-                        <option value="/images/GrassSymbol.jpg">Grass</option>
-                        <option value="/images/LightingSymbol.jpg">Lighting</option>
-                        <option value="/images/MetalSymbol.jpg">Metal</option>
-                        <option value="/images/NormalSymbol.jpg">Normal</option>
-                        <option value="/images/PsychicSymbol.jpg">Psychic</option>
-                        <option value="/images/WaterSymbol.jpg">Water</option>
+                    <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImage">
+                        <option value={"https://bulma.io/images/placeholders/1280x960.png"} name="">---------</option>
+                        <option value="/images/DarknessSymbol.jpg" key="woop" id="Darkness">Darkness</option>
+                        <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
+                        <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
+                        <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
+                        <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
+                        <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
+                        <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
+                        <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
+                        <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
+                        <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
+                        <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
                     </select>
                     <p className="secondaryPredominantEnergy">Secondary Predominant Energy:</p>
-                    <select onChange={this.selectImageCover2}  className="selectImage">
-                        <option value="https://bulma.io/images/placeholders/1280x960.png">---------</option>
-                        <option value="/images/DarknessSymbol.jpg">Darkness</option>
-                        <option value="/images/DragonSymbol.jpg">Dragon</option>
-                        <option value="/images/FairySymbol.jpg">Fairy</option>
-                        <option value="/images/FireSymbol.jpg">Fire</option>
-                        <option value="/images/FightingSymbol.jpg">Fighting</option>
-                        <option value="/images/GrassSymbol.jpg">Grass</option>
-                        <option value="/images/LightingSymbol.jpg">Lighting</option>
-                        <option value="/images/MetalSymbol.jpg">Metal</option>
-                        <option value="/images/NormalSymbol.jpg">Normal</option>
-                        <option value="/images/PsychicSymbol.jpg">Psychic</option>
-                        <option value="/images/WaterSymbol.jpg">Water</option>
+                    <select onChange={(event) => this.selectImageCover2(event.target)}  className="selectImage">
+                        <option value="https://bulma.io/images/placeholders/1280x960.png" id="">---------</option>
+                        <option value="/images/DarknessSymbol.jpg" id="Darkness">Darkness</option>
+                        <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
+                        <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
+                        <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
+                        <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
+                        <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
+                        <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
+                        <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
+                        <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
+                        <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
+                        <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
                     </select>
                     <div className="predominantEnergiesDiv">
                     <img className="deckImage" src={`${this.state.imageCover1}`}></img>
                     <img className="deckImage" src={`${this.state.imageCover2}`}></img>
                     </div>
                     <button className="saveDeckButton" onClick={() => this.createDeck("decks")}>Save Deck</button>
-                    {/* <button onClick={this.consoleLog}>check states</button> */}
+                    <button onClick={this.consoleLog}>check states</button>
                 </div>
             </React.Fragment>
         )

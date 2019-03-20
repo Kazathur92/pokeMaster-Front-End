@@ -202,6 +202,15 @@ overflow: scroll;
     margin-left: 40px;
 }
 
+.energyType1Span {
+}
+
+.editIconEnergies {
+    color: white;
+    font-size: 30px;
+    margin-left: -50px;
+}
+
 .editNameForm {
      margin-left: 180px;
 }
@@ -269,6 +278,32 @@ overflow: scroll;
     margin-left: 20px;
 }
 
+.primaryEnergiesDiv {
+    display: flex;
+    justify-content: center;
+
+}
+
+.primaryEnergiesDiv:hover {
+    display: flex;
+    justify-content: center;
+
+}
+
+.energiesTitles {
+    color: white;
+}
+
+.energyType1 {
+    width: 100px;
+    color: white;
+}
+
+.energyType2 {
+    color: white;
+    margin-left: -8%;
+}
+
 #description {
     margin-left: 20px;
     height: 55px;
@@ -305,3 +340,22 @@ overflow: scroll;
 .predominantEnergiesDiv {
     display: flex;
 }
+
+/* EDIT TYPES FORM */
+
+.energy1Tilte {
+    color: white;
+}
+
+.energy2Title {
+    color: white;
+}
+
+.selectImageEdit {
+    width: 12%;
+}
+
+.option {
+    width: 50px;;
+}
+

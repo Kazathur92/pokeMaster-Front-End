@@ -43,6 +43,13 @@ export default class AplicationViews extends Component {
                 userCards: this.props.userCards,
             })
         }
+
+        if(this.props.token !== prevProps.token) {
+            this.props.getAll2("cards")
+            this.props.getAll2("decks")
+            let token = localStorage.getItem("token")
+            this.props.setUser("user-id", token)
+        }
     }
 
     signOut = () => {

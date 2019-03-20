@@ -281,6 +281,8 @@ export default class DeckItem extends Component {
 
     makeMvp = (card, deck) => {
 
+        if(card.imageUrl) {
+
         let newObj = {
             imageMvp: card.imageUrl
         }
@@ -290,6 +292,19 @@ export default class DeckItem extends Component {
                 console.log("DATA BROUGHT BACK", deck)
                 this.props.getAll2("decks")
             })
+        }
+        else {
+            let newObj = {
+                imageMvp: "https://bulma.io/images/placeholders/1280x960.png"
+
+            }
+
+            this.props.editThis("decks", newObj, deck.id)
+                .then(deck => {
+                    console.log("DATA BROUGHT BACK", deck)
+                    this.props.getAll2("decks")
+                })
+        }
     }
 
 

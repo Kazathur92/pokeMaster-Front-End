@@ -3,6 +3,7 @@ import './viewDeck.css'
 import EditName from './editNameForm'
 import EditDescription from './editDescriptionForm'
 import EditStrategy from './editStrategyForm'
+import EditTypes from './editTypes'
 import APIManager from '../managerComponents/APIManager';
 
 
@@ -19,6 +20,11 @@ export default class DeckModal extends Component {
         editNameForm: false,
         editDescriptionForm: false,
         editStrategyForm: false,
+        editEnergyType1Icon: false,
+        editEnergyType2Icon: false,
+        editTypesForm: false,
+        type1: "",
+        type2: ""
     }
 
     // onMouseOut={this.outOfCard}
@@ -27,28 +33,28 @@ export default class DeckModal extends Component {
         console.log("%%% DECK MODAL MOUNT %%%")
         console.log("CARDS OF DECK", this.props.cardsOfDeck)
         let token = localStorage.getItem("token")
-        if(this.props.cardsOfDeck.length >= 1) {
+        if (this.props.cardsOfDeck.length >= 1) {
             console.log("MORE THAN I CARD IN CARDS OF DECK")
             APIManager.getSingle("decks", this.props.selectedDeck.id, token)
-            .then( deck => {
-            this.setState({
-                currentDeck: deck,
-                selectedDeck: this.props.selectedDeck,
-                selectedCardOnDeck: this.props.cardsOfDeck[0].card
-            })
-        })
-    }
+                .then(deck => {
+                    this.setState({
+                        currentDeck: deck,
+                        selectedDeck: this.props.selectedDeck,
+                        selectedCardOnDeck: this.props.cardsOfDeck[0].card
+                    })
+                })
+        }
         else {
             console.log("ANYTHING ELSE")
-        APIManager.getSingle("decks", this.props.selectedDeck.id, token)
-        .then( deck => {
-            this.setState({
-                currentDeck: deck,
-                selectedDeck: this.props.selectedDeck,
-                selectedCardOnDeck: {}
-            })
-        })
-    }
+            APIManager.getSingle("decks", this.props.selectedDeck.id, token)
+                .then(deck => {
+                    this.setState({
+                        currentDeck: deck,
+                        selectedDeck: this.props.selectedDeck,
+                        selectedCardOnDeck: {}
+                    })
+                })
+        }
 
     }
 
@@ -118,9 +124,9 @@ export default class DeckModal extends Component {
             })
             resolve()
         })
-        .then(() => {
-            this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
-        })
+            .then(() => {
+                this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
+            })
 
     }
 
@@ -134,10 +140,10 @@ export default class DeckModal extends Component {
             })
             resolve()
         })
-        .then(() => {
-        console.log("ITS WAITING TO DELETE")
-        this.props.deleteRelationshipToGetId(`findRelationship/${deck_id}?card=${card_id}`)
-        })
+            .then(() => {
+                console.log("ITS WAITING TO DELETE")
+                this.props.deleteRelationshipToGetId(`findRelationship/${deck_id}?card=${card_id}`)
+            })
     }
 
     showEditNameIcon = () => {
@@ -200,6 +206,39 @@ export default class DeckModal extends Component {
         })
     }
 
+    showEditEnergyType1Icon = () => {
+        this.setState({
+            editEnergyType1Icon: true
+        })
+    }
+
+    hideEditEnergyType1Icon = () => {
+        this.setState({
+            editEnergyType1Icon: false
+        })
+    }
+
+    showEditEnergyType2Icon = () => {
+        this.setState({
+            editEnergyType2Icon: true
+        })
+    }
+
+    hideEditEnergyType2Icon = () => {
+        this.setState({
+            editEnergyType2Icon: false
+        })
+    }
+
+    showEditTypesForm = (type1, type2) => {
+        this.setState({
+            editTypesForm: true,
+            type1: type1,
+            type2: type2
+        })
+    }
+
+
 
 
     consoleLog = () => {
@@ -225,10 +264,10 @@ export default class DeckModal extends Component {
 
         let interactionButtons = ""
 
-        if(this.props.cardsOfDeck.length >= 1 && this.props.emptyDeck === false) {
+        if (this.props.cardsOfDeck.length >= 1 && this.props.emptyDeck === false) {
             interactionButtons = (
                 <React.Fragment>
-                <button className="deleteFromDeckButton" onClick={this.removeFromDeck}>Remove from Deck</button><button className="deleteFromCollectionButton" onClick={() => this.removeFromCollection(this.state.selectedCardOnDeck.id)}>Remove from Collection</button>
+                    <button className="deleteFromDeckButton" onClick={this.removeFromDeck}>Remove from Deck</button><button className="deleteFromCollectionButton" onClick={() => this.removeFromCollection(this.state.selectedCardOnDeck.id)}>Remove from Collection</button>
                 </React.Fragment>
             )
         }
@@ -273,7 +312,7 @@ export default class DeckModal extends Component {
 
         let editDeckName = ""
 
-        if(this.state.editName) {
+        if (this.state.editName) {
             editDeckName = (
 
                 <i className="fas fa-edit editIcon"></i>
@@ -287,7 +326,7 @@ export default class DeckModal extends Component {
 
         let editDeckDescription = ""
 
-        if(this.state.editDescription) {
+        if (this.state.editDescription) {
             editDeckDescription = (
 
                 <i className="fas fa-edit editIcon"></i>
@@ -301,7 +340,7 @@ export default class DeckModal extends Component {
 
         let editDeckStrategy = ""
 
-        if(this.state.editStrategy) {
+        if (this.state.editStrategy) {
             editDeckStrategy = (
 
                 <i className="fas fa-edit editIcon"></i>
@@ -314,14 +353,14 @@ export default class DeckModal extends Component {
         }
 
         let deckName = ""
-        if(this.state.editNameForm) {
+        if (this.state.editNameForm) {
             deckName = (
                 <EditName selectedDeck={this.props.selectedDeck}
-                showWarningModal={this.props.showWarningModal}
-                closeWarningModal={this.props.closeWarningModal}
-                warningModalProceed={this.props.warningModalProceed}
-                continueEditing={this.continueEditing}
-                closeEditNameForm={this.closeEditNameForm}
+                    showWarningModal={this.props.showWarningModal}
+                    closeWarningModal={this.props.closeWarningModal}
+                    warningModalProceed={this.props.warningModalProceed}
+                    continueEditing={this.continueEditing}
+                    closeEditNameForm={this.closeEditNameForm}
                 />
             )
         } else {
@@ -331,16 +370,16 @@ export default class DeckModal extends Component {
         }
 
         let deckDescription = ""
-        if(this.state.editDescriptionForm) {
+        if (this.state.editDescriptionForm) {
             deckDescription = (
                 <EditDescription selectedDeck={this.props.selectedDeck}
-                showWarningModal={this.props.showWarningModal}
-                closeWarningModal={this.props.closeWarningModal}
-                warningModalProceed={this.props.warningModalProceed}
-                continueEditing={this.continueEditing}
-                closeEditForm={this.closeEditForm}
-                closeEditDescriptionForm={this.closeEditDescriptionForm}
-                showWarningModalFromDescriptionForm={this.props.showWarningModalFromDescriptionForm}
+                    showWarningModal={this.props.showWarningModal}
+                    closeWarningModal={this.props.closeWarningModal}
+                    warningModalProceed={this.props.warningModalProceed}
+                    continueEditing={this.continueEditing}
+                    closeEditForm={this.closeEditForm}
+                    closeEditDescriptionForm={this.closeEditDescriptionForm}
+                    showWarningModalFromDescriptionForm={this.props.showWarningModalFromDescriptionForm}
                 />
             )
         } else {
@@ -350,16 +389,16 @@ export default class DeckModal extends Component {
         }
 
         let deckStrategy = ""
-        if(this.state.editStrategyForm) {
+        if (this.state.editStrategyForm) {
             deckStrategy = (
                 <EditStrategy selectedDeck={this.props.selectedDeck}
-                showWarningModal={this.props.showWarningModal}
-                closeWarningModal={this.props.closeWarningModal}
-                warningModalProceed={this.props.warningModalProceed}
-                continueEditing={this.continueEditing}
-                closeEditForm={this.closeEditForm}
-                closeEditDescriptionForm={this.closeEditDescriptionForm}
-                showWarningModalStrategyForm={this.props.showWarningModalStrategyForm}
+                    showWarningModal={this.props.showWarningModal}
+                    closeWarningModal={this.props.closeWarningModal}
+                    warningModalProceed={this.props.warningModalProceed}
+                    continueEditing={this.continueEditing}
+                    closeEditForm={this.closeEditForm}
+                    closeEditDescriptionForm={this.closeEditDescriptionForm}
+                    showWarningModalStrategyForm={this.props.showWarningModalStrategyForm}
                 />
             )
         } else {
@@ -368,18 +407,48 @@ export default class DeckModal extends Component {
             )
         }
 
+        let editEnergyType1Icon = ""
+
+        if(this.state.editEnergyType1Icon) {
+            editEnergyType1Icon = (
+                <i onClick={() => this.showEditTypesForm(this.props.selectedDeck.energyType1, this.props.selectedDeck.energyType2)} className="fas fa-edit editIconEnergies"></i>
+            )
+        } else {
+            editEnergyType1Icon = null
+        }
+
+        let editTypes = ""
+
+        if(this.state.editTypesForm) {
+            editTypes = (
+                <EditTypes />
+            )
+        } else {
+            editTypes = null
+        }
 
         return (
             <React.Fragment>
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
-                    <img className="energyType1" src="/images/steel.png"></img>
-                    <img className="energyType2" src="/images/thunder.png"></img>
-                        <button onClick={this.consoleLog}>console Log modal</button>
+                        {/* <img className="energyType1" src="/images/steel.png"></img> */}
+                        {/* <img className="energyType2" src="/images/thunder.png"></img> */}
+                        {/* <button onClick={this.consoleLog}>console Log modal</button> */}
                         {deckName}
                         {deckDescription}
                         {deckStrategy}
+                        <div className="primaryEnergiesDiv" onMouseEnter={this.showEditEnergyType1Icon} onMouseLeave={this.hideEditEnergyType1Icon}>
+                            <p className="energiesTitles">Primary Energies:</p>&nbsp;&nbsp;
+                            <p  className="energyType1">{this.props.selectedDeck.energyType1}</p>
+                            <p onMouseEnter={this.hidEditEnergyType2Icon} className="energyType2">{this.props.selectedDeck.energyType2}</p>
+                            <span className="energyType1Span">
+                            {editEnergyType1Icon}
+                            </span>
+
+                            {/* {editEnergyTypeIcon} */}
+                        </div>
+                            {editTypes}
                         <br></br>
                         <button onClick={() => this.props.makeMvp(this.state.selectedCardOnDeck, this.props.selectedDeck)} className="makeMvp">Make MVP</button>
                         <img className="lookAtCard" src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>

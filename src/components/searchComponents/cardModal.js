@@ -22,9 +22,17 @@ export default class CardModal extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            attacks: this.props.selectedCard.attacks
-        })
+        if (this.state.selectedCard.attacks) {
+            this.setState({
+                attacks: this.props.selectedCard.attacks
+            })
+        }
+
+        else {
+            this.setState({
+                attacks: []
+            })
+        }
     }
 
 
@@ -126,8 +134,8 @@ export default class CardModal extends Component {
     consoleLog = () => {
         console.log("USER", this.props.users)
         console.log("CARDS IN THIS DECK", this.state.cardsOfThisDeck)
-        // console.log("SELECTED CARD: ", this.props.selectedCard)
-        // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
+        console.log("SELECTED CARD: ", this.props.selectedCard)
+        console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         console.log("CURRENT DECK: ", this.state.selectedDeck)
         // console.log("VALUE STATE", this.state.value)
         // console.log("CARDS modal layer", this.props.cards)
@@ -154,7 +162,7 @@ export default class CardModal extends Component {
                         )
                     }
                     {/* <select onChange={(event) => this.selectDeck(event)}> */}
-                    <select onChange={this.selectDeck} value={this.state.value}>
+                    {/* <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
                             this.props.decks.map(deck =>
@@ -162,7 +170,7 @@ export default class CardModal extends Component {
                             )
                         }
                     </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+                    <button onClick={() => this.addCard("cards")}>add to deck</button> */}
                 </div>
             )
         } else {
@@ -197,7 +205,7 @@ export default class CardModal extends Component {
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
 
-                    <select onChange={this.selectDeck} value={this.state.value}>
+                    {/* <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
                             this.props.decks.map(deck =>
@@ -206,7 +214,7 @@ export default class CardModal extends Component {
                         }
                     </select>
 
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+                    <button onClick={() => this.addCard("cards")}>add to deck</button> */}
                 </div>
             )
         } else {
@@ -226,7 +234,7 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select onChange={this.selectDeck} value={this.state.value}>
+                    {/* <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
                             this.props.decks.map(deck =>
@@ -234,7 +242,7 @@ export default class CardModal extends Component {
                             )
                         }
                     </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+                    <button onClick={() => this.addCard("cards")}>add to deck</button> */}
                 </div>
             )
         } else {
@@ -251,7 +259,7 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select onChange={this.selectDeck} value={this.state.value}>
+                    {/* <select onChange={this.selectDeck} value={this.state.value}>
                         <option>---------------------</option>
                         {
                             this.props.decks.map(deck =>
@@ -259,7 +267,7 @@ export default class CardModal extends Component {
                             )
                         }
                     </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+                    <button onClick={() => this.addCard("cards")}>add to deck</button> */}
                 </div>
             )
         } else {
@@ -268,17 +276,61 @@ export default class CardModal extends Component {
 
 
         return (
-            <div className="modal is-active">
-                <div className="modal-background" onClick={this.props.closeViewCard}></div>
+            <div className="modal is-active theWholeModal">
+                <div className="modal-background modalBackground" onClick={this.props.closeViewCard}></div>
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
-                        <button onClick={this.consoleLog}>console log</button>
+                        {/* <button onClick={this.consoleLog}>console log</button> */}
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
-                        {cardModalAttacksFieldContent}
-                        {cardModalTrainerContent}
-                        {cardModalSpecialEnergyContent}
-                        {cardModalEnergyContent}
+                        {/* {cardModalAttacksFieldContent} */}
+                        <div className="pokemonActions">
+                            {this.state.selectedCard.ability ? this.state.selectedCard.ability.length = 1 ?
+                                <div>
+                                    <p className="abilityTitle">Ability: </p>
+                                    <p className="abilityType">{this.state.selectedCard.ability.type}</p>
+                                    <p className="abilityName">{this.state.selectedCard.ability.name}</p>
+                                    <p className="abilityText">{this.state.selectedCard.ability.text}</p>
+
+                                </div>
+                                :
+                                <p>This pokemon has no ability</p>
+
+                                : <p></p>}
+
+                            {this.state.selectedCard.ability ? this.state.selectedCard.ability.length > 1 ?
+                                <div>
+                                    <p className="abilityTitle">Abilities: </p>
+                                    <p>{this.state.selectedCard.ability[0].type}</p>
+                                    <p>{this.state.selectedCard.ability[0].name}</p>
+                                    <p>{this.state.selectedCard.ability[0].text}</p>
+                                    <p>{this.state.selectedCard.ability[1].type}</p>
+                                    <p>{this.state.selectedCard.ability[1].name}</p>
+                                    <p>{this.state.selectedCard.ability[1].text}</p>
+
+                                </div>
+                                :
+                                <p></p>
+                                : <p></p>
+                            }
+
+
+
+                            {this.state.selectedCard.attacks ? cardModalAttacksFieldContent : <p></p>}
+                                {cardModalTrainerContent}
+                                {cardModalSpecialEnergyContent}
+                                {cardModalEnergyContent}
+
+                            <select onChange={this.selectDeck} value={this.state.value}>
+                                <option>---------------------</option>
+                                {
+                                    this.props.decks.map(deck =>
+                                        <option woop={deck.date_added} name={deck.name} id={deck.id} value={deck.url}>{deck.name}</option>
+                                    )
+                                }
+                            </select>
+                            <button onClick={() => this.addCard("cards")}>add to deck</button>
+                        </div>
                     </div>
                 </div>
                 <button onClick={this.props.closeViewCard} className="modal-close is-large" aria-label="close"></button>
