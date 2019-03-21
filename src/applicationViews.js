@@ -259,11 +259,15 @@ export default class AplicationViews extends Component {
         let navbar = ""
         if (localStorage.length >= 1 || this.props.navBarStatus) {
             navbar = (
+              <StyleRoot>
+                <div style={fadeInAnimation.fadeIn}>
                 <NavBar clickOnSearchPage={this.clickOnSearchPage}
                     clickOnMyDecks={this.clickOnMyDecks}
                     clickOnMyCollection={this.clickOnMyCollection}
                     findCurrentUser={this.props.findCurrentUser}
                 />
+                </div>
+                </StyleRoot>
             )
         } else {
             navbar = null

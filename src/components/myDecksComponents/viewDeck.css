@@ -403,12 +403,21 @@ box-shadow: 5px 5px 8px black;
     margin-left: -50px;
 }
 
+
 .editNameForm {
-     margin-left: 180px;
+  width:30%;
+  margin-left: 34%;
 }
 
+
 .editDescriptionForm {
-    margin-left: 180px;
+  margin-left: 30%;
+  height: 55px;
+  width: 300px;
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 55px;
+  min-height: 55px;
 }
 
 .editStrategyForm {
@@ -448,6 +457,8 @@ box-shadow: 5px 5px 8px black;
 
 
 .saveDeckButton {
+    position: absolute;
+    /* margin-top: -30px; */
     width: 10%;
 }
 
@@ -483,15 +494,20 @@ box-shadow: 5px 5px 8px black;
     letter-spacing: 1px;
 }
 
-#name {
-    width:30%;
-    margin-left: 20px;
-}
+
 
 #nameState {
     width:30%;
     margin-left: 215px;
 }
+
+
+.newName {
+  width:30%;
+  margin-left: 20px;
+}
+
+
 
 .primaryEnergiesDiv {
     display: flex;
@@ -523,14 +539,15 @@ box-shadow: 5px 5px 8px black;
   margin-left: 20%;
  }
 
-#description {
-    margin-left: 30%;
-    height: 55px;
-    width: 300px;
-    max-width: 300px;
-    min-width: 300px;
-    max-height: 55px;
-    min-height: 55px;
+
+.newDescription {
+  margin-left: 30%;
+  height: 55px;
+  width: 300px;
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 55px;
+  min-height: 55px;
 }
 
 #descriptionState {

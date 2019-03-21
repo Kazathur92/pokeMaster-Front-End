@@ -134,8 +134,8 @@ export default class CardModal extends Component {
     consoleLog = () => {
         // console.log("USER", this.props.users)
         // console.log("CARDS IN THIS DECK", this.state.cardsOfThisDeck)
-        console.log("SELECTED CARD: ", this.props.selectedCard.attacks)
-        console.log("SELECTED CARD STATE: ", this.state.selectedCard)
+        // console.log("SELECTED CARD: ", this.props.selectedCard.attacks)
+        // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
         // console.log("CURRENT DECK: ", this.state.selectedDeck)
         // console.log("VALUE STATE", this.state.value)
         // console.log("CARDS modal layer", this.props.cards)
@@ -237,7 +237,7 @@ export default class CardModal extends Component {
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
-                        <button onClick={this.consoleLog}>console log</button>
+                        {/* <button onClick={this.consoleLog}>console log</button> */}
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
                         <div className="pokemonActions">
                             {this.state.selectedCard.ability ? this.state.selectedCard.ability.length = 1 ?

@@ -303,12 +303,13 @@ export default class DeckModal extends Component {
 
 
     consoleLog = () => {
-        console.log("SELECTED CARD ON DECK", this.state.selectedCardOnDeck)
+        // console.log("SELECTED CARD ON DECK", this.state.selectedCardOnDeck)
         // console.log("USER CARDS", this.props.userCards)
-        console.log("EMPTY DECK STATE", this.props.emptyDeck)
-        console.log("SELECTED DECK", this.props.selectedDeck)
-        console.log("cards of deck props", this.props.cardsOfDeck)
-        console.log("CARDS PROPS", this.props.cards)
+        console.log("NEW DESCRIPTION", this.state.newDdescription)
+        // console.log("EMPTY DECK STATE", this.props.emptyDeck)
+        // console.log("SELECTED DECK", this.props.selectedDeck)
+        // console.log("cards of deck props", this.props.cardsOfDeck)
+        // console.log("CARDS PROPS", this.props.cards)
         // console.log("selected card on deck", this.state.selectedCardOnDeck)
         // console.log("EDIT NAME STATE", this.state.editName)
         // console.log("EDIT DESCRIPTION STATE", this.state.editDescription)
@@ -437,7 +438,8 @@ export default class DeckModal extends Component {
                     continueEditing={this.continueEditing}
                     closeEditForm={this.closeEditForm}
                     closeEditDescriptionForm={this.closeEditDescriptionForm}
-                    showWarningModalFromDescriptionForm={this.props.showWarningModalFromDescriptionForm}
+                    showWarningModalDescriptionForm={this.props.showWarningModalDescriptionForm}
+
                 />
             )
         } else {

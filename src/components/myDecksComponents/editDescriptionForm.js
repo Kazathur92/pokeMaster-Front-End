@@ -16,7 +16,7 @@ const fadeInAnimation = {
 export default class EditDescription extends Component {
 
     state = {
-        descriptionState: this.props.selectedDeck.description
+        description: this.props.selectedDeck.description
     }
 
     handleDescriptionChange = (event) => {
@@ -31,9 +31,9 @@ export default class EditDescription extends Component {
 
                 <StyleRoot>
                 <div style={fadeInAnimation.fadeIn} className="editDescriptionDiv">
-                    <textarea id="descriptionState" className="editDescriptionForm" value={this.state.descriptionState} onChange={this.handleDescriptionChange}></textarea>
+                    <textarea id="description" className="editDescriptionForm" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
                     <span className="icon Icons">
-                        <i onClick={() => this.props.showWarningModalFromDescriptionForm(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
+                        <i onClick={() => this.props.showWarningModalDescriptionForm(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
                         <i onClick={this.props.closeEditDescriptionForm} className="fas fa-times IconTimes"></i>
                     </span>
                 </div>

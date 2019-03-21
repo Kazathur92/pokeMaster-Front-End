@@ -203,11 +203,11 @@ export default class NewDeckForm extends Component {
                     <div style={slideInLeftAnimation.slideInLeft} className="newDeckFields">
                     <div className="divider">
                         <h3 className="viewDecksTitle">Add a new deck to the collection!</h3>
-                        <label className="nameLabelForm" for="name">Deck Name: <input name="name" id="name" type="text" placeholder="deck title" value={this.state.name} onChange={this.handleFieldChange}></input></label>
+                        <label className="nameLabelForm" for="name">Deck Name: <input name="name" id="name" className="newName" type="text" placeholder="deck title" value={this.state.name} onChange={this.handleFieldChange}></input></label>
 
                         <div className="newDeckDescriptionAndStrategy">
                             <label className="descriptionLabel" for="description">Deck Description: </label>
-                            <textarea name="description" id="description" rows="4" cols="50" type="text" placeholder="Notes about this Deck" value={this.state.description} onChange={this.handleFieldChange}></textarea>
+                            <textarea name="description" className="newDescription" id="description" rows="4" cols="50" type="text" placeholder="Notes about this Deck" value={this.state.description} onChange={this.handleFieldChange}></textarea>
                             <label className="strategyLabel" for="strategy">Deck Strategy: </label>
                             <textarea name="strategy" id="strategy" rows="4" cols="50" type="text" placeholder="How is this deck played?" value={this.state.strategy} onChange={this.handleFieldChange}></textarea>
                         </div>
