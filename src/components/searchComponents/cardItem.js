@@ -4,21 +4,15 @@ import './searchComponent.css'
 
 export default class CardItem extends Component {
 
-
     state = {
         selectedCard: {},
         modal: false,
     }
 
-    // THE CARDS FROM THE DB AND THE API HAD A STATE IN APP NAMED THE SAME
-
     componentDidMount() {
-
     }
 
     componentDidUpdate(prevProps) {
-
-
     }
 
 
@@ -67,41 +61,43 @@ export default class CardItem extends Component {
         let defaultView = ""
         let searchResults = ""
 
-        if(this.props.defaultView) {
+        if (this.props.defaultView) {
             searchResults = (
                 <div className="resulstDiv">
                     <h5 className="results">Search Results will appear here.</h5>
                 </div>
             )
-            }
+        }
 
-        else if(this.props.apiCards.length >= 1 && this.props.defaultView === false) {
+        else if (this.props.apiCards.length >= 1 && this.props.defaultView === false) {
             searchResults = (
                 <React.Fragment>
-                {this.props.apiCards.map(card =>
+
+                    {this.props.apiCards.map(card =>
 
                         <div key={card.id} className="card">
-                        <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>
-                        <p className="cardViewName">{card.name}</p>
-                    </div>)
+                            <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>
+                            <p className="cardViewName">{card.name}</p>
+                        </div>)
 
-                }
+                    }
+
                 </React.Fragment>
             )
-        } else  {
+        } else {
             searchResults = (<div><p className="noResults">There were no results found</p></div>)
         }
 
         return (
 
             <React.Fragment>
+
                 {modal}
                 {/* <button onClick={this.consoleLog}>console log</button> */}
                 {defaultView}
                 {searchResults}
+
             </React.Fragment>
-
-
         )
     }
 }

@@ -34,7 +34,7 @@ export default class NewDeckForm extends Component {
             this.makeDate()
         }
 
-        if(this.props.token !== prevProps.token) {
+        if (this.props.token !== prevProps.token) {
             this.setState({
                 user: this.props.users.url
             })
@@ -48,78 +48,78 @@ export default class NewDeckForm extends Component {
     }
 
     createDeck = (resource) => {
-        //   this.props.createButDontGet(resource, this.state)
 
-        if(this.state.imageCover1 === "" || this.state.imageCover1 === "https://bulma.io/images/placeholders/1280x960.png") {
+        if (this.state.imageCover1 === "" || this.state.imageCover1 === "https://bulma.io/images/placeholders/1280x960.png") {
             alert("A DECK MUST HAVE AT LEAST 1 TYPE OF ENERGY")
         }
 
         else if (this.state.imageCover2 === "https://bulma.io/images/placeholders/1280x960.png" || this.state.imageCover2 === "") {
 
-            new Promise((resolve, reject) => { this.setState({
-                imageCover2: "",
-                energyType2: ""
+            new Promise((resolve, reject) => {
+                this.setState({
+                    imageCover2: "",
+                    energyType2: ""
+                })
+                resolve()
             })
-            resolve()
-        })
-            .then(() => {
-                console.log("PROMISE 2nd LAYER")
-                console.log("CURRENT STATES", this.state)
+                .then(() => {
+                    console.log("PROMISE 2nd LAYER")
+                    console.log("CURRENT STATES", this.state)
+                    this.props.createNewDeck(resource, this.state)
+                })
+                .then(() => {
+                    console.log("PROMISE 3rd LAYER")
+                    new Promise((resolve, reject) => {
+                        this.setState({
+                            name: "",
+                            description: "",
+                            strategy: "",
+                            date_added: "",
+                            deleted_on: "",
+                            cardAmount: 0,
+                            maxCardAmmount: 60,
+                            user: this.props.users.url,
+                            imageCover1: this.state.imageCover1,
+                            imageCover2: "https://bulma.io/images/placeholders/1280x960.png",
+                            energyType1: this.state.energyType1,
+                            energyType2: this.state.energyType2
+                        })
+                        resolve()
+                    })
+                })
+                .then(() => {
+                    console.log("FOURTH LAYER DOWN")
+                    this.props.getAll2(resource)
+                })
+
+        } else {
+
+
             this.props.createNewDeck(resource, this.state)
-        })
-            .then(() => {
-                console.log("PROMISE 3rd LAYER")
-                new Promise((resolve, reject) => {
-                    this.setState({
-                        name: "",
-                        description: "",
-                        strategy: "",
-                        date_added: "",
-                        deleted_on: "",
-                        cardAmount: 0,
-                        maxCardAmmount: 60,
-                        user: this.props.users.url,
-                        imageCover1: this.state.imageCover1,
-                        imageCover2: "https://bulma.io/images/placeholders/1280x960.png",
-                        energyType1: this.state.energyType1,
-                        energyType2: this.state.energyType2
+                .then(() => {
+                    new Promise((resolve, reject) => {
+                        this.setState({
+                            name: "",
+                            description: "",
+                            strategy: "",
+                            date_added: "",
+                            deleted_on: "",
+                            cardAmount: 0,
+                            maxCardAmmount: 60,
+                            user: this.props.users.url,
+                            imageCover1: this.state.imageCover1,
+                            imageCover2: this.state.imageCover2,
+                            energyType1: this.state.energyType1,
+                            energyType2: this.state.energyType2
+
+                        })
+                        resolve()
                     })
-                    resolve()
                 })
-            })
-            .then(() => {
-                console.log("FOURTH LAYER DOWN")
-                this.props.getAll2(resource)
-            })
-
-    } else {
-
-
-        this.props.createNewDeck(resource, this.state)
-            .then(() => {
-                new Promise((resolve, reject) => {
-                    this.setState({
-                        name: "",
-                        description: "",
-                        strategy: "",
-                        date_added: "",
-                        deleted_on: "",
-                        cardAmount: 0,
-                        maxCardAmmount: 60,
-                        user: this.props.users.url,
-                        imageCover1: this.state.imageCover1,
-                        imageCover2: this.state.imageCover2,
-                        energyType1: this.state.energyType1,
-                        energyType2: this.state.energyType2
-
-                    })
-                    resolve()
+                .then(() => {
+                    console.log("THIRD LAYER DOWN")
+                    this.props.getAll2(resource)
                 })
-            })
-            .then(() => {
-                console.log("THIRD LAYER DOWN")
-                this.props.getAll2(resource)
-            })
         }
     }
 
@@ -177,7 +177,6 @@ export default class NewDeckForm extends Component {
         return (
             <React.Fragment>
                 <div className="newDeckFields">
-                    {/* <button onClick={this.props.hideCreateDeckForm}>^</button> */}
                     <h3 className="viewDecksTitle">Add a new deck to the collection!</h3>
                     <label for="name">Deck Name: <input name="name" id="name" type="text" placeholder="deck title" value={this.state.name} onChange={this.handleFieldChange}></input></label>
 
@@ -203,7 +202,7 @@ export default class NewDeckForm extends Component {
                         <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
                     </select>
                     <p className="secondaryPredominantEnergy">Secondary Predominant Energy:</p>
-                    <select onChange={(event) => this.selectImageCover2(event.target)}  className="selectImage">
+                    <select onChange={(event) => this.selectImageCover2(event.target)} className="selectImage">
                         <option value="https://bulma.io/images/placeholders/1280x960.png" id="">---------</option>
                         <option value="/images/DarknessSymbol.jpg" id="Darkness">Darkness</option>
                         <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
@@ -218,8 +217,8 @@ export default class NewDeckForm extends Component {
                         <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
                     </select>
                     <div className="predominantEnergiesDiv">
-                    <img className="deckImage" src={`${this.state.imageCover1}`}></img>
-                    <img className="deckImage" src={`${this.state.imageCover2}`}></img>
+                        <img className="deckImage" src={`${this.state.imageCover1}`}></img>
+                        <img className="deckImage" src={`${this.state.imageCover2}`}></img>
                     </div>
                     <button className="saveDeckButton" onClick={() => this.createDeck("decks")}>Save Deck</button>
                     <button onClick={this.consoleLog}>check states</button>

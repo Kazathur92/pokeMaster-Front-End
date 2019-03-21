@@ -3,7 +3,6 @@ const authKey = localStorage.getItem("token")
 
 class APIManager {
 
-
     getThem = (url) => {
         return fetch(url, {
             method: 'GET',
@@ -28,8 +27,6 @@ class APIManager {
     }
 
 
-
-    // IF WANT TO USE PYTHON TO FILTER ADD PARAMETER THAT THEN WILL BE LISTENED FOR IN PYTHON VIEWSET
     getAllWithQuery = (resource, query, token, keyword = null) => {
         let url = `${apiUrl}${resource}${query}`
         if (keyword) {
@@ -43,15 +40,15 @@ class APIManager {
             }
         })
             .then(response => {
-                if(response.status === 400){
+                if (response.status === 400) {
                     alert("THIS POKEMON IS NOT IN YOUR COLLECTION")
                 }
-                else if(response.status === 200) {
+                else if (response.status === 200) {
                 }
-               return response.json()
+                return response.json()
             }
             )
-            // .catch(err => console.log("Oopsy Daisy get all problem!", err))
+            .catch(err => console.log("Oopsy Daisy get all problem!", err))
     }
 
     getAll2 = (resource, token, keyword = null) => {
@@ -181,10 +178,10 @@ class APIManager {
             }
         }).then(response => {
             console.log("response", response)
-            if(response.status === 404){
-               return alert("THIS POKEMON IS NOT IN YOUR COLLECTION")
+            if (response.status === 404) {
+                return alert("THIS POKEMON IS NOT IN YOUR COLLECTION")
             }
-        } )
+        })
     }
 
 
@@ -206,6 +203,7 @@ class APIManager {
     }
 
 
+    // NOT IN USE ATM
     safeDelete = (resource, id) => {
         let formData = new FormData()
 
@@ -221,7 +219,7 @@ class APIManager {
 
 
 
-
+    // NOT IN USE ATM
     search = (resource, keyword) => {
         let query = `?search=${keyword}`
         this.getAll(resource, query)

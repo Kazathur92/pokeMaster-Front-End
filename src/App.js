@@ -5,8 +5,6 @@ import Login from './components/authComponents/login'
 import ApplicationViews from './applicationViews'
 import './App.css';
 
-// let username = sessionStorage.getItem("username")
-
 class App extends Component {
 
     state = {
@@ -36,14 +34,11 @@ class App extends Component {
         showLogin: true,
         showRegister: false,
         loggedIn: false
-
-
     }
 
 
     componentDidMount() {
         console.log("**** DID MOUNT APP START ****")
-        // console.log("users before fetching", this.state.users)
         console.log("cards before fetch", this.state.cards)
 
 
@@ -55,7 +50,6 @@ class App extends Component {
 
         APIManager.getAllOnRefresh("cards")
             .then(data => {
-                // console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
 
@@ -65,7 +59,7 @@ class App extends Component {
                 this.setState({ users: data[0] })
             })
 
-            console.log("**** DID MOUNT APP END ****")
+        console.log("**** DID MOUNT APP END ****")
     }
 
 
@@ -73,7 +67,7 @@ class App extends Component {
     }
 
 
-    //    STATE CHANGING FUNCTIONS ================
+    //==================STATE CHANGING FUNCTIONS ================
 
     handleFieldChange = (event) => {
         const stateToChange = {}
@@ -134,14 +128,7 @@ class App extends Component {
     }
 
     getAllWithQuery2 = (resource, query) => {
-       return APIManager.getAllWithQuery(resource, query)
-            // .then(data => {
-            //     // console.log("data list", data)
-            //     console.log("ITs Getting All")
-            //     this.setState({ cardsOfDeck: data },
-            //     )
-            //     console.log("just fetched and set new state")
-            // })
+        return APIManager.getAllWithQuery(resource, query)
     }
 
     getAll2 = (resource) => {
@@ -176,8 +163,6 @@ class App extends Component {
                 this.setState({ users: data[0] })
             })
     }
-
-    // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
 
     createNew = (resource, newObj) => {
         let token = this.state.token
@@ -230,16 +215,16 @@ class App extends Component {
     deleteIt = (resource) => {
         let token = this.state.token
         APIManager.deleteIt(resource, token)
-        .then(() =>
-        APIManager.getAll2(resource, token)
-            .then(data => {
-                // console.log("data list", data)
-                console.log("ITs Getting All")
-                this.setState({ cards: data },
-                )
-                console.log("just fetched and set new state")
-            })
-    )
+            .then(() =>
+                APIManager.getAll2(resource, token)
+                    .then(data => {
+                        // console.log("data list", data)
+                        console.log("ITs Getting All")
+                        this.setState({ cards: data },
+                        )
+                        console.log("just fetched and set new state")
+                    })
+            )
     }
 
     deleteThis2 = (resource, id, deckId) => {
@@ -351,8 +336,7 @@ class App extends Component {
                     return response.json();
                 }
                 else if (response.status === 400) {
-                     alert("You are not currently a user, you should register.")
-                    //  return response.json()
+                    alert("You are not currently a user, you should register.")
                 }
                 else {
                     return "you aint a user brah!"
@@ -360,26 +344,26 @@ class App extends Component {
             })
             .then((tokenObj) => {
                 console.log("ITS PASSING", tokenObj.token)
-                if(tokenObj.token === false) {
+                if (tokenObj.token === false) {
                     console.log("OOPS")
                 }
 
-                else if(tokenObj.token !== false) {
-                new Promise((resolve, reject) => {
-                    localStorage.setItem("token", tokenObj.token)
-                    localStorage.setItem("username", user.username)
-                    resolve()
-                })
-                .then(() => {
-                    this.setState({
-                        navBarStatus: true,
-                        showLogin: false,
-                        showRegister: false,
-                        token: tokenObj.token,
-                        loggedIn: true
+                else if (tokenObj.token !== false) {
+                    new Promise((resolve, reject) => {
+                        localStorage.setItem("token", tokenObj.token)
+                        localStorage.setItem("username", user.username)
+                        resolve()
                     })
-                })
-            }
+                        .then(() => {
+                            this.setState({
+                                navBarStatus: true,
+                                showLogin: true,
+                                showRegister: false,
+                                token: tokenObj.token,
+                                loggedIn: true
+                            })
+                        })
+                }
             })
             .catch((err) => {
                 console.log("auth no like you, brah", err);
@@ -387,10 +371,16 @@ class App extends Component {
     }
 
     logOut = () => {
-        this.setState({
-            loggedIn: false,
-            navBarStatus: false,
-            showLogin: true,
+        let token = localStorage.getItem("token")
+        console.log(this.state.token)
+        APIManager.delete("tokens", this.state.users.id, this.state.token)
+        .then(() => {
+            this.setState({
+                loggedIn: false,
+                navBarStatus: false,
+                showLogin: true,
+                token: ""
+            })
         })
     }
 
@@ -431,7 +421,6 @@ class App extends Component {
                     email={this.state.email}
                     last_name={this.state.last_name}
                     registerUser={this.registerUser}
-                    // date_joined={this.state.date_joined}
                     postAuth={this.postAuth} />
             )
         } else {
@@ -457,7 +446,7 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                <button onClick={this.consoleLog}>App States</button>
+                {/* <button onClick={this.consoleLog}>App States</button> */}
                 {login}
                 {register}
                 <ApplicationViews

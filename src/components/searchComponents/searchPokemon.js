@@ -1,3 +1,5 @@
+// COMPONENT CURRENTLY NOT IN USE
+
 import React, { Component } from 'react'
 import './searchComponent.css'
 

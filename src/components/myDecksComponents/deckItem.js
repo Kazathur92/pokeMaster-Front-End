@@ -41,6 +41,7 @@ export default class DeckItem extends Component {
     }
 
 
+    //   ===============================  WARNING MODALS SECTION ===================================
 
     showWarningModal = (newName, deck) => {
         this.setState({
@@ -108,7 +109,7 @@ export default class DeckItem extends Component {
                 this.props.changeWoop()
                 this.props.getAll2("decks")
             })
-        }
+    }
 
     warningModalProceedDescription = (deck) => {
         let deckId = this.state.selectedDeck.id
@@ -162,11 +163,11 @@ export default class DeckItem extends Component {
                     resolve()
 
                 })
-                .then(() => {
-                    this.props.getAll2("decks")
-                })
+                    .then(() => {
+                        this.props.getAll2("decks")
+                    })
             })
-        }
+    }
 
 
     warningModalCancel = (deck) => {
@@ -186,6 +187,9 @@ export default class DeckItem extends Component {
         })
         this.props.changeWoop()
     }
+
+
+    // ===========================================WARNING MODAL SECTION END===============================
 
 
     deleteRelationship = (resource) => {
@@ -212,14 +216,12 @@ export default class DeckItem extends Component {
 
                                     })
                             })
-
                         } else {
                             this.props.updateCardsOfDeckStateTrue()
                         }
                     }
                     )
             })
-
     }
 
     deleteRelationshipToGetId = (resource) => {
@@ -257,7 +259,6 @@ export default class DeckItem extends Component {
                                             })
                                     })
                             })
-
                         }
                         else {
                             new Promise((resolve, reject) => {
@@ -274,46 +275,43 @@ export default class DeckItem extends Component {
                     }
                     )
             })
-
     }
 
 
     viewDeck = (deck) => {
-        // console.log(deck.target)
-
         new Promise((resolve, reject) => {
 
-                console.log("setting state of selected deck")
-                this.setState({
-                    modal: true,
-                    selectedDeck: deck
-                })
-                resolve()
+            console.log("setting state of selected deck")
+            this.setState({
+                modal: true,
+                selectedDeck: deck
             })
-            .then(() => {
-            let cardsOfDeck = []
-            let token = localStorage.getItem("token")
-            console.log("SELECTED DECK BEFORE FETCH", this.state.selectedDeck)
-            APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
-                .then(data => {
-                    console.log(data)
-                    data.map(card => {
-                        console.log("BRING ME CARD", card)
-                        this.props.getCardsById(card.cardId)
-                            .then(card => {
-                                new Promise((resolve, reject) => {
-                                    cardsOfDeck.push(card)
-                                    resolve()
-                                })
-                                    .then(() => {
-                                        console.log("CARDS OF DECK AFTER GETTING", cardsOfDeck)
-                                        this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
-                                    })
-                            })
-                    })
-                }
-                )
+            resolve()
         })
+            .then(() => {
+                let cardsOfDeck = []
+                let token = localStorage.getItem("token")
+                console.log("SELECTED DECK BEFORE FETCH", this.state.selectedDeck)
+                APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeck.id}`, token)
+                    .then(data => {
+                        console.log(data)
+                        data.map(card => {
+                            console.log("BRING ME CARD", card)
+                            this.props.getCardsById(card.cardId)
+                                .then(card => {
+                                    new Promise((resolve, reject) => {
+                                        cardsOfDeck.push(card)
+                                        resolve()
+                                    })
+                                        .then(() => {
+                                            console.log("CARDS OF DECK AFTER GETTING", cardsOfDeck)
+                                            this.props.updateCardsOfDeckStateFalse(cardsOfDeck)
+                                        })
+                                })
+                        })
+                    }
+                    )
+            })
     }
 
     closeViewDeck = () => {
@@ -338,17 +336,17 @@ export default class DeckItem extends Component {
 
     makeMvp = (card, deck) => {
 
-        if(card.imageUrl) {
+        if (card.imageUrl) {
 
-        let newObj = {
-            imageMvp: card.imageUrl
-        }
+            let newObj = {
+                imageMvp: card.imageUrl
+            }
 
-        this.props.editThis("decks", newObj, deck.id)
-            .then(deck => {
-                console.log("DATA BROUGHT BACK", deck)
-                this.props.getAll2("decks")
-            })
+            this.props.editThis("decks", newObj, deck.id)
+                .then(deck => {
+                    console.log("DATA BROUGHT BACK", deck)
+                    this.props.getAll2("decks")
+                })
         }
         else {
             let newObj = {
@@ -588,7 +586,6 @@ export default class DeckItem extends Component {
                 </React.Fragment>
             )
 
-
         } else {
             deckItem = (
                 <div>
@@ -597,10 +594,6 @@ export default class DeckItem extends Component {
             )
         }
 
-
-
-
-
         return (
             <React.Fragment>
 
@@ -608,8 +601,6 @@ export default class DeckItem extends Component {
             </React.Fragment>
         )
     }
-
-
 }
 
 

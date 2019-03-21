@@ -3,17 +3,12 @@ import NewDeckForm from './newDeckForm'
 import DeckItem from './deckItem'
 import './viewDeck.css'
 
-
-
 export default class ViewMyDecks extends Component {
-
 
     state = {
         woop: false,
         createNewDeckForm: false
     }
-
-    // TODO: need to find a way to update the component so new decks appear when added
 
     componentDidMount() {
         console.log("$$$$ DID MOUNT VIEW DECKS $$$$")
@@ -24,14 +19,14 @@ export default class ViewMyDecks extends Component {
     }
 
     changeWoop = () => {
-        // THIS FORCEs AN UPDATE DOWN IN DECK ITEM
+        // THIS FORCES AN UPDATE DOWN IN DECK ITEM
         this.setState({
             woop: !this.state.woop
         })
     }
 
     showCreateDeckForm = () => {
-        if(this.state.createNewDeckForm === true) {
+        if (this.state.createNewDeckForm === true) {
             this.setState({
                 createNewDeckForm: false
             })
@@ -58,7 +53,7 @@ export default class ViewMyDecks extends Component {
     render() {
 
         let createNewDeckForm = ""
-        if(this.state.createNewDeckForm) {
+        if (this.state.createNewDeckForm) {
             createNewDeckForm = (
                 <NewDeckForm createNew={this.props.createNew}
                     createNewDeck={this.props.createNewDeck}
@@ -75,7 +70,7 @@ export default class ViewMyDecks extends Component {
         }
 
         let scrollRightMessage = ""
-        if(this.props.decks.length > 4) {
+        if (this.props.decks.length > 4) {
             scrollRightMessage = (
                 <p className="scrollRightMessage">Scroll Right to see more Decks</p>
             )

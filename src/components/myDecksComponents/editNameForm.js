@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import './viewDeck.css'
 
-
 export default class EditName extends Component {
-
 
     state = {
         name: this.props.selectedDeck.name,
@@ -26,7 +24,7 @@ export default class EditName extends Component {
 
         return (
             <React.Fragment>
-                {/* {warningModalField} */}
+
                 <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input>
                 <span className="icon Icons">
                     <i onClick={() => this.props.showWarningModal(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>

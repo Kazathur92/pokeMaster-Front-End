@@ -5,9 +5,7 @@ import APIManager from '../managerComponents/APIManager';
 
 let userId = sessionStorage.getItem("id")
 
-// TODO: NEED TO FIGURE OUT HOW TO PATCH THE CARD RIGHT AFTER POST TO PASS URL
 export default class CardModal extends Component {
-
 
     state = {
         attacks: [],
@@ -100,13 +98,10 @@ export default class CardModal extends Component {
                                         this.props.getAll2("cards")
                                         console.log("data getting back after postig to relationship: ", data)
                                     })
-
                             })
                     }
-
                 })
         }
-
     }
 
 
@@ -176,9 +171,9 @@ export default class CardModal extends Component {
             cardModalTrainerContent = (
                 <div className="cardModalTrainerField">
                     <p className="cardModalContentTitle">Effect: </p>
-                    {   this.state.selectedCard.attacks ?
+                    {this.state.selectedCard.attacks ?
                         this.state.selectedCard.attacks.length >= 1 ? <p className="cardModalText">{this.state.selectedCard.attacks[0].text}</p> :
-                    <p className="cardModalText">{this.props.selectedCard.text}</p> : <p></p>
+                            <p className="cardModalText">{this.props.selectedCard.text}</p> : <p></p>
                     }
                     <p className="cardModalText">{this.props.selectedCard.text}</p>
                     <p className="cardModalContentTitle">Series: </p>
@@ -250,8 +245,9 @@ export default class CardModal extends Component {
                                 </div>
                                 :
                                 <p>This pokemon has no ability</p>
-
-                                : <p></p>}
+                                :
+                                <p></p>
+                            }
 
                             {this.state.selectedCard.ability ? this.state.selectedCard.ability.length > 1 ?
                                 <div>
@@ -266,15 +262,14 @@ export default class CardModal extends Component {
                                 </div>
                                 :
                                 <p></p>
-                                : <p></p>
+                                :
+                                <p></p>
                             }
 
-
-
                             {this.state.selectedCard.attacks ? cardModalAttacksFieldContent : <p></p>}
-                                {cardModalTrainerContent}
-                                {cardModalSpecialEnergyContent}
-                                {cardModalEnergyContent}
+                            {cardModalTrainerContent}
+                            {cardModalSpecialEnergyContent}
+                            {cardModalEnergyContent}
 
                             <select onChange={this.selectDeck} value={this.state.value}>
                                 <option>---------------------</option>

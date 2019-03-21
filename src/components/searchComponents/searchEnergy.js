@@ -1,3 +1,5 @@
+// COMPONENT CURRENTLY NOT IN USE
+
 import React, { Component } from 'react'
 import './searchComponent.css'
 
@@ -24,19 +26,19 @@ export default class SearchEnergy extends Component {
     }
 
 
-    render(){
+    render() {
 
 
 
 
 
 
-        return(
+        return (
             <React.Fragment>
                 <h1 className="searchTitle">Search Energy Cards</h1>
                 <div className="checkBoxes">
-                <label className="checkboxLabel">BASIC <input type="checkbox" className="checkbox"></input></label>
-                <label className="checkboxLabel">SPECIAL <input type="checkbox"></input></label>
+                    <label className="checkboxLabel">BASIC <input type="checkbox" className="checkbox"></input></label>
+                    <label className="checkboxLabel">SPECIAL <input type="checkbox"></input></label>
                 </div>
                 <input id="keyword" onChange={this.handleFieldChange} placeholder="Card Name"></input>
                 <button onClick={this.searchCard}>Search</button>

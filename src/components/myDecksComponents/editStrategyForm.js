@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 
-
 export default class EditStrategy extends Component {
-
 
     state = {
         strategy: this.props.selectedDeck.strategy

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 
-
 export default class EditDescription extends Component {
-
 
     state = {
         description: this.props.selectedDeck.description
@@ -13,7 +11,6 @@ export default class EditDescription extends Component {
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
     }
-
 
     render() {
         return (

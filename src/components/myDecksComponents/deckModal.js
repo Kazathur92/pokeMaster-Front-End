@@ -6,8 +6,6 @@ import EditStrategy from './editStrategyForm'
 import EditTypes from './editTypes'
 import APIManager from '../managerComponents/APIManager';
 
-
-
 export default class DeckModal extends Component {
 
     state = {
@@ -26,8 +24,6 @@ export default class DeckModal extends Component {
         type1: "",
         type2: ""
     }
-
-    // onMouseOut={this.outOfCard}
 
     componentDidMount() {
         console.log("%%% DECK MODAL MOUNT %%%")
@@ -133,7 +129,6 @@ export default class DeckModal extends Component {
             .then(() => {
                 this.props.deleteRelationship(`deckcardsrelationship/${deck_id}?card=${card_id}`)
             })
-
     }
 
 
@@ -262,10 +257,6 @@ export default class DeckModal extends Component {
         // console.log("NEW NAME", this.props.newName)
     }
 
-
-
-    // TODO ADD A TERNARY IN JSX SO IT SEPARATES THE CARDS AND RENDERS DIFFERENT DIVS FOR EACH SUPERTYPE OF CARD
-
     render() {
 
         let interactionButtons = ""
@@ -298,7 +289,6 @@ export default class DeckModal extends Component {
                                 <div>
                                     <p className="deckModalText">{card.card.name}</p>
                                     <p>&nbsp;</p>
-                                    {/* <p className="deckModalContentTitle">Rarity:&nbsp;{card.card.rarity}</p> */}
                                 </div>
                             </div>
 
@@ -415,7 +405,7 @@ export default class DeckModal extends Component {
 
         let editEnergyType1Icon = ""
 
-        if(this.state.editEnergyType1Icon) {
+        if (this.state.editEnergyType1Icon) {
             editEnergyType1Icon = (
                 <i onClick={() => this.showEditTypesForm(this.props.selectedDeck.energyType1, this.props.selectedDeck.energyType2)} className="fas fa-edit editIconEnergies"></i>
             )
@@ -425,12 +415,12 @@ export default class DeckModal extends Component {
 
         let editTypes = ""
 
-        if(this.state.editTypesForm) {
+        if (this.state.editTypesForm) {
             editTypes = (
                 <EditTypes
-                showWarningModalTypesForm={this.props.showWarningModalTypesForm}
-                selectedDeck={this.props.selectedDeck}
-                closeEditTypesForm={this.closeEditTypesForm}/>
+                    showWarningModalTypesForm={this.props.showWarningModalTypesForm}
+                    selectedDeck={this.props.selectedDeck}
+                    closeEditTypesForm={this.closeEditTypesForm} />
             )
         } else {
             editTypes = null
@@ -441,23 +431,19 @@ export default class DeckModal extends Component {
                 <div className="modal is-active">
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
-                        {/* <img className="energyType1" src="/images/steel.png"></img> */}
-                        {/* <img className="energyType2" src="/images/thunder.png"></img> */}
                         {/* <button onClick={this.consoleLog}>console Log modal</button> */}
                         {deckName}
                         {deckDescription}
                         {deckStrategy}
                         <div className="primaryEnergiesDiv" onMouseEnter={this.showEditEnergyType1Icon} onMouseLeave={this.hideEditEnergyType1Icon}>
                             <p className="energiesTitles">Primary Energies:</p>&nbsp;&nbsp;
-                            <p  className="energyType1">{this.state.currentDeck.energyType1}&nbsp;{this.state.currentDeck.energyType2}</p>
+                            <p className="energyType1">{this.state.currentDeck.energyType1}&nbsp;{this.state.currentDeck.energyType2}</p>
                             <p onMouseEnter={this.hidEditEnergyType2Icon} className="energyType2">{this.props.selectedDeck.energyType2}</p>
                             <span className="energyType1Span">
-                            {editEnergyType1Icon}
+                                {editEnergyType1Icon}
                             </span>
-
-                            {/* {editEnergyTypeIcon} */}
                         </div>
-                            {editTypes}
+                        {editTypes}
                         <br></br>
                         <button onClick={() => this.props.makeMvp(this.state.selectedCardOnDeck, this.props.selectedDeck)} className="makeMvp">Make MVP</button>
                         <img className="lookAtCard" src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>

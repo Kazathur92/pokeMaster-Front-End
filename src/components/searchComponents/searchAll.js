@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './searchComponent.css'
 
-
 export default class SearchAll extends Component {
 
     state = {
@@ -33,7 +32,6 @@ export default class SearchAll extends Component {
         const stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
-        // console.log(this.state.keyword)
     }
 
     handleCheckboxChange = (event) => {
@@ -57,7 +55,7 @@ export default class SearchAll extends Component {
                 specialCheckbox: false
             })
         }
-        // console.log(event.target.id)
+
         else if (event.target.id === "basic") {
             console.log("this one is basic")
             this.setState({
@@ -417,9 +415,9 @@ export default class SearchAll extends Component {
 
         return (
             <React.Fragment>
+
                 <h1 className="searchTitle">SEARCH CARDS</h1>
                 <div className="checkboxContainer">
-                    {/* <h6 className="filterLabel">Pokemon</h6> */}
                     <div className="checkboxPokemonDiv">
 
                         <label className="checkboxLabel"><p className="checkboxTitle">BASIC</p><input type="checkbox" id="basic" checked={this.state.basicCheckbox}
@@ -442,7 +440,6 @@ export default class SearchAll extends Component {
                             onClick={this.handleCheckboxChange}></input></label>
 
                     </div>
-                    {/* <h6 className="filterLabel">Trainer</h6> */}
                     <div className="checkboxTrainerDiv">
                         <label className="checkboxLabel"><p className="checkboxTitle">ITEM</p><input id="item" type="checkbox" className="checkbox" checked={this.state.itemCheckbox}
                             onClick={this.handleCheckboxChange}></input></label>
@@ -454,18 +451,16 @@ export default class SearchAll extends Component {
                             onClick={this.handleCheckboxChange}></input></label>
 
                     </div>
-                    {/* <h6 className="filterLabel">Energy</h6> */}
                     <div className="checkboxEnergyDiv">
                         <label className="checkboxLabel"><p className="checkboxTitle">SPECIAL</p><input id="special" type="checkbox" checked={this.state.specialCheckbox}
                             onClick={this.handleCheckboxChange}></input></label>
-                        <label className="checkboxLabel"><p className="checkboxTitle">NO FILTERS</p><input id="no filters" type="checkbox"  checked={this.state.noFiltersCheckbox}
+                        <label className="checkboxLabel"><p className="checkboxTitle">NO FILTERS</p><input id="no filters" type="checkbox" checked={this.state.noFiltersCheckbox}
                             onClick={this.handleCheckboxChange}></input></label>
 
                     </div>
                 </div>
                 <input id="keyword" className="searchInput" onChange={this.handleFieldChange} placeholder="Card Name"></input>
                 <button className="searchItButton" onClick={this.searchIt}>Search</button>
-
 
             </React.Fragment>
         )

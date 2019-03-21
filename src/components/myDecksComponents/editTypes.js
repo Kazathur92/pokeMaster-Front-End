@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import './viewDeck.css'
 
-
 export default class EditTypes extends Component {
-
 
     state = {
         imageCover1: "",
@@ -29,7 +27,6 @@ export default class EditTypes extends Component {
 
 
     consoleLog = () => {
-        // console.log("WARNING MODAL STATE", this.state.warningModal)
     }
 
 
@@ -38,8 +35,7 @@ export default class EditTypes extends Component {
 
         return (
             <React.Fragment>
-                {/* {warningModalField} */}
-                {/* <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input> */}
+
                 <p className="energy1Tilte">First Predominant Energy:</p>
                 <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImageEdit">
                         <option className="option" value="https://bulma.io/images/placeholders/1280x960.png" name="">---------</option>

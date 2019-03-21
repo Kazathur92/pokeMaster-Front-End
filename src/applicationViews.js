@@ -44,7 +44,7 @@ export default class AplicationViews extends Component {
             })
         }
 
-        if(this.props.token !== prevProps.token) {
+        if (this.props.token !== prevProps.token) {
             this.props.getAll2("cards")
             this.props.getAll2("decks")
             let token = localStorage.getItem("token")
@@ -74,14 +74,13 @@ export default class AplicationViews extends Component {
             cardsOfDeck: cardsOfDeck,
             emptyDeck: false,
             triggerSwitch: true
-    })
+        })
     }
 
     updateCardsOfDeckStateTrue = (cardsOfDeck) => {
         this.setState({
             cardsOfDeck: "",
             emptyDeck: true,
-            // triggerSwitch: !this.state.triggerSwitch
         })
     }
 
@@ -100,7 +99,6 @@ export default class AplicationViews extends Component {
             collectionPage: true,
             decksPage: false,
             searchPage: false,
-            // triggerSwitch: !this.state.triggerSwitch
         })
     }
 
@@ -246,7 +244,7 @@ export default class AplicationViews extends Component {
         }
 
         let logOutButton = ""
-        if(this.props.showLogin === false) {
+        if (this.props.token) {
             logOutButton = (
                 <button onClick={this.signOut}>Log Out</button>
 

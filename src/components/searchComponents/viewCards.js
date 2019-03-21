@@ -7,8 +7,6 @@ import SearchEnergy from "./searchEnergy"
 import CardItem from "./cardItem"
 import './searchComponent.css'
 
-
-
 export default class ViewCards extends Component {
 
     state = {
@@ -22,11 +20,10 @@ export default class ViewCards extends Component {
         byEnergy: false,
 
 
+        // STATES ONLY IF OTHER SEARCH COMPONENTS IN USE
         // bySupporter: false,
         // byItem: false,
         // byStadium: false,
-
-
     }
 
 
@@ -83,12 +80,7 @@ export default class ViewCards extends Component {
     }
 
 
-
-
-
-
     consoleLog = () => {
-
     }
 
     render() {
@@ -96,11 +88,11 @@ export default class ViewCards extends Component {
 
         let searchAll = ""
 
-        if(this.state.all) {
+        if (this.state.all) {
             searchAll = (
                 <SearchAll
-                gottaGetEmAll={this.props.gottaGetEmAll}
-                loadCards={this.loadCards}
+                    gottaGetEmAll={this.props.gottaGetEmAll}
+                    loadCards={this.loadCards}
                 />
             )
         } else {
@@ -110,7 +102,7 @@ export default class ViewCards extends Component {
 
         let searchPokemon = ""
 
-        if(this.state.byPokemon) {
+        if (this.state.byPokemon) {
             searchPokemon = (
                 <SearchPokemon />
             )
@@ -120,7 +112,7 @@ export default class ViewCards extends Component {
 
         let searchTrainer = ""
 
-        if(this.state.byTrainer) {
+        if (this.state.byTrainer) {
             searchTrainer = (
                 <SearchTrainer />
             )
@@ -130,7 +122,7 @@ export default class ViewCards extends Component {
 
         let searchEnergy = ""
 
-        if(this.state.byEnergy) {
+        if (this.state.byEnergy) {
             searchEnergy = (
                 <SearchEnergy />
             )
@@ -163,20 +155,20 @@ export default class ViewCards extends Component {
 
                 <div className="cardDiv">
                     <CardItem
-                    cards={this.props.cards}
-                    apiCards={this.props.apiCards}
-                    createNew={this.props.createNew}
-                    createNewCard={this.props.createNewCard}
-                    decks={this.props.decks}
-                    userDecks={this.props.userDecks}
-                    editThis={this.props.editThis}
-                    users={this.props.users}
-                    token={this.props.token}
-                    defaultView={this.state.defaultView}
-                    getAll2={this.props.getAll2}/>
+                        cards={this.props.cards}
+                        apiCards={this.props.apiCards}
+                        createNew={this.props.createNew}
+                        createNewCard={this.props.createNewCard}
+                        decks={this.props.decks}
+                        userDecks={this.props.userDecks}
+                        editThis={this.props.editThis}
+                        users={this.props.users}
+                        token={this.props.token}
+                        defaultView={this.state.defaultView}
+                        getAll2={this.props.getAll2} />
                 </div>
 
-             </React.Fragment>
+            </React.Fragment>
         )
     }
 }
