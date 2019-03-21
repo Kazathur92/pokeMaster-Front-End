@@ -1,10 +1,12 @@
 body{
-    background-color: rgb(236, 236, 236);
+
 }
 
 
 .appItself {
-    background-color: rgb(128, 19, 19);
+    background-image: url("/images/pokeballWallpaper.png");
+    /* height: 775px; */
+    height: 1200px;
 }
 
 .appName{
@@ -22,9 +24,28 @@ body{
     width: 6%;
 }
 
-/* .card{
-    display: flex;
-} */
+.logOutButton {
+    width: 150px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom-right-radius: 10px;
+    /* background-color: rgb(245, 245, 140); */
+}
+
+.logOutButton:hover {
+    color: white;
+    border-top-color: rgb(15, 15, 15);
+    border-left-color: rgb(15, 15, 15);
+    border-right-color: rgb(15, 15, 15);
+    border-bottom-color: rgb(15, 15, 15);
+    background-color: rgb(15, 15, 15);
+}
+
+.logOutIcon {
+    color: rgb(87, 87, 87);
+    transform: rotate(180deg);
+}
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

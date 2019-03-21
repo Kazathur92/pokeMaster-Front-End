@@ -2,6 +2,8 @@
 /* SEARCH COMPONENTS */
 
 .searchTitle{
+    box-shadow: 5px 5px 8px black;
+    text-shadow: 5px 5px black;
     font-weight: bold;
     text-align: center;
     font-size: 280%;
@@ -12,6 +14,7 @@
     display: flex;
     flex-direction: column;
     margin-left: 200px;
+
 }
 
 .checkboxPokemonDiv {
@@ -39,11 +42,12 @@
     font-weight: bold;
     font-size: 60%;
     color: rgb(228, 238, 255);
-    border: 2px solid black;
+    border: 2px solid rgb(33, 109, 250);
     border-radius: 5px;
     background-color: rgb(33, 109, 250);
     margin-top: 10px;
     margin-right: 20px;
+    box-shadow: 5px 5px 8px black;
 }
 
 .checkboxLabel:hover {
@@ -64,6 +68,30 @@
 
 .searchInput {
     margin-left: 430px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 5px 5px 8px black;
+}
+
+.searchItButton {
+  box-shadow: 5px 5px 8px black;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(46, 160, 253);
+  border-top-color: rgb(46, 160, 253);
+  border-left-color: rgb(46, 160, 253);
+  border-right-color: rgb(46, 160, 253);
+  border-bottom-color: rgb(46, 160, 253);
+  margin-bottom: 20px;
+}
+
+.searchItButton:hover {
+  background-color: rgb(0, 139, 253);
+  border-top-color: rgb(0, 139, 253);
+  border-left-color: rgb(0, 139, 253);
+  border-right-color: rgb(0, 139, 253);
+  border-bottom-color: rgb(0, 139, 253);
 }
 
 .resultsDiv {
@@ -93,15 +121,19 @@
     display: flex;
     flex-direction: row;
     overflow: scroll;
+    height: 350px;
     max-width: 150%;
 }
 
 .card {
     margin-right: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .cardViewImage {
-    max-width: 100px
+    max-width: 100px;
+    box-shadow: 5px 5px 8px black;
 }
 
 .cardViewImage:hover {
@@ -109,8 +141,11 @@
 }
 
 .cardViewName {
+    background-color: transparent;
+    height: 90px;
     font-weight: bold;
     text-align: center;
+    max-width: 105px;
 }
 
 .cardModal {

@@ -1,3 +1,124 @@
 body {
-    background: lightgreen;
+   color: rgb(128, 19, 19);
   }
+
+
+  /* ===============LOGIN================= */
+
+.userName {
+    letter-spacing: 3px;
+    font-weight: bold;
+    color: rgb(211, 211, 211);
+}
+
+.password {
+    letter-spacing: 3px;
+    margin-left: 30px;
+    font-weight: bold;
+    color: rgb(211, 211, 211);
+}
+
+.signInButton {
+    margin-left: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(81, 135, 252);
+    border-top-color: rgb(81, 135, 252);
+    border-left-color: rgb(81, 135, 252);
+    border-right-color: rgb(81, 135, 252);
+    border-bottom-color: rgb(81, 135, 252);
+}
+
+.signInButton:hover {
+    background-color: rgb(17, 88, 243);
+    border-top-color: rgb(17, 88, 243);
+    border-left-color: rgb(17, 88, 243);
+    border-right-color: rgb(17, 88, 243);
+    border-bottom-color: rgb(17, 88, 243);
+}
+
+.registerButton {
+    margin-left: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(118, 81, 252);
+    border-top-color: rgb(118, 81, 252);
+    border-left-color: rgb(118, 81, 252);
+    border-right-color: rgb(118, 81, 252);
+    border-bottom-color: rgb(118, 81, 252);
+}
+
+.registerButton:hover {
+    background-color: rgb(85, 17, 243);
+    border-top-color: rgb(85, 17, 243);
+    border-left-color: rgb(85, 17, 243);
+    border-right-color: rgb(85, 17, 243);
+    border-bottom-color: rgb(85, 17, 243);
+}
+
+/* ============== REGISTER =========== */
+
+.backButton {
+  font-weight: bold;
+  color: white;
+  background-color: red;
+  border-top-color:red;
+  border-left-color:red;
+  border-right-color: red;
+  border-bottom-color:red;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  margin-right: 10px;
+}
+
+.backButton:hover {
+  background-color: rgb(196, 4, 4);
+  border-top-color: rgb(196, 4, 4);
+  border-left-color: rgb(196, 4, 4);
+  border-right-color:  rgb(196, 4, 4);
+  border-bottom-color: rgb(196, 4, 4);
+}
+
+.first_name_input {
+ margin-right: 10px;
+}
+
+.last_name_input {
+  margin-right: 10px;
+}
+
+.email_input {
+  margin-right: 10px;
+}
+
+.username_input {
+  margin-right: 10px;
+}
+
+.password_input {
+  margin-right: 10px;
+}
+
+.registerButton2 {
+  font-weight: bold;
+  color: white;
+  background-color: rgb(132, 0, 255);
+  border-top-color:rgb(132, 0, 255);
+  border-left-color:rgb(132, 0, 255);
+  border-right-color: rgb(132, 0, 255);
+  border-bottom-color:rgb(132, 0, 255);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.registerButton2:hover {
+
+  background-color: rgb(100, 3, 190);
+  border-top-color:rgb(100, 3, 190);
+  border-left-color:rgb(100, 3, 190);
+  border-right-color: rgb(100, 3, 190);
+  border-bottom-color:rgb(100, 3, 190);
+
+}

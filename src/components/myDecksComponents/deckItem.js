@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import DeckModal from './deckModal'
 import APIManager from '../managerComponents/APIManager';
 import './viewDeck.css'
+
+
+// ========================ANIMATIONS=======================
+
+const fadeInAnimation = {
+    fadeIn: {
+      animation: "1s",
+      animationName: Radium.keyframes(fadeIn, "fadeIn")
+    }
+  }
 
 export default class DeckItem extends Component {
 
@@ -96,6 +108,30 @@ export default class DeckItem extends Component {
         console.log("warningModalState", this.state.warningModal)
     }
 
+    closeWarningModalDescription = () => {
+        this.setState({
+            warningModalDescription: false,
+            modal: true
+        })
+        console.log("warningModalState", this.state.warningModal)
+    }
+
+    closeWarningModalStrategy = () => {
+        this.setState({
+            warningModalStrategy: false,
+            modal: true
+        })
+        console.log("warningModalState", this.state.warningModal)
+    }
+
+    closeWarningModalTypes = () => {
+        this.setState({
+            warningModalTypes: false,
+            modal: true
+        })
+        console.log("warningModalState", this.state.warningModal)
+    }
+
     warningModalProceed = (obj) => {
         let deckId = this.state.selectedDeck.id
 
@@ -173,6 +209,9 @@ export default class DeckItem extends Component {
     warningModalCancel = (deck) => {
         this.setState({
             warningModal: false,
+            warningModalDescription: false,
+            warningModalStrategy: false,
+            warningModalTypes: false,
             modal: true,
             selectedDeck: deck
         })
@@ -434,11 +473,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                            <buttton onClick={this.consoleLog}>console log</buttton>
-                        </section>
-                        <footer className="modal-card-foot">
                             <button onClick={() => this.warningModalProceed(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </section>
+                        <footer className="modal-card-foot">
                         </footer>
                     </div>
                 </div>
@@ -459,11 +497,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                            <buttton onClick={this.consoleLog}>console log</buttton>
-                        </section>
-                        <footer className="modal-card-foot">
                             <button onClick={() => this.warningModalProceedDescription(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </section>
+                        <footer className="modal-card-foot">
                         </footer>
                     </div>
                 </div>
@@ -485,11 +522,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                            <buttton onClick={this.consoleLog}>console log</buttton>
-                        </section>
-                        <footer className="modal-card-foot">
                             <button onClick={() => this.warningModalProceedStrategy(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </section>
+                        <footer className="modal-card-foot">
                         </footer>
                     </div>
                 </div>
@@ -510,11 +546,10 @@ export default class DeckItem extends Component {
                             <button onClick={() => this.warningModalTypesCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body">
-                            <buttton onClick={this.consoleLog}>console log</buttton>
-                        </section>
-                        <footer className="modal-card-foot">
                             <button onClick={() => this.warningModalProceedTypes(this.state.selectedDeck)} className="button is-success">Save changes</button>
                             <button onClick={() => this.warningModalTypesCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </section>
+                        <footer className="modal-card-foot">
                         </footer>
                     </div>
                 </div>
@@ -530,12 +565,15 @@ export default class DeckItem extends Component {
 
             inspect = (
                 <React.Fragment>
-                    <button onClick={() => this.viewDeck(this.state.selectedDeck)}>inspect</button>
-                    <br></br>
+                    <StyleRoot>
+                    <button className="inspectButton" style={fadeInAnimation.fadeIn} onClick={() => this.viewDeck(this.state.selectedDeck)}>
+                    <span className="icon">
+                    <i className="fas fa-search"></i>
+                    </span>
+                    inspect</button>
+                    </StyleRoot>
                 </React.Fragment>
             )
-
-
         }
         else {
             inspect = null
@@ -553,7 +591,7 @@ export default class DeckItem extends Component {
                     {warningModalFieldStrategy}
                     {warningModalFieldTypes}
                     {modal}
-                    <button onClick={this.consoleLog}>console log deck item</button>
+                    {/* <button onClick={this.consoleLog}>console log deck item</button> */}
                     {this.props.decks.map(deck =>
 
                         <div onClick={() => this.consoleLog(deck)} className="deckItself" key={deck.id} >
@@ -577,7 +615,7 @@ export default class DeckItem extends Component {
                                     </div>
                                     {inspect}
                                     <time className="deckDate" dateTime={deck.date_added}>created: {deck.date_added}</time>
-                                    <button onClick={() => this.props.deleteThis2("decks", deck.id)}>delete</button>
+                                    <button className="deleteButton" onClick={() => this.props.deleteThis2("decks", deck.id)}>delete</button>
                                 </div>
                             </div>
                         </div>

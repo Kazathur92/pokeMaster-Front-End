@@ -1,10 +1,37 @@
 import React, { Component } from 'react'
-import './viewDeck.css'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY, rollIn } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
+import APIManager from '../managerComponents/APIManager';
 import EditName from './editNameForm'
 import EditDescription from './editDescriptionForm'
 import EditStrategy from './editStrategyForm'
 import EditTypes from './editTypes'
-import APIManager from '../managerComponents/APIManager';
+import './viewDeck.css'
+
+
+// ========================ANIMATIONS========================
+
+const flipInAnimation = {
+    flipInX: {
+      animation: "1s",
+      animationName: Radium.keyframes(flipInX, "flipInX")
+    }
+  }
+
+const flipInYAnimation = {
+    flipInY: {
+      animation: "3s",
+      animationName: Radium.keyframes(flipInY, "flipInY")
+    }
+  }
+
+  const rollInAnimation = {
+    rollIn: {
+    animation: "1s",
+    animationName: Radium.keyframes(rollIn, "rollIn")
+  }
+}
+
 
 export default class DeckModal extends Component {
 
@@ -74,23 +101,7 @@ export default class DeckModal extends Component {
         }
     }
 
-    closeEditNameForm = () => {
-        this.setState({
-            editNameForm: false
-        })
-    }
 
-    closeEditDescriptionForm = () => {
-        this.setState({
-            editDescriptionForm: false
-        })
-    }
-
-    closeEditTypesForm = () => {
-        this.setState({
-            editTypesForm: false
-        })
-    }
 
     handleFieldChange = (event) => {
         const stateToChange = {}
@@ -185,25 +196,80 @@ export default class DeckModal extends Component {
 
     showEditNameForm = () => {
         this.setState({
-            editNameForm: true
+            editNameForm: true,
+            editDescriptionForm: false,
+            editStrategyForm: false,
+            editTypesForm: false,
         })
     }
 
     showEditDescriptionForm = () => {
         this.setState({
-            editDescriptionForm: true
+            editNameForm: false,
+            editDescriptionForm: true,
+            editStrategyForm: false,
+            editTypesForm: false,
         })
+        console.log("description state", this.state.editDescriptionForm)
     }
 
     showEditStrategyForm = () => {
         this.setState({
-            editStrategyForm: true
+            editNameForm: false,
+            editDescriptionForm: false,
+            editStrategyForm: true,
+            editTypesForm: false,
         })
     }
 
-    hideEditStrategyForm = () => {
+    showEditTypesForm = (type1, type2) => {
         this.setState({
-            editStrategyForm: false
+            editTypesForm: true,
+            editNameForm: false,
+            editDescriptionForm: false,
+            editStrategyForm: false,
+            type1: type1,
+            type2: type2
+        })
+    }
+
+    closeEditNameForm = () => {
+        this.setState({
+            editNameForm: false,
+            editName: false,
+            editDescription: false,
+            editStrategy: false,
+            editEnergyType1Icon: false
+        })
+    }
+
+    closeEditDescriptionForm = () => {
+        this.setState({
+            editDescriptionForm: false,
+            editName: false,
+            editDescription: false,
+            editStrategy: false,
+            editEnergyType1Icon: false
+        })
+    }
+
+    closeEditTypesForm = () => {
+        this.setState({
+            editTypesForm: false,
+            editName: false,
+            editDescription: false,
+            editStrategy: false,
+            editEnergyType1Icon: false
+        })
+    }
+
+    closeEditStrategyForm = () => {
+        this.setState({
+            editStrategyForm: false,
+            editName: false,
+            editDescription: false,
+            editStrategy: false,
+            editEnergyType1Icon: false
         })
     }
 
@@ -231,13 +297,7 @@ export default class DeckModal extends Component {
         })
     }
 
-    showEditTypesForm = (type1, type2) => {
-        this.setState({
-            editTypesForm: true,
-            type1: type1,
-            type2: type2
-        })
-    }
+
 
 
 
@@ -281,9 +341,10 @@ export default class DeckModal extends Component {
                     {
                         this.props.cardsOfDeck.map(card =>
 
+                            <StyleRoot>
                             <div className="allCardsInDeck">
                                 <div className="deckModalContentField">
-                                    <img onMouseEnter={() => this.pickCard(card)} onClick={() => this.clickOnCard(this.state.selectedCardOnDeck)} src={card.card.imageUrl} className="deckCard"></img>
+                                    <img style={rollInAnimation.rollIn} onMouseEnter={() => this.pickCard(card)} onClick={() => this.clickOnCard(this.state.selectedCardOnDeck)} src={card.card.imageUrl} className="deckCard"></img>
 
                                 </div>
                                 <div>
@@ -291,6 +352,7 @@ export default class DeckModal extends Component {
                                     <p>&nbsp;</p>
                                 </div>
                             </div>
+                            </StyleRoot>
 
 
 
@@ -395,6 +457,7 @@ export default class DeckModal extends Component {
                     closeEditForm={this.closeEditForm}
                     closeEditDescriptionForm={this.closeEditDescriptionForm}
                     showWarningModalStrategyForm={this.props.showWarningModalStrategyForm}
+                    closeEditStrategyForm={this.closeEditStrategyForm}
                 />
             )
         } else {
@@ -432,21 +495,25 @@ export default class DeckModal extends Component {
                     <div className="modal-background" onClick={this.props.closeViewDeck}></div>
                     <div className="modal-content deckModal">
                         {/* <button onClick={this.consoleLog}>console Log modal</button> */}
+                        <div className="deckInfoDiv">
                         {deckName}
                         {deckDescription}
                         {deckStrategy}
                         <div className="primaryEnergiesDiv" onMouseEnter={this.showEditEnergyType1Icon} onMouseLeave={this.hideEditEnergyType1Icon}>
                             <p className="energiesTitles">Primary Energies:</p>&nbsp;&nbsp;
-                            <p className="energyType1">{this.state.currentDeck.energyType1}&nbsp;{this.state.currentDeck.energyType2}</p>
-                            <p onMouseEnter={this.hidEditEnergyType2Icon} className="energyType2">{this.props.selectedDeck.energyType2}</p>
+                            <p className="energyType1">{this.state.currentDeck.energyType1}</p>
+                            <p onMouseEnter={this.hidEditEnergyType2Icon} className="energyType2">{this.state.currentDeck.energyType2}</p>
                             <span className="energyType1Span">
                                 {editEnergyType1Icon}
                             </span>
                         </div>
                         {editTypes}
+                        </div>
                         <br></br>
-                        <button onClick={() => this.props.makeMvp(this.state.selectedCardOnDeck, this.props.selectedDeck)} className="makeMvp">Make MVP</button>
-                        <img className="lookAtCard" src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>
+                        { this.props.cardsOfDeck.length < 1 ? <p></p> : <button onClick={() => this.props.makeMvp(this.state.selectedCardOnDeck, this.props.selectedDeck)} className="makeMvp">Make MVP</button>}
+                        <StyleRoot>
+                        <img className="lookAtCard" style={flipInYAnimation.flipInY} src={this.state.selectedCardOnDeck.imageUrlHiRes}></img>
+                        </StyleRoot>
                         {interactionButtons}
                         <div className="wrap">
                             {deckContent}

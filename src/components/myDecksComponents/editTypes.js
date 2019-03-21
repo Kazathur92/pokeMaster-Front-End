@@ -1,5 +1,17 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import './viewDeck.css'
+
+
+// ========================ANIMATIONS====================
+
+const fadeInAnimation = {
+    fadeIn: {
+      animation: "2s",
+      animationName: Radium.keyframes(fadeIn, "fadeIn")
+    }
+  }
 
 export default class EditTypes extends Component {
 
@@ -36,6 +48,8 @@ export default class EditTypes extends Component {
         return (
             <React.Fragment>
 
+            <StyleRoot>
+            <div style={fadeInAnimation.fadeIn} className="editEnergiesDiv">
                 <p className="energy1Tilte">First Predominant Energy:</p>
                 <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImageEdit">
                         <option className="option" value="https://bulma.io/images/placeholders/1280x960.png" name="">---------</option>
@@ -70,7 +84,8 @@ export default class EditTypes extends Component {
                     <i onClick={() => this.props.showWarningModalTypesForm(this.props.selectedDeck, this.state)} className="fas fa-check IconCheck"></i>
                     <i onClick={this.props.closeEditTypesForm} className="fas fa-times IconTimes"></i>
                 </span>
-
+                </div>
+                </StyleRoot>
 
             </React.Fragment>
 

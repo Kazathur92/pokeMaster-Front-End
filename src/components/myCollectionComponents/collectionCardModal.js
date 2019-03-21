@@ -113,14 +113,14 @@ export default class CardModal extends Component {
 
 
     consoleLog = () => {
-        console.log("CARDS", this.props.cards)
-        console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
-        console.log("SELECTED DECK props", this.state.selectedDeck)
+        // console.log("CARDS", this.props.cards)
+        // console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
+        // console.log("SELECTED DECK props", this.state.selectedDeck)
         // console.log("DECK ID", this.state.selectedDeckId)
-        // console.log("SELECTED CARD", this.props.selectedCard)
-        console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
-        console.log("CARDS OF DECK", this.props.cardsOfDeck)
-        console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
+        console.log("SELECTED CARD", this.props.selectedCard)
+        // console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
+        // console.log("CARDS OF DECK", this.props.cardsOfDeck)
+        // console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
     }
 
 
@@ -157,17 +157,22 @@ export default class CardModal extends Component {
                     <div className="modal-background"></div>
                     <div className="modal-card">
                         <header className="modal-card-head">
-                            <p className="modal-card-title">Modal title</p>
+                            <p className="modal-card-title">{this.props.selectedCard.name}</p>
                             <button onClick={this.props.closeModal} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body modalSection">
+                        <div className="modalDiv">
                             <img className="selectedCardImage" src={this.props.selectedCard.imageUrlHiRes}></img>
                             <label>Belongs to deck:</label>
                             {deckInfo}
+                            </div>
+                            { this.props.selectedCard.rarity? <p>Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
+                              :
+                              <p></p>}
                         </section>
                         <footer className="modal-card-foot">
-                            <button onClick={this.consoleLog} className="button is-success">Console Log</button>
-                            <button onClick={this.props.closeModal} className="button">Cancel</button>
+                            {/* <button onClick={this.consoleLog} className="button is-success">Console Log</button> */}
+                            <button onClick={this.props.closeModal} className="button">Close</button>
                         </footer>
                     </div>
                 </div>

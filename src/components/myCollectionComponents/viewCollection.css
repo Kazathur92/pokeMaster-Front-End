@@ -3,12 +3,14 @@
         text-align: center;
         font-size: 280%;
         color: white;
+        box-shadow: 5px 5px 8px black;
+        text-shadow: 5px 5px black;
 }
 
 .collectionDiv {
     height: 670px;
     overflow: scroll;
-    background-color: rgb(250, 199, 199);
+    /* background-color: rgb(250, 199, 199); */
 }
 
 
@@ -30,7 +32,7 @@
 
 .collectionCardImage:hover {
     margin-right: 30px;
-    width: 150px;
+    width: 110px;
 }
 
 .collectionCardName {
@@ -47,6 +49,12 @@
 
 .modalSection {
     display:flex;
+    flex-direction: column;
+}
+
+.modalDiv {
+  display:flex;
+  flex-direction: row;
 }
 
 .deckTitle {

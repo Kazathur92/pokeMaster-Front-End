@@ -83,10 +83,13 @@ export default class ViewMyDecks extends Component {
             <React.Fragment>
                 <h1 className="decksTitle">DECKS</h1>
                 {/* <button onClick={this.consoleLog}>consoleLog viewDecks</button> */}
-                <button onClick={this.showCreateDeckForm}>Create New Deck</button>
+                <div className="createButtonDiv">
+                <button className="createNewDeckButton" onClick={this.showCreateDeckForm}>Create New Deck</button>
+                </div>
                 {createNewDeckForm}
                 {scrollRightMessage}
-                <div className="decksArea">
+                <div id="decksArea" className="decksArea">
+
                     <DeckItem decks={this.props.decks}
                         getAll2={this.props.getAll2}
                         token={this.props.token}

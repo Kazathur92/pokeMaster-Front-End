@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY, rollIn } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
+import APIManager from '../managerComponents/APIManager';
 import 'bulma/css/bulma.css'
 import './searchComponent.css'
-import APIManager from '../managerComponents/APIManager';
 
 let userId = sessionStorage.getItem("id")
+
+
 
 export default class CardModal extends Component {
 
@@ -95,6 +99,7 @@ export default class CardModal extends Component {
 
                                 this.props.createNewCard("deckcardsrelationship", newCardToDeck)
                                     .then(data => {
+                                        alert("This card has now been added to your Deck.")
                                         this.props.getAll2("cards")
                                         console.log("data getting back after postig to relationship: ", data)
                                     })

@@ -1,7 +1,29 @@
 import React, { Component } from 'react';
+import { slideInDown, slideInLeft, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import './viewDeck.css'
 
 let userId = sessionStorage.getItem("id")
+
+
+
+// ==========================ANIMATIONS=======================
+
+
+const slideDownAnimation = {
+    slideInDown: {
+        animation: "1s",
+        animationName: Radium.keyframes(slideInDown, "sildeInDown")
+    }
+}
+
+const slideInLeftAnimation = {
+    slideInLeft: {
+        animation: "1s",
+        animationName: Radium.keyframes(slideInLeft, "sildeInLeft")
+    }
+}
+
 
 export default class NewDeckForm extends Component {
 
@@ -176,53 +198,63 @@ export default class NewDeckForm extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="newDeckFields">
-                    <h3 className="viewDecksTitle">Add a new deck to the collection!</h3>
-                    <label for="name">Deck Name: <input name="name" id="name" type="text" placeholder="deck title" value={this.state.name} onChange={this.handleFieldChange}></input></label>
 
-                    <div className="newDeckDescriptionAndStrategy">
-                        <label for="description">Deck Description: </label>
-                        <textarea name="description" id="description" rows="4" cols="50" type="text" placeholder="Notes about this Deck" value={this.state.description} onChange={this.handleFieldChange}></textarea>
-                        <label for="strategy">Deck Strategy: </label>
-                        <textarea name="strategy" id="strategy" rows="4" cols="50" type="text" placeholder="How is this deck played?" value={this.state.strategy} onChange={this.handleFieldChange}></textarea>
+                <StyleRoot>
+                    <div style={slideInLeftAnimation.slideInLeft} className="newDeckFields">
+                    <div className="divider">
+                        <h3 className="viewDecksTitle">Add a new deck to the collection!</h3>
+                        <label className="nameLabelForm" for="name">Deck Name: <input name="name" id="name" type="text" placeholder="deck title" value={this.state.name} onChange={this.handleFieldChange}></input></label>
+
+                        <div className="newDeckDescriptionAndStrategy">
+                            <label className="descriptionLabel" for="description">Deck Description: </label>
+                            <textarea name="description" id="description" rows="4" cols="50" type="text" placeholder="Notes about this Deck" value={this.state.description} onChange={this.handleFieldChange}></textarea>
+                            <label className="strategyLabel" for="strategy">Deck Strategy: </label>
+                            <textarea name="strategy" id="strategy" rows="4" cols="50" type="text" placeholder="How is this deck played?" value={this.state.strategy} onChange={this.handleFieldChange}></textarea>
+                        </div>
+                        <div className="predominantEnergy1Div">
+                        <p className="predominantEnergy">Predominant Energy: </p>
+                        <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImage">
+                            <option value={"https://bulma.io/images/placeholders/1280x960.png"} name="">---------</option>
+                            <option value="/images/DarknessSymbol.jpg" key="woop" id="Darkness">Darkness</option>
+                            <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
+                            <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
+                            <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
+                            <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
+                            <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
+                            <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
+                            <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
+                            <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
+                            <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
+                            <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
+                        </select>
+                        </div>
+                        <div className="predominantEnergy2Div">
+                        <p className="secondaryPredominantEnergy">Secondary Predominant Energy:</p>
+                        <select onChange={(event) => this.selectImageCover2(event.target)} className="selectImage">
+                            <option value="https://bulma.io/images/placeholders/1280x960.png" id="">---------</option>
+                            <option value="/images/DarknessSymbol.jpg" id="Darkness">Darkness</option>
+                            <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
+                            <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
+                            <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
+                            <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
+                            <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
+                            <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
+                            <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
+                            <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
+                            <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
+                            <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
+                        </select>
+                        </div>
+                        <div className="predominantEnergiesDiv">
+                            <img className="deckImage" src={`${this.state.imageCover1}`}></img>
+                            <img className="deckImage" src={`${this.state.imageCover2}`}></img>
+                        </div>
+                        <button className="saveDeckButton" onClick={() => this.createDeck("decks")}>Save Deck</button>
+                        {/* <button onClick={this.consoleLog}>check states</button> */}
+                        </div>
                     </div>
-                    <p className="predominantEnergy">Predominant Energy: </p>
-                    <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImage">
-                        <option value={"https://bulma.io/images/placeholders/1280x960.png"} name="">---------</option>
-                        <option value="/images/DarknessSymbol.jpg" key="woop" id="Darkness">Darkness</option>
-                        <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
-                        <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
-                        <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
-                        <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
-                        <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
-                        <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
-                        <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
-                        <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
-                        <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
-                        <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
-                    </select>
-                    <p className="secondaryPredominantEnergy">Secondary Predominant Energy:</p>
-                    <select onChange={(event) => this.selectImageCover2(event.target)} className="selectImage">
-                        <option value="https://bulma.io/images/placeholders/1280x960.png" id="">---------</option>
-                        <option value="/images/DarknessSymbol.jpg" id="Darkness">Darkness</option>
-                        <option value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
-                        <option value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
-                        <option value="/images/FireSymbol.jpg" id="Fire">Fire</option>
-                        <option value="/images/FightingSymbol.jpg" id="Fighting">Fighting</option>
-                        <option value="/images/GrassSymbol.jpg" id="Grass">Grass</option>
-                        <option value="/images/LightingSymbol.jpg" id="Lighting">Lighting</option>
-                        <option value="/images/MetalSymbol.jpg" id="Metal">Metal</option>
-                        <option value="/images/NormalSymbol.jpg" id="Normal">Normal</option>
-                        <option value="/images/PsychicSymbol.jpg" id="Psychic">Psychic</option>
-                        <option value="/images/WaterSymbol.jpg" id="Water">Water</option>
-                    </select>
-                    <div className="predominantEnergiesDiv">
-                        <img className="deckImage" src={`${this.state.imageCover1}`}></img>
-                        <img className="deckImage" src={`${this.state.imageCover2}`}></img>
-                    </div>
-                    <button className="saveDeckButton" onClick={() => this.createDeck("decks")}>Save Deck</button>
-                    <button onClick={this.consoleLog}>check states</button>
-                </div>
+                </StyleRoot>
+
             </React.Fragment>
         )
     }

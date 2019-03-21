@@ -259,8 +259,23 @@ class App extends Component {
         })
     }
 
+    backToLogin = () => {
+      this.setState({
+        showLogin: true,
+        showRegister: false
+      })
+    }
+
 
     registerUser = (username, password, email, firstName, lastName) => {
+
+      if(username === "" || password === "" || email === "" || firstName === "" || lastName === "") {
+
+        alert("All fields must be filled out")
+      }
+
+      else {
+
 
         let user = {
             password: password,
@@ -272,6 +287,7 @@ class App extends Component {
         console.log(user)
 
         this.postAuth("register", user)
+      }
     }
 
 
@@ -337,6 +353,9 @@ class App extends Component {
                 }
                 else if (response.status === 400) {
                     alert("You are not currently a user, you should register.")
+                }
+                else if(response.status === 401) {
+                  alert("You need to fill out the form please.")
                 }
                 else {
                     return "you aint a user brah!"
@@ -421,7 +440,8 @@ class App extends Component {
                     email={this.state.email}
                     last_name={this.state.last_name}
                     registerUser={this.registerUser}
-                    postAuth={this.postAuth} />
+                    postAuth={this.postAuth}
+                    backToLogin={this.backToLogin} />
             )
         } else {
             register = null

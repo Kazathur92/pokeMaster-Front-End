@@ -117,7 +117,7 @@ export default class CollectionItem extends Component {
         return (
 
             <React.Fragment>
-                <button onClick={this.consoleLog}>CONSOLE LOG</button>
+                {/* <button onClick={this.consoleLog}>CONSOLE LOG</button> */}
                 {cardModal}
                 {cardItem}
 

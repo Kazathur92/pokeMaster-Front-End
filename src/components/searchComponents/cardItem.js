@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY, rollIn } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import CardModal from './cardModal'
 import './searchComponent.css'
+
+const rollInAnimation = {
+    rollIn: {
+    animation: "1s",
+    animationName: Radium.keyframes(rollIn, "rollIn")
+  }
+}
 
 export default class CardItem extends Component {
 
@@ -74,11 +83,13 @@ export default class CardItem extends Component {
                 <React.Fragment>
 
                     {this.props.apiCards.map(card =>
-
-                        <div key={card.id} className="card">
+                        <StyleRoot>
+                        <div key={card.id} style={rollInAnimation.rollIn}  className="card">
                             <img className="cardViewImage" onClick={() => this.viewCard(card)} src={card.imageUrl}></img>
                             <p className="cardViewName">{card.name}</p>
-                        </div>)
+                        </div>
+                        </StyleRoot>
+                        )
 
                     }
 
