@@ -11,13 +11,18 @@ export default class DeckItem extends Component {
         warningModal: false,
         warningModalDescription: false,
         warningModalStrategy: false,
+        warningModalTypes: false,
         inspectField: false,
         cardsOfDeck: this.props.cardsOfDeck,
         emptyDeck: false,
         newName: "",
         newDescription: "",
         newStrategy: "",
-        deckMvp: ""
+        deckMvp: "",
+        imageCover1: "",
+        imageCover2: "",
+        energyType1: "",
+        energyType2: "",
 
     }
 
@@ -69,6 +74,20 @@ export default class DeckItem extends Component {
 
     }
 
+    showWarningModalTypesForm = (deck, stateObj) => {
+        this.setState({
+            warningModalTypes: true,
+            modal: false,
+            imageCover1: stateObj.imageCover1,
+            imageCover2: stateObj.imageCover2,
+            energyType1: stateObj.energyType1,
+            energyType2: stateObj.energyType2,
+            selectedDeck: deck
+        })
+        console.log("warningModalState", stateObj)
+
+    }
+
     closeWarningModal = () => {
         this.setState({
             modal: true
@@ -76,20 +95,20 @@ export default class DeckItem extends Component {
         console.log("warningModalState", this.state.warningModal)
     }
 
-    warningModalProceed = (deck) => {
+    warningModalProceed = (obj) => {
         let deckId = this.state.selectedDeck.id
+
         this.props.editThis("decks", this.state.newName, deckId)
             .then(data => {
                 this.setState({
                     warningModal: false,
                     modal: true,
-                    selectedDeck: deck
+                    selectedDeck: obj
                 })
                 this.props.changeWoop()
                 this.props.getAll2("decks")
             })
-
-    }
+        }
 
     warningModalProceedDescription = (deck) => {
         let deckId = this.state.selectedDeck.id
@@ -121,9 +140,47 @@ export default class DeckItem extends Component {
 
     }
 
+    warningModalProceedTypes = (obj) => {
+        let deckId = this.state.selectedDeck.id
+
+        let thingsToEdit = {
+            imageCover1: this.state.imageCover1,
+            imageCover2: this.state.imageCover2,
+            energyType1: this.state.energyType1,
+            energyType2: this.state.energyType2
+        }
+
+        this.props.editThis("decks", thingsToEdit, deckId)
+            .then(data => {
+                new Promise((resolve, reject) => {
+                    this.setState({
+                        warningModalTypes: false,
+                        modal: true,
+                        selectedDeck: obj
+                    })
+                    this.props.changeWoop()
+                    resolve()
+
+                })
+                .then(() => {
+                    this.props.getAll2("decks")
+                })
+            })
+        }
+
+
     warningModalCancel = (deck) => {
         this.setState({
             warningModal: false,
+            modal: true,
+            selectedDeck: deck
+        })
+        this.props.changeWoop()
+    }
+
+    warningModalTypesCancel = (deck) => {
+        this.setState({
+            warningModalTypes: false,
             modal: true,
             selectedDeck: deck
         })
@@ -356,6 +413,7 @@ export default class DeckItem extends Component {
                     warningModalProceedDescription={this.warningModalProceedDescription}
                     showWarningModalStrategyForm={this.showWarningModalStrategyForm}
                     warningModalProceedStrategy={this.warningModalProceedStrategy}
+                    showWarningModalTypesForm={this.showWarningModalTypesForm}
 
                     makeMvp={this.makeMvp}
 
@@ -442,6 +500,31 @@ export default class DeckItem extends Component {
             warningModalFieldStrategy = null
         }
 
+        let warningModalFieldTypes = ""
+
+        if (this.state.warningModalTypes) {
+            warningModalFieldTypes = (
+                <div className="modal is-active">
+                    <div className="modal-background"></div>
+                    <div className="modal-card">
+                        <header className="modal-card-head">
+                            <p className="modal-card-title">Are you sure you want save this changes?</p>
+                            <button onClick={() => this.warningModalTypesCancel(this.state.selectedDeck)} className="delete" aria-label="close"></button>
+                        </header>
+                        <section className="modal-card-body">
+                            <buttton onClick={this.consoleLog}>console log</buttton>
+                        </section>
+                        <footer className="modal-card-foot">
+                            <button onClick={() => this.warningModalProceedTypes(this.state.selectedDeck)} className="button is-success">Save changes</button>
+                            <button onClick={() => this.warningModalTypesCancel(this.state.selectedDeck)} className="button">Cancel</button>
+                        </footer>
+                    </div>
+                </div>
+            )
+        } else {
+            warningModalFieldTypes = null
+        }
+
 
 
         let inspect = ""
@@ -470,6 +553,7 @@ export default class DeckItem extends Component {
                     {warningModalField}
                     {warningModalFieldDescription}
                     {warningModalFieldStrategy}
+                    {warningModalFieldTypes}
                     {modal}
                     <button onClick={this.consoleLog}>console log deck item</button>
                     {this.props.decks.map(deck =>

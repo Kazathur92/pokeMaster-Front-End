@@ -42,7 +42,7 @@ export default class EditTypes extends Component {
                 {/* <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input> */}
                 <p className="energy1Tilte">First Predominant Energy:</p>
                 <select onChange={(event) => this.selectImageCover1(event.target)} className="selectImageEdit">
-                        <option className="option" value={"https://bulma.io/images/placeholders/1280x960.png"} name="">---------</option>
+                        <option className="option" value="https://bulma.io/images/placeholders/1280x960.png" name="">---------</option>
                         <option className="option"  value="/images/DarknessSymbol.jpg" key="woop" id="Darkness">Darkness</option>
                         <option className="option" value="/images/DragonSymbol.jpg" id="Dragon">Dragon</option>
                         <option className="option" value="/images/FairySymbol.jpg" id="Fairy">Fairy</option>
@@ -71,8 +71,8 @@ export default class EditTypes extends Component {
                         <option className="option" value="/images/WaterSymbol.jpg" id="Water">Water</option>
                     </select>
                 <span className="icon Icons">
-                    <i onClick={() => this.props.showWarningModal(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
-                    <i onClick={this.props.closeEditNameForm} className="fas fa-times IconTimes"></i>
+                    <i onClick={() => this.props.showWarningModalTypesForm(this.props.selectedDeck, this.state)} className="fas fa-check IconCheck"></i>
+                    <i onClick={this.props.closeEditTypesForm} className="fas fa-times IconTimes"></i>
                 </span>
 
 
