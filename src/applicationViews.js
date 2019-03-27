@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import APIManager from './components/managerComponents/APIManager'
 import ViewCards from './components/searchComponents/viewCards'
 import ViewMyDecks from './components/myDecksComponents/viewDecks'
@@ -8,6 +10,14 @@ import Login from './components/authComponents/login'
 import './App.css';
 
 let username = sessionStorage.getItem("username")
+
+// ============================ANIMATIONS=========================
+const fadeInAnimation = {
+    fadeIn: {
+      animation: "1s",
+      animationName: Radium.keyframes(fadeIn, "fadeIn")
+    }
+  }
 
 export default class AplicationViews extends Component {
 
@@ -43,6 +53,23 @@ export default class AplicationViews extends Component {
                 userCards: this.props.userCards,
             })
         }
+
+        if (this.props.token !== prevProps.token) {
+            this.props.getAll2("cards")
+            this.props.getAll2("decks")
+            let token = localStorage.getItem("token")
+            this.props.setUser("user-id", token)
+        }
+    }
+
+    signOut = () => {
+        localStorage.clear()
+        this.setState({
+            collectionPage: false,
+            searchPage: false,
+            decksPage: false
+        })
+        this.props.logOut()
     }
 
     changeTriggerSwitch = () => {
@@ -57,14 +84,13 @@ export default class AplicationViews extends Component {
             cardsOfDeck: cardsOfDeck,
             emptyDeck: false,
             triggerSwitch: true
-    })
+        })
     }
 
     updateCardsOfDeckStateTrue = (cardsOfDeck) => {
         this.setState({
             cardsOfDeck: "",
             emptyDeck: true,
-            // triggerSwitch: !this.state.triggerSwitch
         })
     }
 
@@ -83,7 +109,6 @@ export default class AplicationViews extends Component {
             collectionPage: true,
             decksPage: false,
             searchPage: false,
-            // triggerSwitch: !this.state.triggerSwitch
         })
     }
 
@@ -116,6 +141,8 @@ export default class AplicationViews extends Component {
         let searchCards = ""
         if (this.state.searchPage) {
             searchCards = (
+                <StyleRoot>
+                <div style={fadeInAnimation.fadeIn}>
                 <ViewCards
                     // CRUD FUNCTIONS
                     gottaGetEmAll={this.props.gottaGetEmAll}
@@ -137,6 +164,8 @@ export default class AplicationViews extends Component {
                     // STATE CHANGING FUNCTIONS PROPS
                     findUserDecks={this.props.findUserDecks}
                 />
+                </div>
+                </StyleRoot>
             )
         } else {
             searchCards = null
@@ -146,39 +175,46 @@ export default class AplicationViews extends Component {
         let viewDecks = ""
         if (this.state.decksPage) {
             viewDecks = (
-                <ViewMyDecks
-                    // CRUD
-                    getAllWithQuery={this.props.getAllWithQuery}
-                    getAll2={this.props.getAll2}
-                    getCardsById={this.props.getCardsById}
-                    createNew={this.props.createNew}
-                    createNewDeck={this.props.createNewDeck}
-                    createButDontGet={this.props.createButDontGet}
-                    deleteIt={this.props.deleteIt}
-                    deleteThis={this.props.deleteThis}
-                    deleteThis2={this.props.deleteThis2}
-                    editThis={this.props.editThis}
-                    // FETCHED DATA PROPS
-                    users={this.props.users}
-                    decks={this.props.decks}
-                    cards={this.props.cards}
-                    // CREATED DATA PROPS
-                    currentUser={this.props.currentUser}
-                    userDecks={this.state.userDecks}
-                    userCards={this.state.userCards}
-                    cardsOfDeck={this.props.cardsOfDeck}
-                    token={this.props.token}
-                    // TRIGGER SWITCHES PROPS
+                <StyleRoot>
+                    <div style={fadeInAnimation.fadeIn}>
 
-                    // STATE CHANGING FUNCTIONS PROPS
-                    findUserDecks={this.props.findUserDecks}
-                    findUserCards={this.props.findUserCards}
+                    <ViewMyDecks
+                        // CRUD
+                        getAllWithQuery={this.props.getAllWithQuery}
+                        getAll2={this.props.getAll2}
+                        getCardsById={this.props.getCardsById}
+                        createNew={this.props.createNew}
+                        createNewDeck={this.props.createNewDeck}
+                        createButDontGet={this.props.createButDontGet}
+                        deleteIt={this.props.deleteIt}
+                        deleteThis={this.props.deleteThis}
+                        deleteThis2={this.props.deleteThis2}
+                        editThis={this.props.editThis}
+                        // FETCHED DATA PROPS
+                        users={this.props.users}
+                        decks={this.props.decks}
+                        cards={this.props.cards}
+                        // CREATED DATA PROPS
+                        currentUser={this.props.currentUser}
+                        userDecks={this.state.userDecks}
+                        userCards={this.state.userCards}
+                        cardsOfDeck={this.props.cardsOfDeck}
+                        token={this.props.token}
+                        // TRIGGER SWITCHES PROPS
 
-                    updateCardsOfDeckStateFalse={this.updateCardsOfDeckStateFalse}
-                    updateCardsOfDeckStateTrue={this.updateCardsOfDeckStateTrue}
-                    cardsOfDeck={this.state.cardsOfDeck}
-                    emptyDeck={this.state.emptyDeck}
-                />
+                        // STATE CHANGING FUNCTIONS PROPS
+                        findUserDecks={this.props.findUserDecks}
+                        findUserCards={this.props.findUserCards}
+
+                        updateCardsOfDeckStateFalse={this.updateCardsOfDeckStateFalse}
+                        updateCardsOfDeckStateTrue={this.updateCardsOfDeckStateTrue}
+                        cardsOfDeck={this.state.cardsOfDeck}
+                        emptyDeck={this.state.emptyDeck}
+                    />
+
+                    </div>
+
+                </StyleRoot>
             )
         } else {
             viewDecks = null
@@ -189,6 +225,8 @@ export default class AplicationViews extends Component {
         let viewCollection = ""
         if (this.state.collectionPage) {
             viewCollection = (
+                <StyleRoot>
+                    <div style={fadeInAnimation.fadeIn}>
                 <ViewMyCollection
                     // CRUD
                     getAllWithQuery={this.props.getAllWithQuery}
@@ -209,7 +247,10 @@ export default class AplicationViews extends Component {
                     findUserCards={this.props.findUserCards}
                     findCurrentUser={this.props.findCurrentUser}
                     triggerSwitch={this.state.triggerSwitch}
-                    changeTriggerSwitch={this.changeTriggerSwitch} />
+                    changeTriggerSwitch={this.changeTriggerSwitch}
+                     />
+                    </div>
+                    </StyleRoot>
             )
         } else {
             viewCollection = null
@@ -218,19 +259,42 @@ export default class AplicationViews extends Component {
         let navbar = ""
         if (localStorage.length >= 1 || this.props.navBarStatus) {
             navbar = (
+              <StyleRoot>
+                <div style={fadeInAnimation.fadeIn}>
                 <NavBar clickOnSearchPage={this.clickOnSearchPage}
                     clickOnMyDecks={this.clickOnMyDecks}
                     clickOnMyCollection={this.clickOnMyCollection}
                     findCurrentUser={this.props.findCurrentUser}
                 />
+                </div>
+                </StyleRoot>
             )
         } else {
             navbar = null
         }
 
+        let logOutButton = ""
+        if (this.props.token) {
+            logOutButton = (
+                <div>
+                <button className="logOutButton" onClick={this.signOut}>
+                <span className="icon">
+                    <i className="fas fa-sign-out-alt logOutIcon"></i>
+                </span>
+                Log Out
+                </button>
+                </div>
+
+            )
+        }
+        else {
+            logOutButton = null
+        }
+
         return (
             <div className="appItself">
-                <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button>
+                {/* <button onClick={this.consoleLog}>CONSOLE LOG AP VIEWS</button> */}
+                {logOutButton}
                 <h1 className="appName">POKE-MASTER <img className="pokeballImage" src="/images/pokeball2.png"></img></h1>
                 {navbar}
                 {searchCards}

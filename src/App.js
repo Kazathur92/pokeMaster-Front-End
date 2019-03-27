@@ -5,8 +5,6 @@ import Login from './components/authComponents/login'
 import ApplicationViews from './applicationViews'
 import './App.css';
 
-// let username = sessionStorage.getItem("username")
-
 class App extends Component {
 
     state = {
@@ -35,14 +33,12 @@ class App extends Component {
         navBarStatus: false,
         showLogin: true,
         showRegister: false,
-
-
+        loggedIn: false
     }
 
 
     componentDidMount() {
         console.log("**** DID MOUNT APP START ****")
-        // console.log("users before fetching", this.state.users)
         console.log("cards before fetch", this.state.cards)
 
 
@@ -54,7 +50,6 @@ class App extends Component {
 
         APIManager.getAllOnRefresh("cards")
             .then(data => {
-                // console.log("cards list after fetch before setting state", data)
                 this.setState({ cards: data })
             })
 
@@ -64,7 +59,7 @@ class App extends Component {
                 this.setState({ users: data[0] })
             })
 
-            console.log("**** DID MOUNT APP END ****")
+        console.log("**** DID MOUNT APP END ****")
     }
 
 
@@ -72,7 +67,7 @@ class App extends Component {
     }
 
 
-    //    STATE CHANGING FUNCTIONS ================
+    //==================STATE CHANGING FUNCTIONS ================
 
     handleFieldChange = (event) => {
         const stateToChange = {}
@@ -133,14 +128,7 @@ class App extends Component {
     }
 
     getAllWithQuery2 = (resource, query) => {
-       return APIManager.getAllWithQuery(resource, query)
-            // .then(data => {
-            //     // console.log("data list", data)
-            //     console.log("ITs Getting All")
-            //     this.setState({ cardsOfDeck: data },
-            //     )
-            //     console.log("just fetched and set new state")
-            // })
+        return APIManager.getAllWithQuery(resource, query)
     }
 
     getAll2 = (resource) => {
@@ -168,7 +156,13 @@ class App extends Component {
             })
     }
 
-    // MAKE IT RETURN THE CREATE AND PROCEED WITH .THEN DOWN WHERE IM ADDING
+    setUser = (resource, token) => {
+        APIManager.getAll2(resource, token)
+            .then(data => {
+                console.log("USER", data)
+                this.setState({ users: data[0] })
+            })
+    }
 
     createNew = (resource, newObj) => {
         let token = this.state.token
@@ -187,6 +181,7 @@ class App extends Component {
     }
 
     createNewDeck = (resource, newObj) => {
+        console.log(newObj)
         let token = this.state.token
         return APIManager.create(resource, newObj, token)
 
@@ -220,16 +215,16 @@ class App extends Component {
     deleteIt = (resource) => {
         let token = this.state.token
         APIManager.deleteIt(resource, token)
-        .then(() =>
-        APIManager.getAll2(resource, token)
-            .then(data => {
-                // console.log("data list", data)
-                console.log("ITs Getting All")
-                this.setState({ cards: data },
-                )
-                console.log("just fetched and set new state")
-            })
-    )
+            .then(() =>
+                APIManager.getAll2(resource, token)
+                    .then(data => {
+                        // console.log("data list", data)
+                        console.log("ITs Getting All")
+                        this.setState({ cards: data },
+                        )
+                        console.log("just fetched and set new state")
+                    })
+            )
     }
 
     deleteThis2 = (resource, id, deckId) => {
@@ -264,8 +259,23 @@ class App extends Component {
         })
     }
 
+    backToLogin = () => {
+      this.setState({
+        showLogin: true,
+        showRegister: false
+      })
+    }
+
 
     registerUser = (username, password, email, firstName, lastName) => {
+
+      if(username === "" || password === "" || email === "" || firstName === "" || lastName === "") {
+
+        alert("All fields must be filled out")
+      }
+
+      else {
+
 
         let user = {
             password: password,
@@ -277,10 +287,7 @@ class App extends Component {
         console.log(user)
 
         this.postAuth("register", user)
-            .then(() => {
-                console.log("woop")
-            }
-            )
+      }
     }
 
 
@@ -296,6 +303,7 @@ class App extends Component {
         this.setState({
             username: username,
             password: password,
+
         })
         this.logIn()
     }
@@ -342,25 +350,57 @@ class App extends Component {
                 if (response.status === 200) {
                     console.log("its 200")
                     return response.json();
-                } else {
+                }
+                else if (response.status === 400) {
+                    alert("You are not currently a user, you should register.")
+                }
+                else if(response.status === 401) {
+                  alert("You need to fill out the form please.")
+                }
+                else {
                     return "you aint a user brah!"
                 }
             })
             .then((tokenObj) => {
+                console.log("ITS PASSING", tokenObj.token)
+                if (tokenObj.token === false) {
+                    console.log("OOPS")
+                }
 
-                localStorage.setItem("token", tokenObj.token)
-                localStorage.setItem("username", user.username)
-                this.setState({
-                    navBarStatus: true,
-                    showLogin: false,
-                    showRegister: false,
-                    token: tokenObj.token
-                })
-
+                else if (tokenObj.token !== false) {
+                    new Promise((resolve, reject) => {
+                        localStorage.setItem("token", tokenObj.token)
+                        localStorage.setItem("username", user.username)
+                        resolve()
+                    })
+                        .then(() => {
+                            this.setState({
+                                navBarStatus: true,
+                                showLogin: true,
+                                showRegister: false,
+                                token: tokenObj.token,
+                                loggedIn: true
+                            })
+                        })
+                }
             })
             .catch((err) => {
                 console.log("auth no like you, brah", err);
             });
+    }
+
+    logOut = () => {
+        let token = localStorage.getItem("token")
+        console.log(this.state.token)
+        APIManager.delete("tokens", this.state.users.id, this.state.token)
+        .then(() => {
+            this.setState({
+                loggedIn: false,
+                navBarStatus: false,
+                showLogin: true,
+                token: ""
+            })
+        })
     }
 
     // AUTHENTICATION FUNCTIONS END =============================== AUTHENTICATION FUNCTIONS END ================
@@ -400,8 +440,8 @@ class App extends Component {
                     email={this.state.email}
                     last_name={this.state.last_name}
                     registerUser={this.registerUser}
-                    // date_joined={this.state.date_joined}
-                    postAuth={this.postAuth} />
+                    postAuth={this.postAuth}
+                    backToLogin={this.backToLogin} />
             )
         } else {
             register = null
@@ -445,6 +485,7 @@ class App extends Component {
                     deleteThis2={this.deleteThis2}
                     editThis={this.editThis}
                     deleteIt={this.deleteIt}
+                    setUser={this.setUser}
                     // FETCHED DATA
                     apiCards={this.state.apiCards}
                     cards={this.state.cards}
@@ -457,10 +498,12 @@ class App extends Component {
                     updateStates={this.updateStates}
                     postAuth={this.postAuth}
                     currentUser={this.state.currentUser}
+                    showLogin={this.state.showLogin}
                     // TRIGGER SWITCHES
                     woop={this.state.woop}
                     navBarStatus={this.state.navBarStatus}
                     cardsNumba2={this.state.cardsNumba2}
+                    logOut={this.logOut}
                 // STATE CHANGING FUNCTIONS
                 />
             </React.Fragment>

@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import './viewDeck.css'
 
 
-export default class EditName extends Component {
+// ========================ANIMATIONS====================
 
+const fadeInAnimation = {
+    fadeIn: {
+        animation: "2s",
+        animationName: Radium.keyframes(fadeIn, "fadeIn")
+    }
+}
+
+export default class EditName extends Component {
 
     state = {
         name: this.props.selectedDeck.name,
@@ -26,12 +36,16 @@ export default class EditName extends Component {
 
         return (
             <React.Fragment>
-                {/* {warningModalField} */}
-                <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input>
-                <span className="icon Icons">
-                    <i onClick={() => this.props.showWarningModal(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
-                    <i onClick={this.props.closeEditNameForm} className="fas fa-times IconTimes"></i>
-                </span>
+
+                <StyleRoot>
+                    <div style={fadeInAnimation.fadeIn} className="editNameDiv">
+                        <input id="name" className="editNameForm" value={this.state.name} onChange={this.handleNameChange}></input>
+                        <span className="icon Icons">
+                            <i onClick={() => this.props.showWarningModal(this.state, this.props.selectedDeck)} className="fas fa-check IconCheck"></i>
+                            <i onClick={this.props.closeEditNameForm} className="fas fa-times IconTimes"></i>
+                        </span>
+                    </div>
+                </StyleRoot>
 
 
             </React.Fragment>

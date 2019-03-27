@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY, rollIn } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
+import APIManager from '../managerComponents/APIManager';
 import 'bulma/css/bulma.css'
 import './searchComponent.css'
-import APIManager from '../managerComponents/APIManager';
 
 let userId = sessionStorage.getItem("id")
 
-// TODO: NEED TO FIGURE OUT HOW TO PATCH THE CARD RIGHT AFTER POST TO PASS URL
-export default class CardModal extends Component {
 
+
+export default class CardModal extends Component {
 
     state = {
         attacks: [],
@@ -22,9 +24,17 @@ export default class CardModal extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            attacks: this.props.selectedCard.attacks
-        })
+        if (this.state.selectedCard.attacks) {
+            this.setState({
+                attacks: this.props.selectedCard.attacks
+            })
+        }
+
+        else {
+            this.setState({
+                attacks: []
+            })
+        }
     }
 
 
@@ -89,16 +99,14 @@ export default class CardModal extends Component {
 
                                 this.props.createNewCard("deckcardsrelationship", newCardToDeck)
                                     .then(data => {
+                                        alert("This card has now been added to your Deck.")
                                         this.props.getAll2("cards")
                                         console.log("data getting back after postig to relationship: ", data)
                                     })
-
                             })
                     }
-
                 })
         }
-
     }
 
 
@@ -124,15 +132,15 @@ export default class CardModal extends Component {
 
 
     consoleLog = () => {
-        console.log("USER", this.props.users)
-        console.log("CARDS IN THIS DECK", this.state.cardsOfThisDeck)
-        // console.log("SELECTED CARD: ", this.props.selectedCard)
+        // console.log("USER", this.props.users)
+        // console.log("CARDS IN THIS DECK", this.state.cardsOfThisDeck)
+        // console.log("SELECTED CARD: ", this.props.selectedCard.attacks)
         // console.log("SELECTED CARD STATE: ", this.state.selectedCard)
-        console.log("CURRENT DECK: ", this.state.selectedDeck)
+        // console.log("CURRENT DECK: ", this.state.selectedDeck)
         // console.log("VALUE STATE", this.state.value)
         // console.log("CARDS modal layer", this.props.cards)
-        console.log("CURRENT DECK ID", this.state.selectedDeckId)
-        console.log("SEELCTED DECK".this.state.selectedDeck)
+        // console.log("CURRENT DECK ID", this.state.selectedDeckId)
+        // console.log("SEELCTED DECK".this.state.selectedDeck)
     }
 
     render() {
@@ -153,16 +161,7 @@ export default class CardModal extends Component {
                             </React.Fragment>
                         )
                     }
-                    {/* <select onChange={(event) => this.selectDeck(event)}> */}
-                    <select onChange={this.selectDeck} value={this.state.value}>
-                        <option>---------------------</option>
-                        {
-                            this.props.decks.map(deck =>
-                                <option woop={deck.date_added} name={deck.name} id={deck.id} value={deck.url}>{deck.name}</option>
-                            )
-                        }
-                    </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+
                 </div>
             )
         } else {
@@ -173,23 +172,14 @@ export default class CardModal extends Component {
         // TRAINER CARDS
         let cardModalTrainerContent = ""
 
-        // NOT IN USE/ THIS IS IN CASE SOME CARDS DONT HAVE A TEXT PROPERTY
-        // YOU PUT THIS INSIDE THE cardModalTrainerContent
-        // let effectField = ""
-        // if (this.props.selectedCard.text) {
-        //     effectField = (
-        //         <React.Fragment>
-        //         <p className="cardModalContentTitle">Effect: </p>
-        //         <p className="cardModalText">{this.props.selectedCard.text}</p>
-        //         </React.Fragment>
-        //     )
-        // }
-
-
         if (this.props.selectedCard.supertype === "Trainer") {
             cardModalTrainerContent = (
                 <div className="cardModalTrainerField">
                     <p className="cardModalContentTitle">Effect: </p>
+                    {this.state.selectedCard.attacks ?
+                        this.state.selectedCard.attacks.length >= 1 ? <p className="cardModalText">{this.state.selectedCard.attacks[0].text}</p> :
+                            <p className="cardModalText">{this.props.selectedCard.text}</p> : <p></p>
+                    }
                     <p className="cardModalText">{this.props.selectedCard.text}</p>
                     <p className="cardModalContentTitle">Series: </p>
                     <p className="cardModalText">{this.props.selectedCard.series}</p>
@@ -197,16 +187,6 @@ export default class CardModal extends Component {
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
 
-                    <select onChange={this.selectDeck} value={this.state.value}>
-                        <option>---------------------</option>
-                        {
-                            this.props.decks.map(deck =>
-                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
-                            )
-                        }
-                    </select>
-
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
                 </div>
             )
         } else {
@@ -226,15 +206,7 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select onChange={this.selectDeck} value={this.state.value}>
-                        <option>---------------------</option>
-                        {
-                            this.props.decks.map(deck =>
-                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
-                            )
-                        }
-                    </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+
                 </div>
             )
         } else {
@@ -251,15 +223,7 @@ export default class CardModal extends Component {
                     <p className="cardModalContentTitle">Set: </p>
                     <p className="cardModalText">{this.props.selectedCard.set}</p>
                     <p className="cardModalContentTitle">Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
-                    <select onChange={this.selectDeck} value={this.state.value}>
-                        <option>---------------------</option>
-                        {
-                            this.props.decks.map(deck =>
-                                <option woop={deck.date_added} name={deck.name} value={deck.url}>{deck.name}</option>
-                            )
-                        }
-                    </select>
-                    <button onClick={() => this.addCard("cards")}>add to deck</button>
+
                 </div>
             )
         } else {
@@ -268,17 +232,60 @@ export default class CardModal extends Component {
 
 
         return (
-            <div className="modal is-active">
-                <div className="modal-background" onClick={this.props.closeViewCard}></div>
+            <div className="modal is-active theWholeModal">
+                <div className="modal-background modalBackground" onClick={this.props.closeViewCard}></div>
                 <div className="modal-content cardModal">
                     <h1 className="cardModalName">{this.props.selectedCard.name}</h1>
                     <div className="cardModalContentField">
-                        <button onClick={this.consoleLog}>console log</button>
+                        {/* <button onClick={this.consoleLog}>console log</button> */}
                         <img className="cardModalImage" src={this.props.selectedCard.imageUrlHiRes}></img>
-                        {cardModalAttacksFieldContent}
-                        {cardModalTrainerContent}
-                        {cardModalSpecialEnergyContent}
-                        {cardModalEnergyContent}
+                        <div className="pokemonActions">
+                            {this.state.selectedCard.ability ? this.state.selectedCard.ability.length = 1 ?
+                                <div>
+                                    <p className="abilityTitle">Ability: </p>
+                                    <p className="abilityType">{this.state.selectedCard.ability.type}</p>
+                                    <p className="abilityName">{this.state.selectedCard.ability.name}</p>
+                                    <p className="abilityText">{this.state.selectedCard.ability.text}</p>
+
+                                </div>
+                                :
+                                <p>This pokemon has no ability</p>
+                                :
+                                <p></p>
+                            }
+
+                            {this.state.selectedCard.ability ? this.state.selectedCard.ability.length > 1 ?
+                                <div>
+                                    <p className="abilityTitle">Abilities: </p>
+                                    <p>{this.state.selectedCard.ability[0].type}</p>
+                                    <p>{this.state.selectedCard.ability[0].name}</p>
+                                    <p>{this.state.selectedCard.ability[0].text}</p>
+                                    <p>{this.state.selectedCard.ability[1].type}</p>
+                                    <p>{this.state.selectedCard.ability[1].name}</p>
+                                    <p>{this.state.selectedCard.ability[1].text}</p>
+
+                                </div>
+                                :
+                                <p></p>
+                                :
+                                <p></p>
+                            }
+
+                            {this.state.selectedCard.attacks ? cardModalAttacksFieldContent : <p></p>}
+                            {cardModalTrainerContent}
+                            {cardModalSpecialEnergyContent}
+                            {cardModalEnergyContent}
+
+                            <select onChange={this.selectDeck} value={this.state.value}>
+                                <option>---------------------</option>
+                                {
+                                    this.props.decks.map(deck =>
+                                        <option woop={deck.date_added} name={deck.name} id={deck.id} value={deck.url}>{deck.name}</option>
+                                    )
+                                }
+                            </select>
+                            <button onClick={() => this.addCard("cards")}>add to deck</button>
+                        </div>
                     </div>
                 </div>
                 <button onClick={this.props.closeViewCard} className="modal-close is-large" aria-label="close"></button>

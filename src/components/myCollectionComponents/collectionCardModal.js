@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import APIManager from '../managerComponents/APIManager'
 import './viewCollection.css'
 
-
 export default class CardModal extends Component {
 
     state = {
@@ -12,70 +11,28 @@ export default class CardModal extends Component {
     }
 
     componentDidMount() {
-        console.log("SWITCH ON MOUNT MODAL", this.props.triggerSwitch)
         this.setState({
             selectedDeck: "---------------------"
         })
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
+        if (this.props.cardsOfDeck !== prevProps.cardsOfDeck) {
             console.log("!@#!@#COLLECTION MODAL COMPONENT UPDATING!@#!@#")
-            // let cardsOfThisDeck = []
-            // let token = localStorage.getItem("token")
-            // APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
-            //     .then(data => {
-            //         console.log("DATA", data)
-            //         data.map(card => {
-            //             new Promise((resolve, reject) => {
-            //                 cardsOfThisDeck.push(card)
-            //                 resolve()
-            //             })
-            //         })
-            //     }
-            //     ).then(() => {
-            //         new Promise((resolve, reject) => {
-            //             this.setState({
-            //                 deckInQuestion: cardsOfThisDeck
-            //             })
-            //             resolve()
-            //         })
-            //     })
+            this.props.updateCardsOfDeck(this.props.selectedCard, this.state.selectedDeck)
         }
 
-        if(this.props.triggerSwitch !== prevProps.triggerSwitch) {
+        if (this.props.triggerSwitch !== prevProps.triggerSwitch) {
             console.log("!@#!@#TRIGGER SWITCH CHANGED!")
             // this.props.changeTriggerSwitch()
             this.props.getAll2("cards")
         }
+
+        if (this.props.deckOfThisCard !== prevProps.deckOfThisCard) {
+            console.log("HI")
+        }
     }
 
-    consoleLog = () => {
-        console.log("CARDS", this.props.cards)
-        console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
-        // console.log("SELECTED DECK", this.state.selectedDeck)
-        // console.log("DECK ID", this.state.selectedDeckId)
-        // console.log("SELECTED CARD", this.props.selectedCard)
-        console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
-        console.log("CARDS OF DECK", this.props.cardsOfDeck)
-        console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
-        // let cardsOfThisDeck = []
-        // let token = localStorage.getItem("token")
-        // APIManager.getAllWithQuery("deckcardsrelationship", `?filter=${this.state.selectedDeckId}`, token)
-        //         .then(data => {
-        //             console.log("DATA", data)
-        //             data.map(card => {
-        //                 new Promise((resolve, reject) => {
-        //                     cardsOfThisDeck.push(card)
-        //                     resolve()
-        //                 })
-        //             })
-        //         }
-        //         ).then(() => {
-        //                console.log("CARDS OF DECK", cardsOfThisDeck)
-
-        //         })
-    }
 
     selectDeck = (event) => {
         console.log("SELECTED DECK", event.target.value)
@@ -135,24 +92,37 @@ export default class CardModal extends Component {
                     }
 
                     else {
-                                const newCardToDeck = {
-                                    cardId: this.props.selectedCard.cardId,
-                                    card: this.props.selectedCard.url,
-                                    deck: this.state.selectedDeck,
-                                }
-                                console.log(newCardToDeck)
+                        const newCardToDeck = {
+                            cardId: this.props.selectedCard.cardId,
+                            card: this.props.selectedCard.url,
+                            deck: this.state.selectedDeck,
+                        }
+                        console.log(newCardToDeck)
 
-                                this.props.createNewCard("deckcardsrelationship", newCardToDeck)
-                                    .then(data => {
-                                        this.props.updateCardsOfDeck(this.props.selectedCard, this.state.selectedDeck)
-                                        // this.props.getAll2("cards")
-                                        console.log("data getting back after postig to relationship: ", data)
-                                    })
+                        this.props.createNewCard("deckcardsrelationship", newCardToDeck)
+                            .then(data => {
+                                this.props.updateCardsOfDeck(this.props.selectedCard, data.deck)
+                                // this.props.getAll2("cards")
+                                console.log("data getting back after postig to relationship: ", data)
+                            })
                     }
 
                 })
-            }
+        }
     }
+
+
+    consoleLog = () => {
+        // console.log("CARDS", this.props.cards)
+        // console.log("CARDS OF THIS DECK", this.state.deckInQuestion)
+        // console.log("SELECTED DECK props", this.state.selectedDeck)
+        // console.log("DECK ID", this.state.selectedDeckId)
+        console.log("SELECTED CARD", this.props.selectedCard)
+        // console.log("DECK OF THIS CARD PROPS", this.props.deckOfThisCard)
+        // console.log("CARDS OF DECK", this.props.cardsOfDeck)
+        // console.log("TRIGGER SWITCH PROPS", this.props.triggerSwitch)
+    }
+
 
     render() {
 
@@ -187,17 +157,22 @@ export default class CardModal extends Component {
                     <div className="modal-background"></div>
                     <div className="modal-card">
                         <header className="modal-card-head">
-                            <p className="modal-card-title">Modal title</p>
+                            <p className="modal-card-title">{this.props.selectedCard.name}</p>
                             <button onClick={this.props.closeModal} className="delete" aria-label="close"></button>
                         </header>
                         <section className="modal-card-body modalSection">
+                        <div className="modalDiv">
                             <img className="selectedCardImage" src={this.props.selectedCard.imageUrlHiRes}></img>
                             <label>Belongs to deck:</label>
                             {deckInfo}
+                            </div>
+                            { this.props.selectedCard.rarity? <p>Rarity:&nbsp;{this.props.selectedCard.rarity}</p>
+                              :
+                              <p></p>}
                         </section>
                         <footer className="modal-card-foot">
-                            <button onClick={this.consoleLog} className="button is-success">Console Log</button>
-                            <button onClick={this.props.closeModal} className="button">Cancel</button>
+                            {/* <button onClick={this.consoleLog} className="button is-success">Console Log</button> */}
+                            <button onClick={this.props.closeModal} className="button">Close</button>
                         </footer>
                     </div>
                 </div>

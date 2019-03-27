@@ -1,25 +1,54 @@
 .navBar {
     display: flex;
     justify-content: space-evenly;
-    border-top: 3px solid rgb(58, 58, 58);
-    border-bottom: 3px solid rgb(58, 58, 58);
+    /* border-top: 3px solid rgb(58, 58, 58);
+    border-bottom: 3px solid rgb(58, 58, 58); */
     background-color: black;
+    height: 3%;
 }
 
 .myDecksButton {
+    background-color: rgb(3, 3, 3);
+    border-top-color: rgb(3, 3, 3);
+    border-left-color:  rgb(3, 3, 3);
+    border-right-color: rgb(3, 3, 3);
+    border-bottom-color:    rgb(3, 3, 3);
     border-radius: 15px;
-    color: black;
+    color: white;
     font-weight: bold;
 }
 
+.myDecksButton:hover {
+    color: rgb(209, 207, 207);
+}
+
+
 .myCollectionButton {
+    background-color: rgb(3, 3, 3);
+    border-top-color: rgb(3, 3, 3);
+    border-left-color:  rgb(3, 3, 3);
+    border-right-color: rgb(3, 3, 3);
+    border-bottom-color:    rgb(3, 3, 3);
     border-radius: 15px;
-    color: black;
+    color: white;
     font-weight: bold;
+}
+
+.myCollectionButton:hover {
+    color: rgb(209, 207, 207);
 }
 
 .searchButton {
+    background-color: rgb(3, 3, 3);
+    border-top-color: rgb(3, 3, 3);
+    border-left-color:  rgb(3, 3, 3);
+    border-right-color: rgb(3, 3, 3);
+    border-bottom-color:    rgb(3, 3, 3);
     border-radius: 15px;
-    color: black;
+    color: white;
     font-weight: bold;
+}
+
+.searchButton:hover {
+    color: rgb(209, 207, 207);
 }
