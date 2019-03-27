@@ -236,7 +236,7 @@ box-shadow: 5px 5px 8px black;
 .deckInfoDiv {
     background-color: black;
     border: 3px solid black;
-    height: 40%;
+    height: 45%;
 }
 
 .deckModal {
@@ -289,6 +289,8 @@ box-shadow: 5px 5px 8px black;
     text-align: center;
     color: rgb(227, 235, 250);
     font-weight: bold;
+    max-width: 98%;
+    text-align: left;
 }
 
 .strategyTitle {
@@ -458,7 +460,7 @@ box-shadow: 5px 5px 8px black;
 
 .saveDeckButton {
     position: absolute;
-    /* margin-top: -30px; */
+    margin-top: -30px;
     width: 10%;
 }
 
